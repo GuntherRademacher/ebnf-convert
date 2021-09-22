@@ -1,89 +1,27 @@
-![RR](rr.svg)
+# convert - Grammar Converter
 
-# RR - Railroad Diagram Generator
-
-RR is a generator of syntax diagrams, also known as railroad diagrams. It is
-a self-contained tool with both a browser-based GUI and a batch mode.
-
-Besides generating diagrams from EBNF rules, RR also can perform some grammar transformation, e.g. factorization
-and elimination of direct recursion. To some extent this transforms BNF to EBNF, yielding more compact diagrams.
-
-# Examples
-
-Here are two examples of generated diagrams (taken from the [Python grammar][PYTHON]):
-
-**if_stmt:**
-
-![if_stmt](if_stmt.svg)
-
-**try_stmt:**
-
-![try_stmt](try_stmt.svg)
-
-# Grammar syntax
-
-RR accepts grammars in [W3C-style EBNF][W3C-EBNF]. Some other representations, including
-some parser generator input notations, can be converted to W3C-style using
-[Grammar Conversion][CONVERT].
+This is an experimental version of RR - Railroad Diagram Generator, that includes
+convert, the Grammar Converter. It builds both an experimental rr.war and convert.war.
 
 # Distribution
 
-RR comes as a .zip, containing a .war file. The .war file can be deployed
-in servlet containers like Tomcat or Jetty for serving the GUI. This makes up the webapp
-that is running on the original website, <https://bottlecaps.de/rr/ui>.
+convert comes in a .war file, convert.war. This can be deployed
+in servlet containers like Tomcat or Jetty for serving the GUI, and it makes up the webapp
+that is running on the original website, <https://bottlecaps.de/convert>.
 
-The .war file is a Java "executable war", i.e. it can also be started
-standalone from command line. Two different tasks can be performed in standalone mode:
+convert.war file is a Java "executable war", i.e. it can also be started
+standalone from command line.
 
-- serving the GUI, e.g.
-
-```bash
-   java -jar rr.war -gui
-```
-- batch diagram generation, e.g.
+For listing the set of available command line options, run
 
 ```bash
-   java -jar rr.war grammar.ebnf
+   java -jar convert.war
 ```
 
-For listing the full set of available options, run
-
-```bash
-   java -jar rr.war
-```
-without further command line arguments.
-
-## Building RR
-For building RR, JDK 8 (or higher) must be available. In the
+## Building convert
+For building convert, JDK 8 (or higher) must be available. In the
 project folder, run this command to build the distribution .zip file:
 
 ```bash
 gradlew
 ```
-
-## Thanks
-
-This project makes use of
-  * [Saxon-HE][SAXON],
-  * [TagSoup][TAGSOUP],
-  * [Apache Batik][BATIK],
-  * [Gradle][GRADLE], and
-  * [Gradle-License-Report][GRADLE-LICENSE-REPORT].
-
-## License
-
-RR is released under the [Apache 2 License][ASL].
-
-## Links
-
-The official website for RR is <https://bottlecaps.de/rr/ui>.
-
-[ASL]: http://www.apache.org/licenses/LICENSE-2.0
-[PYTHON]: https://docs.python.org/3/reference/grammar.html
-[W3C-EBNF]: http://www.w3.org/TR/2010/REC-xquery-20101214/#EBNFNotation
-[CONVERT]: http://bottlecaps.de/convert/
-[SAXON]: http://www.saxonica.com/products/products.xml
-[TAGSOUP]: http://vrici.lojban.org/~cowan/XML/tagsoup/
-[BATIK]: https://xmlgraphics.apache.org/batik/
-[GRADLE]: https://gradle.org/
-[GRADLE-LICENSE-REPORT]: https://github.com/jk1/Gradle-License-Report
