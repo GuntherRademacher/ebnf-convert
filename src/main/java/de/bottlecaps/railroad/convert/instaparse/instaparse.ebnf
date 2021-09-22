@@ -1,0 +1,60 @@
+rules          ::= rule+ EOF
+comment        ::= "(*" inside-comment "*)"
+                /* ws:explicit */
+inside-comment ::= comment-content ( comment comment-content )*
+                /* ws:explicit */
+opt-whitespace ::= comment | ws
+                /* ws:definition */
+rule-separator ::= ":"
+                 | ":="
+                 | "::="
+                 | "="
+rule           ::= ( nt | hide-nt )
+                   rule-separator
+                   alt-or-ord
+                   ( ";" | "." )?
+nt             ::= non-epsilon
+hide-nt        ::= "<" nt ">"
+alt-or-ord     ::= alt | ord
+alt            ::= cat ( "|" cat )*
+ord            ::= cat ( "/" cat )+
+paren          ::= "(" alt-or-ord ")"
+hide           ::= "<" alt-or-ord ">"
+cat            ::= ( factor | look | neg )+
+string         ::= single-quoted-string | double-quoted-string
+regexp         ::= single-quoted-regexp | double-quoted-regexp
+opt            ::= "[" alt-or-ord "]"
+                 | factor "?"
+star           ::= "{" alt-or-ord "}"
+                 | factor "*"
+plus           ::= factor "+"
+look           ::= "&" factor
+neg            ::= "!" factor
+factor         ::= nt
+                 | string
+                 | regexp
+                 | opt
+                 | star
+                 | plus
+                 | paren
+                 | hide
+                 | epsilon
+<?TOKENS?>
+non-epsilon    ::= [^, <>(){}+*?:=|'\"#&!;./#xD#x9#xA#x5B#x5D]+ - epsilon
+epsilon        ::= "Epsilon"
+                 | "epsilon"
+                 | "EPSILON"
+                 | "eps"
+                 | #x3b5
+single-quoted-string
+               ::= "'" [^']* ( '\' . [^'\]* )* "'"
+double-quoted-string
+               ::= '"' [^"]* ( '\' . [^"\]* )* '"'
+single-quoted-regexp
+               ::= "#'" [^'\]* ( '\' . [^'\]* )* "'"
+double-quoted-regexp
+               ::= '#"' [^"\]* ( '\' . [^"\]* )* '"'
+comment-content
+               ::= ( .* - ( .* ( '(*' | '*)' ) .* ) ) & ( '*)' | '(*' )
+ws             ::= [, #x9#xA#xD]+
+EOF            ::= $

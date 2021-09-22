@@ -1,0 +1,215 @@
+jison
+  ::= spec
+    | json
+
+spec
+  ::= declaration_list '%%' grammar ( '%%' CODE? )? EOF
+
+declaration_list
+  ::= declaration*
+
+declaration
+  ::= START id
+    | LEX_BLOCK
+    | operator
+    | ACTION
+
+operator
+  ::= associativity token_list
+
+associativity
+  ::= LEFT
+    | RIGHT
+    | NONASSOC
+    | TOKEN
+
+token_list
+  ::= symbol+
+
+grammar
+  ::= production_list
+
+production_list
+  ::= production+
+
+production
+  ::= id ':' handle_list ';'
+
+handle_list
+  ::= handle_action ( '|' handle_action )*
+
+handle_action
+  ::= handle prec action
+
+handle
+  ::= symbol*
+
+prec
+  ::= PREC symbol
+    |
+
+symbol
+  ::= id
+    | STRING
+
+id
+  ::= ID
+
+action
+  ::= action_body
+    | ACTION
+    | ARROW_ACTION
+    |
+
+action_body
+  ::= '{' ( ACTION_BODY | action_body )* '}'
+
+json
+  ::= "{" leading-non-bnf-pairs
+          bnf-pair
+          trailing-non-bnf-pairs
+       "}"
+       eof
+
+leading-non-bnf-pairs
+  ::= (non-bnf-pairs ',')?
+
+non-bnf-pairs
+  ::= non-bnf-pair (',' non-bnf-pair)*
+
+non-bnf-pair
+  ::= non-bnf-string ':' value
+
+value
+  ::= string
+    | number
+    | object
+    | array
+    | 'true'
+    | 'false'
+    | 'null'
+
+object
+  ::= '{' (pair (',' pair)*)? '}'
+
+pair
+  ::= string ':' value
+
+array
+  ::= '[' (value (',' value)*)? ']'
+
+bnf-pair
+  ::= '"bnf"' ':' '{' (rule-pair (',' rule-pair)*)? '}'
+
+rule-pair
+  ::= string ':' '[' alternative (',' alternative)* ']'
+
+alternative
+  ::= '[' string (',' value)* ']'
+    | string
+
+trailing-non-bnf-pairs
+  ::= (',' non-bnf-pairs)?
+
+_
+  ::= whitespace
+    | comment
+   /* ws:definition */
+
+<?TOKENS?>
+
+CODE
+  ::= .+
+
+START
+  ::= "%start"
+
+LEX_BLOCK?
+  ::= "%lex" .* "/lex"
+
+ACTION?
+  ::= "{{" [^#xA]* "}}"
+    | "%{" .* "%}"
+
+LEFT
+  ::= "%left"
+
+RIGHT
+  ::= "%right"
+
+NONASSOC
+  ::= "%nonassoc"
+
+TOKEN
+  ::= "%token"
+
+PREC
+  ::= "%prec"
+
+STRING
+  ::= '"' [^"]+ '"'
+    | "'" [^']+ "'"
+
+ID
+  ::= [a-zA-Z] [a-zA-Z0-9_-]*
+
+ARROW_ACTION
+  ::= "->" [^#xA]*
+
+ACTION_BODY
+  ::= [^{}]+
+
+EOF
+  ::= $
+
+whitespace
+  ::= [#x9#xA#xD#x20]+
+
+comment?
+  ::= '/*' .* '*/'
+
+string
+  ::= '"' ( anyUnicodeCharacterExceptQuoteOrBackslashOrControlCharacter
+          | '\"'
+          | '\\'
+          | '\/'
+          | '\b'
+          | '\f'
+          | '\n'
+          | '\r'
+          | '\t'
+          | '\u' fourHexadecimalDigits
+          )*
+      '"'
+non-bnf-string
+  ::= string - '"bnf"'
+
+anyUnicodeCharacterExceptQuoteOrBackslashOrControlCharacter
+  ::= alphabet - ["#x5C]
+
+alphabet
+  ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
+
+hexadecimalDigit
+  ::= [0-9A-Fa-f]
+
+fourHexadecimalDigits
+  ::= hexadecimalDigit hexadecimalDigit hexadecimalDigit hexadecimalDigit
+
+number
+  ::= '-'?
+      ('0' | digitOneThroughNine digit*)
+    ('.' digit+)?
+    (('e' | 'E') ('+' | '-')? digit+)?
+
+digit
+  ::= [0-9]
+
+digitOneThroughNine
+  ::= digit - '0'
+
+eof
+  ::= $
+
+whitespace << CODE ACTION_BODY
+comment    << CODE ACTION_BODY

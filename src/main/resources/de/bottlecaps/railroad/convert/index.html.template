@@ -1,0 +1,117 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"></meta>
+    <style type="text/css">
+      td.hdr {padding-top:8; vertical-align:top;}
+      td.label {text-align:right; font-weight:bold;}
+      p.text {max-width:780px; width:expression(document.body.clientWidth > 768 ? "768px": "auto");}
+      textarea {width:100%; height:180px;}
+      pre {margin-left:30px}
+    </style>
+    <script type="text/javascript"><!--
+      var loc = String(self.location);
+
+      function endsWith(str, s)
+      {
+        return str.length >= s.length && str.substr(str.length - s.length) == s;
+      }
+
+      function onLoad()
+      {
+        document.forms.data.tz.value = new Date().getTimezoneOffset();
+      }
+
+      if (! endsWith(loc, "/") && ! endsWith(loc, ".html"))
+      {
+        self.location = loc + "/";
+      }
+    --></script>
+  </head>
+  <body onload="onLoad()">
+    <h3>Grammar Conversion</h3>
+    <p class="text">
+      Paste grammar into textarea and click button for converting to
+      <a href="http://www.w3.org/TR/xquery/#EBNFNotation">W3C grammar notation</a>.
+
+      These grammar notations are supported:
+      <a href="http://tools.ietf.org/html/rfc5234">ABNF</a>,
+      <a href="https://www.antlr3.org/">ANTLR 3</a>,
+      <a href="https://www.antlr.org/">ANTLR 4</a>,
+      <a href="http://www.gnu.org/software/bison/manual/html_node/Grammar-File.html">Bison</a>,
+      <a href="http://goldparser.org/doc/index.htm">GOLD</a>,
+      <a href="https://github.com/Engelberg/instaparse/blob/master/src/instaparse/cfg.cljc">Instaparse</a>,
+      <a href="http://javacc.java.net/doc/javaccgrm.html">JavaCC</a>,
+      <a href="http://zaach.github.com/jison/docs/#specifying-a-language">Jison</a>,
+      <a href="http://pegjs.majda.cz/documentation#grammar-syntax-and-semantics">PEG.js</a>,
+      <a href="https://eclipse.org/Xtext/documentation/301_grammarlanguage.html">Xtext</a>.
+
+      This is work in progress.
+      Converters for individual notations are in different states of development,
+      so they may or may not work for you. If you experience any problem, please
+      send me an <a href="mailto:grd@gmx.net">email</a>, and I will try to fix it.
+    </p>
+    <form enctype="multipart/form-data" name="data" method="POST">
+      <input type="hidden" name="tz" value="0"/>
+      <h4>Input&#160;grammar:</h4>
+        <span title="Enter grammar"><textarea name="grammar"></textarea></span>
+      <p>
+        <table>
+          <tr title="Replace direct recursion by repetition. This applies to
+nonterminals whose directly recursive references are
+either left- or right-recursive only. Upon success,
+productions are inlined, when a single reference remains.">
+            <td class="label">Direct recursion elimination:</td>
+            <td>
+              <input type="checkbox" name="recursion" RECURSION></input>
+            </td>
+          </tr>
+          <tr title="Apply left and right factoring
+individually to all nonterminals.">
+            <td class="label">Factoring:</td>
+            <td>
+              <input type="checkbox" name="factoring" FACTORING></input>
+            </td>
+          </tr>
+          <tr title="Inline nonterminals that derive
+to a single string literal.">
+            <td class="label">Inline single-string nonterminals:</td>
+            <td>
+              <input type="checkbox" name="inline" INLINE></input>
+            </td>
+          </tr>
+          <tr title="Keep nonterminal references, that derive
+to epsilon only.">
+            <td class="label">Keep references to epsilon-only nonterminals:</td>
+            <td>
+              <input type="checkbox" name="keep" KEEP></input>
+            </td>
+          </tr>
+          <tr>
+            <td class="label">Target format:</td>
+            <td>
+              <select name="target">
+                <option TARGET-EBNF value="ebnf">EBNF</option>
+                <option TARGET-XML value="xml">XML</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="label">&#160;</td>
+            <td title="Convert to W3C grammar notation">
+              <input type="submit" value="Convert"/>
+            </td>
+          </tr>
+        </table>
+      </p>
+    </form>
+    <p class="result"/>
+    <hr/>
+    <small>Convert
+      VERSION -
+      DATE, YEAR
+      <br/>&#169;
+      2011-YEAR Gunther Rademacher
+      <a href="mailto:grd@gmx.net">grd@gmx.net</a>
+    </small>
+  </body>
+</html>

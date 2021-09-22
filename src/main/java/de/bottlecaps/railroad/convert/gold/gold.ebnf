@@ -1,0 +1,180 @@
+// jar:http://www.devincook.com/goldparser/grammars/files/GOLD-Meta-Language-v2.6.0.zip!/GOLD Meta-Language (2.6.0).grm
+
+//-----------------------------------------------------------------------------------
+// GOLD Meta-Language
+//
+// This is the very simple grammar used to define grammars using the GOLD Parser.
+// The grammar was revised for version 2.0.5 of the GOLD Parser Builder. The changes
+// were designed to:
+//
+//   1. Make it easier to use line comments to disable individual rules.
+//   2. Allow the developer to use optional newlines for readability.
+//
+// www.devincook.com/goldparser
+// -----------------------------------------------------------------------------------
+
+
+// "Name"         = 'GOLD Meta-Language'
+// "Version"      = '2.6.0'
+// "Author"       = 'Devin Cook'
+// "About"        = 'This grammar defines the GOLD Meta-Language.'
+
+// "Start Symbol" = <Grammar>
+
+
+// The token definitions are very complex. Many definitions allow an
+// "Override Sequence" such as the backslash in C. In this case, it is
+// single quotes. Not all the tokens have overrides. I only added them where
+// their use could be justified.
+
+// ====================================================================
+// Rules
+// ====================================================================
+
+Grammar  ::= nl_opt Content EOF     // The nl_opt here removes all newlines before the first definition
+
+Content ::= Definition+
+
+Definition ::= Parameter
+               | Set_Decl
+               | Terminal_Decl
+               | Rule_Decl
+
+
+// Optional series of New Line - use below is restricted
+nl_opt ::= NewLine*
+
+// One or more New Lines
+nl ::= NewLine+
+
+// ====================================================================
+// Parameter Definition
+// ====================================================================
+
+Parameter ::= ParameterName nl_opt '=' Parameter_Body nl
+
+Parameter_Body  ::= Parameter_Items (nl_opt '|' Parameter_Items)*
+
+Parameter_Items ::= Parameter_Item+
+
+Parameter_Item  ::= ParameterName
+                    | Terminal
+                    | SetLiteral
+                    | SetName
+                    | Nonterminal
+
+// ====================================================================
+// Set Definition
+// ====================================================================
+
+Set_Decl  ::= SetName nl_opt '=' Set_Exp nl
+
+Set_Exp   ::= Set_Item (nl_opt ('+'|'-') Set_Item)*
+
+Set_Item  ::= SetLiteral         // [ ... ]
+              | SetName            // { ... }
+
+// ====================================================================
+// Terminal Definition
+// ====================================================================
+
+Terminal_Decl ::= Terminal_Name nl_opt '=' Reg_Exp nl
+
+Terminal_Name ::= Terminal+
+
+
+Reg_Exp       ::= Reg_Exp_Seq (nl_opt '|' Reg_Exp_Seq)*
+
+Reg_Exp_Seq   ::= Reg_Exp_Item+
+
+Reg_Exp_Item  ::= SetLiteral          Kleene_Opt
+                  | SetName             Kleene_Opt
+                  | Terminal            Kleene_Opt
+                  | '(' Reg_Exp_2 ')' Kleene_Opt
+
+//No newlines allowed
+
+Reg_Exp_2     ::= Reg_Exp_Seq ('|' Reg_Exp_Seq)*
+
+Kleene_Opt ::= '+'
+               | '?'
+               | '*'
+               |
+
+// ====================================================================
+// Rule Definition
+// ====================================================================
+
+Rule_Decl  ::= Nonterminal nl_opt '::=' Handles nl
+
+Handles    ::= Handle (nl_opt '|' Handle)*
+
+Handle     ::= Symbol*   //Zero or more
+                         //Leave the entry blank - makes a "null"
+
+Symbol     ::= Terminal
+               | Nonterminal
+
+_ ::= Whitespace_Ch
+    | Comment
+   /* ws: definition */
+
+<?TOKENS?>
+
+// ====================================================================
+// Special Terminals
+// ====================================================================
+
+Parameter_Ch   ::= (Printable    - ["]) - [']
+Nonterminal_Ch ::= Alphanumeric | [-_.] | Space
+Terminal_Ch    ::= Alphanumeric | [-_.]
+Literal_Ch     ::= Printable    - [']       //Basically anything, DO NOT CHANGE!
+Set_Literal_Ch ::= (Printable    - [#x5B#x5D]) - [']
+Set_Name_Ch    ::= Printable    - [{}]
+
+ParameterName  ::= '"' Parameter_Ch+ '"'
+Nonterminal    ::= '<' Nonterminal_Ch+ '>'
+Terminal       ::= Terminal_Ch+  | "'" Literal_Ch* "'"
+SetLiteral     ::= '[' (Set_Literal_Ch | "'" Literal_Ch* "'" )+ ']'
+SetName        ::= '{' Set_Name_Ch+ '}'
+
+
+// ====================================================================
+// Line-Based Grammar Declarations
+// ====================================================================
+
+Whitespace_Ch ::= ((Whitespace - CR) - LF)+
+
+NewLine    ::= CRLF | CR | LF
+
+// ====================================================================
+// Comments
+// ====================================================================
+
+Comment_Line  ::= '!'
+Comment_Start ::= '!*'
+Comment_End   ::= '*!'
+
+Comment ::= Comment_Start .* Comment_End
+          | Comment_Line (.* - (.* NewLine .*))
+
+"-" << Terminal
+
+// Predefined classes
+
+Printable ::= [#x20-#x7F] | NBSP
+Alphanumeric ::= Letter | Number
+Letter ::= [abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ]
+Number ::= [0-9]
+Space ::= [ ]
+CRLF ::= CR LF
+CR ::= #xD
+LF ::= #xA
+HT ::= #x9
+VT ::= #xB
+FF ::= #xC
+NBSP ::= #xA0
+
+Whitespace ::= Space | HT | LF | VT | FF | CR | NBSP
+
+EOF ::= $

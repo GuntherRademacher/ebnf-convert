@@ -1,0 +1,285 @@
+/* converted on Mon Nov 12, 2018, 20:54 (UTC+01) by antlr_3-to-w3c v0.43 which is Copyright (c) 2011-2017 by Gunther Rademacher <grd@gmx.net> */
+
+grammarSpec
+         ::= grammarType id SEMI sync ( prequelConstruct sync )* rules modeSpec* EOF
+grammarType
+         ::= ( LEXER | PARSER )? GRAMMAR
+           | TREE_GRAMMAR
+prequelConstruct
+         ::= optionsSpec
+           | delegateGrammars
+           | tokensSpec
+           | channelsSpec
+           | action
+optionsSpec
+         ::= OPTIONS ( option SEMI )* RBRACE
+option   ::= id ASSIGN optionValue
+optionValue
+         ::= qid
+           | STRING_LITERAL
+           | ACTION
+           | INT
+delegateGrammars
+         ::= IMPORT delegateGrammar ( COMMA delegateGrammar )* SEMI
+delegateGrammar
+         ::= id ( ASSIGN id )?
+tokensSpec
+         ::= TOKENS_SPEC ( id ( COMMA id )* | v3tokenSpec* ) RBRACE
+v3tokenSpec
+         ::= id ( ASSIGN STRING_LITERAL )? SEMI
+channelsSpec
+         ::= CHANNELS id ( COMMA id )* RBRACE
+action   ::= AT ( actionScopeName COLONCOLON )? id ACTION
+actionScopeName
+         ::= id
+           | LEXER
+           | PARSER
+modeSpec ::= MODE id SEMI sync ( lexerRule sync )*
+rules    ::= sync ( rule sync )*
+sync     ::=
+rule     ::= parserRule
+           | lexerRule
+parserRule
+         ::= RULE_REF ARG_ACTION? ruleReturns? throwsSpec? localsSpec? rulePrequels COLON ruleBlock SEMI exceptionGroup
+exceptionGroup
+         ::= exceptionHandler* finallyClause?
+exceptionHandler
+         ::= CATCH ARG_ACTION ACTION
+finallyClause
+         ::= FINALLY ACTION
+rulePrequels
+         ::= sync ( rulePrequel sync )*
+rulePrequel
+         ::= optionsSpec
+           | ruleAction
+ruleReturns
+         ::= RETURNS ARG_ACTION
+throwsSpec
+         ::= THROWS qid ( COMMA qid )*
+localsSpec
+         ::= LOCALS ARG_ACTION
+ruleAction
+         ::= AT id ACTION
+ruleBlock
+         ::= ruleAltList
+ruleAltList
+         ::= labeledAlt ( OR labeledAlt )*
+labeledAlt
+         ::= alternative ( POUND id )?
+lexerRule
+         ::= FRAGMENT? TOKEN_REF COLON lexerRuleBlock SEMI
+lexerRuleBlock
+         ::= lexerAltList
+lexerAltList
+         ::= lexerAlt ( OR lexerAlt )*
+lexerAlt ::= lexerElements lexerCommands?
+lexerElements
+         ::= lexerElement*
+lexerElement
+         ::= ( labeledLexerElement | lexerAtom | lexerBlock ) ebnfSuffix?
+           | actionElement
+labeledLexerElement
+         ::= id ( ASSIGN | PLUS_ASSIGN ) ( lexerAtom | lexerBlock )
+lexerBlock
+         ::= LPAREN ( optionsSpec COLON )? lexerAltList RPAREN
+lexerCommands
+         ::= RARROW lexerCommand ( COMMA lexerCommand )*
+lexerCommand
+         ::= lexerCommandName ( LPAREN lexerCommandExpr RPAREN )?
+lexerCommandExpr
+         ::= id
+           | INT
+lexerCommandName
+         ::= id
+           | MODE
+altList  ::= alternative ( OR alternative )*
+alternative
+         ::= elementOptions? element*
+element  ::= ( labeledElement | atom ) ebnfSuffix?
+           | ebnf
+           | actionElement
+actionElement
+         ::= ( ACTION ) elementOptions?
+labeledElement
+         ::= id ( ASSIGN | PLUS_ASSIGN ) ( atom | block )
+ebnf     ::= block blockSuffix?
+blockSuffix
+         ::= ebnfSuffix
+ebnfSuffix
+         ::= ( QUESTION | STAR | PLUS ) QUESTION?
+lexerAtom
+         ::= range
+           | terminal
+           | RULE_REF
+           | notSet
+           | wildcard
+           | LEXER_CHAR_SET
+atom     ::= range
+           | terminal
+           | ruleref
+           | notSet
+           | wildcard
+wildcard ::= DOT elementOptions?
+notSet   ::= NOT ( setElement | blockSet )
+blockSet ::= LPAREN setElement ( OR setElement )* RPAREN
+setElement
+         ::= ( TOKEN_REF | STRING_LITERAL ) elementOptions?
+           | range
+           | LEXER_CHAR_SET
+block    ::= LPAREN ( optionsSpec? ruleAction* COLON )? altList RPAREN
+ruleref  ::= RULE_REF ARG_ACTION? elementOptions?
+range    ::= STRING_LITERAL RANGE STRING_LITERAL
+terminal ::= ( TOKEN_REF | STRING_LITERAL ) elementOptions?
+elementOptions
+         ::= LT ( elementOption ( COMMA elementOption )* )? GT
+elementOption
+         ::= qid
+           | id ASSIGN optionValue
+id       ::= RULE_REF
+           | TOKEN_REF
+qid      ::= id ( DOT id )*
+
+//alternativeEntry
+//         ::= alternative EOF
+//elementEntry
+//         ::= element EOF
+//ruleEntry
+//         ::= rule EOF
+//blockEntry
+//         ::= block EOF
+
+/* converted on Mon Nov 12, 2018, 20:55 (UTC+01) by antlr_3-to-w3c v0.43 which is Copyright (c) 2011-2017 by Gunther Rademacher <grd@gmx.net> */
+
+_        ::= MULTI_LINE_COMMENT
+           | SINGLE_LINE_COMMENT
+           | WS
+          /* ws: definition */
+
+ARG_ACTION
+         ::= '[' ( ARG_ACTION | ACTION_STRING_LITERAL | ACTION_CHAR_LITERAL | NON_RIGHT_BRACKET )* ']'
+         /*ws: explicit*/
+ACTION   ::= NESTED_ACTION ( '?' ( WSNLCHARS* '=>' )? )?
+         /*ws: explicit*/
+NESTED_ACTION
+         ::= '{' ( NESTED_ACTION | ACTION_CHAR_LITERAL | ACTION_COMMENT | ACTION_STRING_LITERAL | ACTION_ESC | NON_SLASH_QUOTE_BRACE )* '}'
+         /*ws: explicit*/
+LEXER_CHAR_SET
+         ::= '[' LEXER_CHAR_RANGE* ']'
+         /*ws: explicit*/
+LEXER_CHAR_RANGE
+         ::= LEXER_CHAR ( LEXER_RANGE_OPERATOR LEXER_CHAR )?
+         /*ws: explicit*/
+
+<?TOKENS?>
+
+LEXER_CHAR
+         ::= [^\#xa#xd#x5d]
+           | '\' [^upP]
+           | '\u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
+           | '\u{' HEX_DIGIT+ '}'
+           | '\' [pP] '{' [^}]+ '}'
+LEXER_RANGE_OPERATOR
+         ::= '-' & [^#xa#xd#x5d]
+
+NON_RIGHT_BRACKET
+         ::= [^[#x5D]
+NON_SLASH_QUOTE_BRACE
+         ::= [^\"'/{}]
+ACTION_COMMENT
+         ::= MULTI_LINE_COMMENT
+           | SINGLE_LINE_COMMENT
+MULTI_LINE_COMMENT?
+         ::= '/' '*' '*'? .* '*/'
+SINGLE_LINE_COMMENT
+          ::= '/' '/' ( ' $ANTLR' SRC | [^#xA#xD]* )
+
+OPTIONS  ::= 'options' WSNLCHARS* '{'
+TOKENS_SPEC
+         ::= 'tokens' WSNLCHARS* '{'
+CHANNELS ::= 'channels' WSNLCHARS* '{'
+IMPORT   ::= 'import'
+FRAGMENT ::= 'fragment'
+LEXER    ::= 'lexer'
+PARSER   ::= 'parser'
+GRAMMAR  ::= 'grammar'
+TREE_GRAMMAR
+         ::= 'tree' WSNLCHARS* 'grammar'
+PROTECTED
+         ::= 'protected'
+PUBLIC   ::= 'public'
+PRIVATE  ::= 'private'
+RETURNS  ::= 'returns'
+LOCALS   ::= 'locals'
+THROWS   ::= 'throws'
+CATCH    ::= 'catch'
+FINALLY  ::= 'finally'
+MODE     ::= 'mode'
+COLON    ::= ':'
+COLONCOLON
+         ::= '::'
+COMMA    ::= ','
+SEMI     ::= ';'
+LPAREN   ::= '('
+RPAREN   ::= ')'
+RARROW   ::= '->'
+LT       ::= '<'
+GT       ::= '>'
+ASSIGN   ::= '='
+QUESTION ::= '?'
+SYNPRED  ::= '=>'
+STAR     ::= '*'
+PLUS     ::= '+'
+PLUS_ASSIGN
+         ::= '+='
+OR       ::= '|'
+DOLLAR   ::= '$'
+DOT      ::= '.'
+RANGE    ::= '..'
+AT       ::= '@'
+POUND    ::= '#'
+NOT      ::= '~'
+RBRACE   ::= '}'
+NameChar ::= NameStartChar
+           | [0-9_#xB7#x300-#x36F#x203F-#x2040]
+NameStartChar
+         ::= [A-Za-z#xC0-#xD6#xD8-#xF6#xF8-#x2FF#x370-#x37D#x37F-#x1FFF#x200C-#x200D#x2070-#x218F#x2C00-#x2FEF#x3001-#xD7FF#xF900-#xFDCF#xFDF0-#xFEFE#xFF00-#xFFFD]
+ACTION_CHAR_LITERAL
+         ::= "'" ( ACTION_ESC | [^'] )* "'"
+ACTION_STRING_LITERAL
+         ::= '"' ( ACTION_ESC | [^"] )* '"'
+ACTION_ESC
+         ::= '\' .
+INT      ::= [0-9]+
+SRC      ::= 'src' WSCHARS+ ACTION_STRING_LITERAL WSCHARS+ INT
+STRING_LITERAL
+         ::= "'" ( ESC_SEQ | [^\'#xD#xA] )* "'"?
+HEX_DIGIT
+         ::= [0-9a-fA-F]
+ESC_SEQ  ::= '\' ( 'b' | 't' | 'n' | 'f' | 'r' | "'" | '\' | UNICODE_ESC | UNICODE_EXTENDED_ESC | [^btnfr'\u] )
+UNICODE_ESC
+         ::= 'u' ( HEX_DIGIT ( HEX_DIGIT ( HEX_DIGIT HEX_DIGIT? )? )? )?
+UNICODE_EXTENDED_ESC
+         ::= 'u{' HEX_DIGIT+ '}'
+WS       ::= [ #x9#xD#xA#xC]+
+NLCHARS  ::= [#xA#xD]
+WSCHARS  ::= [ #x9#xC]
+WSNLCHARS
+         ::= [ #x9#xC#xA#xD]
+UnicodeBOM
+         ::= #xFEFF
+
+EOF      ::= $
+
+RULE_REF ::= LOWER_CASE_LETTER NameChar*
+TOKEN_REF
+         ::= UPPER_CASE_LETTER NameChar*
+
+UPPER_CASE_LETTER ::= [#x41-#x5a#xc0-#xd6#xd8-#xde#x100#x102#x104#x106#x108#x10a#x10c#x10e#x110#x112#x114#x116#x118#x11a#x11c#x11e#x120#x122#x124#x126#x128#x12a#x12c#x12e#x130#x132#x134#x136#x139#x13b#x13d#x13f#x141#x143#x145#x147#x14a#x14c#x14e#x150#x152#x154#x156#x158#x15a#x15c#x15e#x160#x162#x164#x166#x168#x16a#x16c#x16e#x170#x172#x174#x176#x178-#x179#x17b#x17d#x181-#x182#x184#x186-#x187#x189-#x18b#x18e-#x191#x193-#x194#x196-#x198#x19c-#x19d#x19f-#x1a0#x1a2#x1a4#x1a6-#x1a7#x1a9#x1ac#x1ae-#x1af#x1b1-#x1b3#x1b5#x1b7-#x1b8#x1bc#x1c4#x1c7#x1ca#x1cd#x1cf#x1d1#x1d3#x1d5#x1d7#x1d9#x1db#x1de#x1e0#x1e2#x1e4#x1e6#x1e8#x1ea#x1ec#x1ee#x1f1#x1f4#x1f6-#x1f8#x1fa#x1fc#x1fe#x200#x202#x204#x206#x208#x20a#x20c#x20e#x210#x212#x214#x216#x218#x21a#x21c#x21e#x220#x222#x224#x226#x228#x22a#x22c#x22e#x230#x232#x23a-#x23b#x23d-#x23e#x241#x243-#x246#x248#x24a#x24c#x24e#x370#x372#x376#x386#x388-#x38a#x38c#x38e-#x38f#x391-#x3a1#x3a3-#x3ab#x3cf#x3d2-#x3d4#x3d8#x3da#x3dc#x3de#x3e0#x3e2#x3e4#x3e6#x3e8#x3ea#x3ec#x3ee#x3f4#x3f7#x3f9-#x3fa#x3fd-#x42f#x460#x462#x464#x466#x468#x46a#x46c#x46e#x470#x472#x474#x476#x478#x47a#x47c#x47e#x480#x48a#x48c#x48e#x490#x492#x494#x496#x498#x49a#x49c#x49e#x4a0#x4a2#x4a4#x4a6#x4a8#x4aa#x4ac#x4ae#x4b0#x4b2#x4b4#x4b6#x4b8#x4ba#x4bc#x4be#x4c0-#x4c1#x4c3#x4c5#x4c7#x4c9#x4cb#x4cd#x4d0#x4d2#x4d4#x4d6#x4d8#x4da#x4dc#x4de#x4e0#x4e2#x4e4#x4e6#x4e8#x4ea#x4ec#x4ee#x4f0#x4f2#x4f4#x4f6#x4f8#x4fa#x4fc#x4fe#x500#x502#x504#x506#x508#x50a#x50c#x50e#x510#x512#x514#x516#x518#x51a#x51c#x51e#x520#x522#x524#x526#x531-#x556#x10a0-#x10c5#x10c7#x10cd#x1e00#x1e02#x1e04#x1e06#x1e08#x1e0a#x1e0c#x1e0e#x1e10#x1e12#x1e14#x1e16#x1e18#x1e1a#x1e1c#x1e1e#x1e20#x1e22#x1e24#x1e26#x1e28#x1e2a#x1e2c#x1e2e#x1e30#x1e32#x1e34#x1e36#x1e38#x1e3a#x1e3c#x1e3e#x1e40#x1e42#x1e44#x1e46#x1e48#x1e4a#x1e4c#x1e4e#x1e50#x1e52#x1e54#x1e56#x1e58#x1e5a#x1e5c#x1e5e#x1e60#x1e62#x1e64#x1e66#x1e68#x1e6a#x1e6c#x1e6e#x1e70#x1e72#x1e74#x1e76#x1e78#x1e7a#x1e7c#x1e7e#x1e80#x1e82#x1e84#x1e86#x1e88#x1e8a#x1e8c#x1e8e#x1e90#x1e92#x1e94#x1e9e#x1ea0#x1ea2#x1ea4#x1ea6#x1ea8#x1eaa#x1eac#x1eae#x1eb0#x1eb2#x1eb4#x1eb6#x1eb8#x1eba#x1ebc#x1ebe#x1ec0#x1ec2#x1ec4#x1ec6#x1ec8#x1eca#x1ecc#x1ece#x1ed0#x1ed2#x1ed4#x1ed6#x1ed8#x1eda#x1edc#x1ede#x1ee0#x1ee2#x1ee4#x1ee6#x1ee8#x1eea#x1eec#x1eee#x1ef0#x1ef2#x1ef4#x1ef6#x1ef8#x1efa#x1efc#x1efe#x1f08-#x1f0f#x1f18-#x1f1d#x1f28-#x1f2f#x1f38-#x1f3f#x1f48-#x1f4d#x1f59#x1f5b#x1f5d#x1f5f#x1f68-#x1f6f#x1fb8-#x1fbb#x1fc8-#x1fcb#x1fd8-#x1fdb#x1fe8-#x1fec#x1ff8-#x1ffb#x2102#x2107#x210b-#x210d#x2110-#x2112#x2115#x2119-#x211d#x2124#x2126#x2128#x212a-#x212d#x2130-#x2133#x213e-#x213f#x2145#x2160-#x216f#x2183#x2c00-#x2c2e#x2c60#x2c62-#x2c64#x2c67#x2c69#x2c6b#x2c6d-#x2c70#x2c72#x2c75#x2c7e-#x2c80#x2c82#x2c84#x2c86#x2c88#x2c8a#x2c8c#x2c8e#x2c90#x2c92#x2c94#x2c96#x2c98#x2c9a#x2c9c#x2c9e#x2ca0#x2ca2#x2ca4#x2ca6#x2ca8#x2caa#x2cac#x2cae#x2cb0#x2cb2#x2cb4#x2cb6#x2cb8#x2cba#x2cbc#x2cbe#x2cc0#x2cc2#x2cc4#x2cc6#x2cc8#x2cca#x2ccc#x2cce#x2cd0#x2cd2#x2cd4#x2cd6#x2cd8#x2cda#x2cdc#x2cde#x2ce0#x2ce2#x2ceb#x2ced#x2cf2#xa640#xa642#xa644#xa646#xa648#xa64a#xa64c#xa64e#xa650#xa652#xa654#xa656#xa658#xa65a#xa65c#xa65e#xa660#xa662#xa664#xa666#xa668#xa66a#xa66c#xa680#xa682#xa684#xa686#xa688#xa68a#xa68c#xa68e#xa690#xa692#xa694#xa696#xa722#xa724#xa726#xa728#xa72a#xa72c#xa72e#xa732#xa734#xa736#xa738#xa73a#xa73c#xa73e#xa740#xa742#xa744#xa746#xa748#xa74a#xa74c#xa74e#xa750#xa752#xa754#xa756#xa758#xa75a#xa75c#xa75e#xa760#xa762#xa764#xa766#xa768#xa76a#xa76c#xa76e#xa779#xa77b#xa77d-#xa77e#xa780#xa782#xa784#xa786#xa78b#xa78d#xa790#xa792#xa7a0#xa7a2#xa7a4#xa7a6#xa7a8#xa7aa]
+LOWER_CASE_LETTER ::= [#x61-#x7a#xdf-#xf6#xf8-#xff#x101#x103#x105#x107#x109#x10b#x10d#x10f#x111#x113#x115#x117#x119#x11b#x11d#x11f#x121#x123#x125#x127#x129#x12b#x12d#x12f#x131#x133#x135#x137-#x138#x13a#x13c#x13e#x140#x142#x144#x146#x148-#x149#x14b#x14d#x14f#x151#x153#x155#x157#x159#x15b#x15d#x15f#x161#x163#x165#x167#x169#x16b#x16d#x16f#x171#x173#x175#x177#x17a#x17c#x17e-#x180#x183#x185#x188#x18c-#x18d#x192#x195#x199-#x19b#x19e#x1a1#x1a3#x1a5#x1a8#x1aa-#x1ab#x1ad#x1b0#x1b4#x1b6#x1b9-#x1bb#x1bd-#x1c3#x1c5-#x1c6#x1c8-#x1c9#x1cb-#x1cc#x1ce#x1d0#x1d2#x1d4#x1d6#x1d8#x1da#x1dc-#x1dd#x1df#x1e1#x1e3#x1e5#x1e7#x1e9#x1eb#x1ed#x1ef-#x1f0#x1f2-#x1f3#x1f5#x1f9#x1fb#x1fd#x1ff#x201#x203#x205#x207#x209#x20b#x20d#x20f#x211#x213#x215#x217#x219#x21b#x21d#x21f#x221#x223#x225#x227#x229#x22b#x22d#x22f#x231#x233-#x239#x23c#x23f-#x240#x242#x247#x249#x24b#x24d#x24f-#x2ff#x371#x373-#x375#x377-#x37d#x37f-#x385#x387#x38b#x38d#x390#x3a2#x3ac-#x3ce#x3d0-#x3d1#x3d5-#x3d7#x3d9#x3db#x3dd#x3df#x3e1#x3e3#x3e5#x3e7#x3e9#x3eb#x3ed#x3ef-#x3f3#x3f5-#x3f6#x3f8#x3fb-#x3fc#x430-#x45f#x461#x463#x465#x467#x469#x46b#x46d#x46f#x471#x473#x475#x477#x479#x47b#x47d#x47f#x481-#x489#x48b#x48d#x48f#x491#x493#x495#x497#x499#x49b#x49d#x49f#x4a1#x4a3#x4a5#x4a7#x4a9#x4ab#x4ad#x4af#x4b1#x4b3#x4b5#x4b7#x4b9#x4bb#x4bd#x4bf#x4c2#x4c4#x4c6#x4c8#x4ca#x4cc#x4ce-#x4cf#x4d1#x4d3#x4d5#x4d7#x4d9#x4db#x4dd#x4df#x4e1#x4e3#x4e5#x4e7#x4e9#x4eb#x4ed#x4ef#x4f1#x4f3#x4f5#x4f7#x4f9#x4fb#x4fd#x4ff#x501#x503#x505#x507#x509#x50b#x50d#x50f#x511#x513#x515#x517#x519#x51b#x51d#x51f#x521#x523#x525#x527-#x530#x557-#x109f#x10c6#x10c8-#x10cc#x10ce-#x1dff#x1e01#x1e03#x1e05#x1e07#x1e09#x1e0b#x1e0d#x1e0f#x1e11#x1e13#x1e15#x1e17#x1e19#x1e1b#x1e1d#x1e1f#x1e21#x1e23#x1e25#x1e27#x1e29#x1e2b#x1e2d#x1e2f#x1e31#x1e33#x1e35#x1e37#x1e39#x1e3b#x1e3d#x1e3f#x1e41#x1e43#x1e45#x1e47#x1e49#x1e4b#x1e4d#x1e4f#x1e51#x1e53#x1e55#x1e57#x1e59#x1e5b#x1e5d#x1e5f#x1e61#x1e63#x1e65#x1e67#x1e69#x1e6b#x1e6d#x1e6f#x1e71#x1e73#x1e75#x1e77#x1e79#x1e7b#x1e7d#x1e7f#x1e81#x1e83#x1e85#x1e87#x1e89#x1e8b#x1e8d#x1e8f#x1e91#x1e93#x1e95-#x1e9d#x1e9f#x1ea1#x1ea3#x1ea5#x1ea7#x1ea9#x1eab#x1ead#x1eaf#x1eb1#x1eb3#x1eb5#x1eb7#x1eb9#x1ebb#x1ebd#x1ebf#x1ec1#x1ec3#x1ec5#x1ec7#x1ec9#x1ecb#x1ecd#x1ecf#x1ed1#x1ed3#x1ed5#x1ed7#x1ed9#x1edb#x1edd#x1edf#x1ee1#x1ee3#x1ee5#x1ee7#x1ee9#x1eeb#x1eed#x1eef#x1ef1#x1ef3#x1ef5#x1ef7#x1ef9#x1efb#x1efd#x1eff-#x1f07#x1f10-#x1f17#x1f1e-#x1f27#x1f30-#x1f37#x1f40-#x1f47#x1f4e-#x1f58#x1f5a#x1f5c#x1f5e#x1f60-#x1f67#x1f70-#x1fb7#x1fbc-#x1fc7#x1fcc-#x1fd7#x1fdc-#x1fe7#x1fed-#x1ff7#x1ffc-#x1fff#x200c-#x200d#x2070-#x2101#x2103-#x2106#x2108-#x210a#x210e-#x210f#x2113-#x2114#x2116-#x2118#x211e-#x2123#x2125#x2127#x2129#x212e-#x212f#x2134-#x213d#x2140-#x2144#x2146-#x215f#x2170-#x2182#x2184-#x218f#x2c2f-#x2c5f#x2c61#x2c65-#x2c66#x2c68#x2c6a#x2c6c#x2c71#x2c73-#x2c74#x2c76-#x2c7d#x2c81#x2c83#x2c85#x2c87#x2c89#x2c8b#x2c8d#x2c8f#x2c91#x2c93#x2c95#x2c97#x2c99#x2c9b#x2c9d#x2c9f#x2ca1#x2ca3#x2ca5#x2ca7#x2ca9#x2cab#x2cad#x2caf#x2cb1#x2cb3#x2cb5#x2cb7#x2cb9#x2cbb#x2cbd#x2cbf#x2cc1#x2cc3#x2cc5#x2cc7#x2cc9#x2ccb#x2ccd#x2ccf#x2cd1#x2cd3#x2cd5#x2cd7#x2cd9#x2cdb#x2cdd#x2cdf#x2ce1#x2ce3-#x2cea#x2cec#x2cee-#x2cf1#x2cf3-#x2fef#x3001-#xa63f#xa641#xa643#xa645#xa647#xa649#xa64b#xa64d#xa64f#xa651#xa653#xa655#xa657#xa659#xa65b#xa65d#xa65f#xa661#xa663#xa665#xa667#xa669#xa66b#xa66d-#xa67f#xa681#xa683#xa685#xa687#xa689#xa68b#xa68d#xa68f#xa691#xa693#xa695#xa697-#xa721#xa723#xa725#xa727#xa729#xa72b#xa72d#xa72f-#xa731#xa733#xa735#xa737#xa739#xa73b#xa73d#xa73f#xa741#xa743#xa745#xa747#xa749#xa74b#xa74d#xa74f#xa751#xa753#xa755#xa757#xa759#xa75b#xa75d#xa75f#xa761#xa763#xa765#xa767#xa769#xa76b#xa76d#xa76f-#xa778#xa77a#xa77c#xa77f#xa781#xa783#xa785#xa787-#xa78a#xa78c#xa78e-#xa78f#xa791#xa793-#xa79f#xa7a1#xa7a3#xa7a5#xa7a7#xa7a9#xa7ab-#xd7ff#xf900-#xfdcf#xfdf0-#xfefe#xff00-#xff20]
+
+
+NON_SLASH_QUOTE_BRACE << WS COLON COMMA SEMI LPAREN RPAREN LT GT OR DOT AT POUND NOT TOKEN_REF "?"
+ACTION_CHAR_LITERAL << STRING_LITERAL
+WSNLCHARS << WS
+TOKEN_REF << IMPORT LEXER PARSER FRAGMENT CATCH FINALLY MODE
+RULE_REF << IMPORT LEXER PARSER NON_SLASH_QUOTE_BRACE FRAGMENT CATCH FINALLY MODE

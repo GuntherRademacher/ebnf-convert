@@ -1,0 +1,215 @@
+/* original source: https://github.com/antlr/antlr/raw/revision-3.4/tool/src/main/antlr3/org/antlr/grammar/v3/ANTLR.g
+ * revision: 3.4
+ * repository date: June 19, 2011
+ * fetched: Nov 25, 2011
+ *
+ * converted on Mon Jan 11, 2011, 20:10 (UTC+01) by antlr_3-to-w3c
+ *
+ * modified:
+ *  - disabled FORCED_ACTION
+ *  - in production elementNoOptionSpec, swapped ACTION and SEMPRED alternatives, for backtracking
+ *  - in rewrite,  swapped rewrite_element+ and rewrite_template, for the same reason
+ *  - introduce WHITESPACE token to avoid whitespace conflict
+ *  - move SEMPRED, ACTION, NESTED_ACTION to (ws:explicit) parser rules, for recursion
+ *  - add explicit productions for SEMPRED, STRING_LITERAL, and DOC_COMMENT
+ *  - introduce NESTED_ACTION_char token
+ *  - comment unused tokens
+ *  - reduce preferences to minimum
+ */
+
+grammar_ ::= ACTION? DOC_COMMENT? grammarType id ';' optionsSpec? delegateGrammars? tokensSpec? attrScopes actions? rules EOF
+grammarType
+         ::= ( 'lexer' | 'parser' | 'tree' )? 'grammar'
+actions  ::= action+
+action   ::= '@' ( actionScopeName ':' ':' )? id ACTION
+actionScopeName
+         ::= id
+           | 'lexer'
+           | 'parser'
+optionsSpec
+         ::= OPTIONS ( option ';' )+ '}'
+option   ::= id '=' optionValue
+optionValue
+         ::= id
+           | STRING_LITERAL
+           | CHAR_LITERAL
+           | INT
+           | '*'
+delegateGrammars
+         ::= 'import' delegateGrammar ( ',' delegateGrammar )* ';'
+delegateGrammar
+         ::= id ( '=' id )?
+tokensSpec
+         ::= TOKENS tokenSpec* '}'
+tokenSpec
+         ::= TOKEN_REF ( '=' ( STRING_LITERAL | CHAR_LITERAL ) )? ';'
+attrScopes
+         ::= attrScope*
+attrScope
+         ::= 'scope' id ruleActions? ACTION
+rules    ::= rule+
+rule     ::= DOC_COMMENT? ( 'protected' | 'public' | 'private' | 'fragment' )? id '!'? ARG_ACTION? ( 'returns' ARG_ACTION )? throwsSpec? optionsSpec? ruleScopeSpec ruleActions? ':' ruleAltList ';' exceptionGroup?
+ruleActions
+         ::= ruleAction+
+ruleAction
+         ::= '@' id ACTION
+throwsSpec
+         ::= 'throws' id ( ',' id )*
+ruleScopeSpec
+         ::= ( 'scope' ruleActions? ACTION )? ( 'scope' idList ';' )*
+ruleAltList
+         ::= alternative rewrite ( '|' alternative rewrite )*
+block    ::= '(' ( ( optionsSpec? ruleActions? | ACTION ) ':' )? alternative rewrite ( '|' alternative rewrite )* ')'
+alternative
+         ::= element*
+exceptionGroup
+         ::= exceptionHandler+ finallyClause?
+           | finallyClause
+exceptionHandler
+         ::= 'catch' ARG_ACTION ACTION
+finallyClause
+         ::= 'finally' ACTION
+element  ::= elementNoOptionSpec
+elementNoOptionSpec
+         ::= ( id ( '=' | '+=' ) ( atom | block ) | atom ) ebnfSuffix?
+           | ebnf
+//         | FORCED_ACTION
+           | SEMPRED '=>'?
+           | ACTION
+           | tree_
+atom     ::= ( range | notSet ) ( '^' | '!' )?
+           | ( id '.' ( terminal | ruleref ) | terminal | ruleref )
+ruleref  ::= RULE_REF ARG_ACTION? ( '^' | '!' )?
+notSet   ::= '~' ( notTerminal | block )
+treeRoot ::= id ( '=' | '+=' ) ( atom | block )
+           | atom
+           | block
+tree_    ::= '^(' treeRoot element+ ')'
+ebnf     ::= block ( '?' | '*' | '+' | '=>' | '^' | '!' )?
+range    ::= CHAR_LITERAL '..' CHAR_LITERAL
+terminal ::= ( ( CHAR_LITERAL | STRING_LITERAL ) elementOptions? | TOKEN_REF elementOptions? ARG_ACTION? | '.' ) ( '^' | '!' )?
+elementOptions
+         ::= '<' ( defaultNodeOption | elementOption ( ';' elementOption )* ) '>'
+defaultNodeOption
+         ::= elementOptionId
+elementOption
+         ::= id '=' ( elementOptionId | ( STRING_LITERAL | DOUBLE_QUOTE_STRING_LITERAL | DOUBLE_ANGLE_STRING_LITERAL ) )
+elementOptionId
+         ::= id ( '.' id )*
+ebnfSuffix
+         ::= '?'
+           | '*'
+           | '+'
+notTerminal
+         ::= CHAR_LITERAL
+           | TOKEN_REF
+           | STRING_LITERAL
+idList   ::= id ( ',' id )*
+id       ::= TOKEN_REF
+           | RULE_REF
+rewrite  ::= ( rewrite_with_sempred* '->' rewrite_alternative )?
+rewrite_with_sempred
+         ::= '->' SEMPRED rewrite_alternative
+rewrite_block
+         ::= '(' rewrite_alternative ')'
+rewrite_alternative
+         ::= ( rewrite_element+ | rewrite_template | '...' )?
+rewrite_element
+         ::= ( rewrite_atom | rewrite_tree ) ebnfSuffix?
+           | rewrite_ebnf
+rewrite_atom
+         ::= TOKEN_REF elementOptions? ARG_ACTION?
+           | RULE_REF
+           | ( CHAR_LITERAL | STRING_LITERAL ) elementOptions?
+           | '$' label
+           | ACTION
+label    ::= TOKEN_REF
+           | RULE_REF
+rewrite_ebnf
+         ::= rewrite_block ( '?' | '*' | '+' )
+rewrite_tree
+         ::= '^(' rewrite_atom rewrite_element* ')'
+rewrite_template
+         ::= rewrite_template_head ( DOUBLE_QUOTE_STRING_LITERAL | DOUBLE_ANGLE_STRING_LITERAL )?
+           | rewrite_indirect_template_head
+           | ACTION
+rewrite_template_head
+         ::= id '(' rewrite_template_args ')'
+rewrite_indirect_template_head
+         ::= '(' ACTION ')' '(' rewrite_template_args ')'
+rewrite_template_args
+         ::= ( rewrite_template_arg ( ',' rewrite_template_arg )* )?
+rewrite_template_arg
+         ::= id '=' ACTION
+_        ::= WHITESPACE
+          /* ws: definition */
+SEMPRED  ::= NESTED_ACTION '?'
+          /* ws: explicit */
+ACTION   ::= NESTED_ACTION
+          /* ws: explicit */
+NESTED_ACTION
+         ::= '{' ( NESTED_ACTION | ACTION_CHAR_LITERAL | COMMENT | ACTION_STRING_LITERAL | ACTION_ESC | NESTED_ACTION_char )* '}'
+          /* ws: explicit */
+
+<?TOKENS?>
+
+//FORCED_ACTION
+//         ::=
+DOC_COMMENT?
+         ::= '/**' .* '*/'
+WS       ::= ' '
+           | #x9
+           | #xD? #xA
+COMMENT  ::= SL_COMMENT
+           | ML_COMMENT
+SL_COMMENT
+         ::= '//' ( ' $ANTLR ' SRC | [^#xD#xA]* ) ( #xD? #xA )?
+ML_COMMENT?
+         ::= '/*' .* '*/'
+CHAR_LITERAL
+         ::= "'" LITERAL_CHAR "'"
+STRING_LITERAL
+         ::= "'" LITERAL_CHAR LITERAL_CHAR+ "'"
+LITERAL_CHAR
+         ::= ESC | [^\']
+DOUBLE_QUOTE_STRING_LITERAL
+         ::= '"' ( '\' ( '"' | [^"] ) | [^\"] )* '"'
+DOUBLE_ANGLE_STRING_LITERAL?
+         ::= '<<' .* '>>'
+ESC      ::= '\' ( 'n' | 'r' | 't' | 'b' | 'f' | '"' | "'" | '\' | '>' | 'u' XDIGIT XDIGIT XDIGIT XDIGIT | . )
+//DIGIT    ::= [0-9]
+XDIGIT   ::= [0-9]
+           | [a-f]
+           | [A-F]
+INT      ::= [0-9]+
+ARG_ACTION
+         ::= '[' NESTED_ARG_ACTION ']'
+NESTED_ACTION_char
+        ::= [^{'"\}]
+NESTED_ARG_ACTION
+         ::= ( '\' ( ']' | [^#x5D] ) | ACTION_STRING_LITERAL | ACTION_CHAR_LITERAL | [^\"'#x5D] )*
+ACTION_CHAR_LITERAL
+         ::= "'" ( ACTION_ESC | [^\'] )* "'"
+ACTION_STRING_LITERAL
+         ::= '"' ( ACTION_ESC | [^\"] )* '"'
+ACTION_ESC
+         ::= "\'"
+           | '\"'
+           | '\' [^'"]
+TOKEN_REF
+         ::= [A-Z] ( [a-z] | [A-Z] | '_' | [0-9] )*
+TOKENS   ::= 'tokens' WS_LOOP '{'
+OPTIONS  ::= 'options' WS_LOOP '{'
+RULE_REF ::= [a-z] ( [a-z] | [A-Z] | '_' | [0-9] )*
+WS_LOOP  ::= ( WS | COMMENT )*
+// WS_OPT   ::= WS?
+SRC      ::= 'src' ' ' ACTION_STRING_LITERAL ' ' INT
+EOF      ::= $
+WHITESPACE
+         ::= WS
+           | COMMENT
+STRING_LITERAL
+          << CHAR_LITERAL
+WHITESPACE
+          << DOC_COMMENT
+RULE_REF  << "catch" "finally" "fragment" "import" "lexer" "parser" "private" "protected" "public" "scope"

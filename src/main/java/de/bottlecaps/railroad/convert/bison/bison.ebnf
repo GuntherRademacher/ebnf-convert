@@ -1,0 +1,136 @@
+/* converted on Fri Jul 9, 2021, 18:29 (UTC+02) by bison-to-w3c v0.51 which is Copyright (c) 2011-2021 by Gunther Rademacher <grd@gmx.net> */
+
+input    ::= prologue_declaration* '%%' rules_or_grammar_declaration+ epilogue.opt EOF
+prologue_declaration
+         ::= grammar_declaration
+           | PROLOGUE
+           | PERCENT_FLAG
+           | '%define' variable value
+           | '%defines' STRING?
+           | '%error-verbose'
+           | ( '%expect' | '%expect-rr' ) INT_LITERAL
+           | ( ( '%file-prefix' | '%name-prefix' | '%output' ) '='? | '%language' | '%require' | '%skeleton' ) STRING
+           | '%glr-parser'
+           | '%initial-action' BRACED_CODE
+           | '%no-lines'
+           | '%nondeterministic-parser'
+           | ( '%param' | '%parse-param' | '%lex-param' ) BRACED_CODE+
+           | '%token-table'
+           | '%verbose'
+           | '%yacc'
+           | ';'
+grammar_declaration
+         ::= symbol_declaration
+           | '%start' symbol
+           | code_props_type BRACED_CODE generic_symlist_item+
+           | '%default-prec'
+           | '%no-default-prec'
+           | ( '%code' ID? | '%union' union_name ) BRACED_CODE
+code_props_type
+         ::= '%destructor'
+           | '%printer'
+union_name
+         ::= ID?
+symbol_declaration
+         ::= '%nterm' nterm_decls
+           | '%token' token_decls
+           | '%type' TAG? symbol_decl.1 ( TAG symbol_decl.1 )*
+           | precedence_declarator TAG? token_decl_for_prec.1 ( TAG token_decl_for_prec.1 )*
+precedence_declarator
+         ::= '%left'
+           | '%right'
+           | '%nonassoc'
+           | '%precedence'
+tag.opt  ::= TAG?
+generic_symlist_item
+         ::= symbol
+           | tag
+tag      ::= TAG
+           | '<*>'
+           | '<>'
+nterm_decls
+         ::= token_decls
+token_decls
+         ::= TAG? token_decl.1 ( TAG token_decl.1 )*
+token_decl.1
+         ::= token_decl+
+token_decl
+         ::= id int.opt alias
+int.opt  ::= INT_LITERAL?
+alias    ::= ( string_as_id | TSTRING )?
+token_decl_for_prec.1
+         ::= token_decl_for_prec+
+token_decl_for_prec
+         ::= id int.opt
+           | string_as_id
+symbol_decl.1
+         ::= symbol+
+rules_or_grammar_declaration
+         ::= rules
+           | ( grammar_declaration 
+             ) ';'
+rules    ::= id named_ref.opt ':' rhs ( '|' rhs | ';' )*
+rhs      ::= ( ( symbol | tag.opt BRACED_CODE ) named_ref.opt | BRACED_PREDICATE | '%empty' | '%prec' symbol | ( '%dprec' | '%expect' | '%expect-rr' ) INT_LITERAL | '%merge' TAG )*
+named_ref.opt
+         ::= BRACKETED_ID?
+variable ::= ID
+value    ::= ( ID | STRING | BRACED_CODE )?
+id       ::= ID
+           | CHAR_LITERAL
+symbol   ::= id
+           | string_as_id
+string_as_id
+         ::= STRING
+epilogue.opt
+         ::= ( '%%' EPILOGUE )?
+
+TAG      ::= '<' ( ANGLELESS_CODE | TAG )* '>' 
+          /* ws: explicit */
+BRACED_CODE
+         ::= '{' ( BRACELESS_CODE | BRACED_CODE )* '}'
+          /* ws: explicit */
+
+<?TOKENS?>
+
+STRING   ::= '"' ( ESCAPED_CHARACTER - '"' )* '"'
+TSTRING  ::= "_(" STRING ")"
+ESCAPED_CHARACTER
+         ::= '\' ( OCT_DIGIT ( OCT_DIGIT OCT_DIGIT? )? | 'x' HEX_DIGIT+ | [abfnrtv"'\] | ( 'u' | 'U' FOUR_HEX_DIGITS ) FOUR_HEX_DIGITS | [^#xA#xD] )
+           | [^\]
+OCT_DIGIT
+         ::= [0-7]
+HEX_DIGIT
+         ::= [0-9abcdefABCDEF]
+FOUR_HEX_DIGITS
+         ::= HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
+INT_LITERAL
+         ::= [0-9]+
+letter   ::= [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
+id       ::= letter ( letter | [-0-9] )*
+ID       ::= id
+CHAR_LITERAL
+         ::= "'" ( ESCAPED_CHARACTER - "'" )* "'"
+EPILOGUE ::= .* &$
+ANGLELESS_CODE
+         ::= [^<>]+
+BRACKETED_ID
+         ::= '[' WHITESPACE? id WHITESPACE? ']'
+PROLOGUE ::= '%{' ( .* - ( .* '%}' .* ) ) '%}'
+BRACED_PREDICATE
+         ::= '%?' WHITESPACE? '{' BRACELESS_CODE '}'
+BRACELESS_CODE
+         ::= ( [^{}'"/] | '/' [^{}/*'"] | singleLineComment | multiLineComment | STRING | CHAR_LITERAL )*
+PERCENT_FLAG
+         ::= '%debug'
+           | '%locations'
+           | '%pure' [-_] 'parser'
+WHITESPACE
+         ::= [#x9#xA#xB#xC#xD#x20]+
+           | singleLineComment
+           | multiLineComment
+          /* ws: definition */
+singleLineComment
+         ::= '/' '/' [^#xA]* #xA
+multiLineComment
+         ::= '/' '*' ( [^*] | '*'+ [^*/] )* '*'+ '/'
+EOF      ::= $

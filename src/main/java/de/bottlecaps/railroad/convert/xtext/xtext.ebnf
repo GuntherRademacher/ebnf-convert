@@ -1,0 +1,151 @@
+Grammar ::=
+  ( 'grammar' GrammarID ('with' GrammarID (',' GrammarID)*)? )?
+  ('hidden' '(' (ID (',' ID)*)? ')')?
+  AbstractMetamodelDeclaration*
+  (AbstractRule)+
+  EOF
+
+GrammarID ::=
+  ID ('.' ID)*
+
+AbstractRule ::=
+  ParserRule | TerminalRule | EnumRule
+
+AbstractMetamodelDeclaration ::=
+  GeneratedMetamodel | ReferencedMetamodel
+
+// constraint: typeSelect(GeneratedMetamodel).size() == typeSelect(GeneratedMetamodel).alias.size()
+// generated metamodels have to have different aliases
+GeneratedMetamodel ::=
+  'generate' ID STRING ('as' ID)?
+
+// referenced metamodels may share aliases with other referenced metamodels
+// and with generated metamodels
+ReferencedMetamodel ::=
+  'import' STRING ('as' ID)?
+
+ParserRule ::=
+  'fragment'?
+  ID ('returns' TypeRef)? ('hidden' '(' (ID (',' ID)*)? ')')?':'
+  Alternatives
+  ';'
+
+TypeRef ::=
+  (ID '::')? ID
+
+Alternatives ::=
+    UnorderedGroup (('|' UnorderedGroup)+)?
+
+UnorderedGroup ::=
+  Group (('&' Group)+)?
+
+Group ::=
+    AbstractToken ((AbstractToken)+)?
+
+AbstractToken ::=
+  AbstractTokenWithCardinality |
+  Action
+
+AbstractTokenWithCardinality ::=
+  ('=>' | '->')?
+  (Assignment |
+  AbstractTerminal) (('?'|'*'|'+'))?
+
+Action ::=
+  '{' TypeRef ('.' ID ('='|'+=') 'current')? '}'
+
+AbstractTerminal ::= ( Keyword | RuleCall | ParenthesizedElement )
+
+Keyword ::=
+   STRING
+
+RuleCall ::=
+   ID
+
+Assignment ::=
+   ID ('+='|'='|'?=') AssignableTerminal
+
+AssignableTerminal ::=
+   Keyword | RuleCall | ParenthesizedAssignableElement | CrossReference
+
+ParenthesizedAssignableElement ::=
+   '(' AssignableAlternatives ')'
+
+AssignableAlternatives ::=
+    AssignableTerminal (('|' AssignableTerminal)+)?
+
+CrossReference ::=
+  '[' TypeRef ('|' CrossReferenceableTerminal )? ']'
+
+CrossReferenceableTerminal ::=
+  Keyword | RuleCall
+
+ParenthesizedElement ::=
+  '(' Alternatives ')'
+
+TerminalRule ::=
+  'terminal' ID ('returns' TypeRef)? ':'
+  TerminalAlternatives
+  ';'
+
+TerminalAlternatives ::=
+  TerminalGroup (('|' TerminalGroup)+)?
+
+TerminalGroup ::=
+  TerminalToken ((TerminalToken)+)?
+
+TerminalToken ::=
+  TerminalTokenElement (('?'|'*'|'+'))?
+
+TerminalTokenElement ::=
+   CharacterRange | RuleCall | ParenthesizedTerminalElement | AbstractNegatedToken | Wildcard
+
+ParenthesizedTerminalElement ::=
+   '(' TerminalAlternatives ')'
+
+AbstractNegatedToken ::=
+   NegatedToken | UntilToken
+
+NegatedToken ::=
+  '!' TerminalTokenElement
+
+UntilToken ::=
+  '->' TerminalTokenElement
+
+Wildcard ::=
+  '.'
+
+CharacterRange ::=
+  Keyword ( '..' Keyword)?
+
+EnumRule ::=
+  'enum' ID ('returns' TypeRef)? ':'
+  EnumLiterals
+  ';'
+
+EnumLiterals ::=
+  EnumLiteralDeclaration (('|' EnumLiteralDeclaration)+)?
+
+EnumLiteralDeclaration ::=
+  ID ('=' Keyword)?
+
+_ ::= WS | ML_COMMENT | SL_COMMENT
+   /* ws:definition */
+
+<?TOKENS?>
+
+ID ::= '^'? [a-zA-Z_] [a-zA-Z_0-9]*
+
+STRING ::=
+  '"' ( '\' ('b'|'t'|'n'|'f'|'r'|'"'|"'"|'\') | [^\"] )* '"' |
+  "'" ( '\' ('b'|'t'|'n'|'f'|'r'|'"'|"'"|'\') | [^\'] )* "'"
+
+ML_COMMENT? ::= '/*' .* '*/'
+
+SL_COMMENT  ::= '//' [^#xA#xD]* (#xD? #xA)?
+
+WS ::= ( ' ' | #x9 | #xD | #xA )+
+
+EOF ::= $
+
+ID << "as" "enum" "fragment" "generate" "hidden" "import" "terminal" "with" "grammar"

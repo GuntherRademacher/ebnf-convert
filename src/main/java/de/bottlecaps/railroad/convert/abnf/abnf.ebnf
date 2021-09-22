@@ -1,0 +1,84 @@
+// created from http://www.ietf.org/rfc/rfc2234.txt
+//
+// however:
+//  - more liberal whitespace
+//  - extra '::=' allowed in production defined-as
+//  - extra '|' allowed in production alternation
+//  - underscore allowed in rule names
+//  - CR optional in CRLF
+
+rulelist      ::= rule+ EOF
+rule          ::= rulename defined-as elements
+defined-as    ::= "=" | "=/" | "::="
+elements      ::= alternation
+alternation   ::= concatenation (("/" | "|") concatenation)*
+concatenation ::= repetition+
+repetition    ::= repeat? element
+               /* ws: explicit */
+repeat        ::= integer | (integer? "*" integer?)
+               /* ws: explicit */
+element       ::= rulename
+                | group
+                | option
+                | char-val
+                | num-val
+                | prose-val
+group         ::= "(" alternation ")"
+option        ::= "[" alternation "]"
+num-val       ::= "%" (bin-val | dec-val | hex-val)
+               /* ws:explicit */
+bin-val       ::= "b" bits
+                  ( ("." bits)+ | ("-" bits) )?
+                       // series of concatenated bit values
+                       // or single ONEOF range
+               /* ws:explicit */
+dec-val       ::= "d" integer
+                  ( ("." integer)+ | ("-" integer) )?
+               /* ws:explicit */
+hex-val       ::= "x" hexdigs
+                  ( ("." hexdigs)+ | ("-" hexdigs) )?
+               /* ws:explicit */
+
+<?TOKENS?>
+
+whitespace    ::= c-wsp | c-nl | CR | LF
+               /* ws: definition */
+
+rulename      ::= ALPHA (ALPHA | DIGIT | "-" | "_")*
+c-wsp         ::= (WSP | (c-nl WSP))+
+c-nl          ::= comment | CRLF
+                       // comment or newline
+integer       ::= DIGIT+
+comment       ::= ";" (WSP | VCHAR)* CRLF
+char-val      ::= DQUOTE ([#x20-#x21] | [#x23-#x7E])* DQUOTE
+                       // quoted string of SP and VCHAR
+                       //  without DQUOTE
+bits          ::= BIT+
+hexdigs       ::= HEXDIG+
+prose-val     ::= "<" ([#x20-#x3D] | [#x3F-#x7E])* ">"
+                       // bracketed string of SP and VCHAR
+                       //  without angles
+                       // prose description, to be used as
+                       //  last resort
+ALPHA         ::= [#x41-#x5A] | [#x61-#x7A]   // A-Z / a-z
+BIT           ::= "0" | "1"
+CR            ::= #x0D
+                       // carriage return
+CRLF          ::= CR? LF
+                       // Internet standard newline
+DIGIT         ::= [#x30-#x39]
+                       // 0-9
+DQUOTE        ::= #x22
+                       // " (Double Quote)
+HEXDIG        ::= DIGIT | [A-Fa-f]
+HTAB          ::= #x09
+                       // horizontal tab
+LF            ::= #x0A
+                       // linefeed
+SP            ::= #x20
+                       // space
+VCHAR         ::= [#x21-#x7E]
+                       // visible (printing) characters
+WSP           ::= SP | HTAB
+                       // white space
+EOF           ::= $

@@ -1,0 +1,54 @@
+<?xquery
+declare namespace p="parser";
+?>
+
+regexp     ::= alternatives EOF
+alternatives
+           ::= sequence ( '|' sequence )*
+sequence   ::= item+
+item       ::= primary occurrence?
+primary    ::= '.'
+             | character
+             | charset
+             | '(' alternatives ')'
+             | '(?:' alternatives ')'
+             | '(?=' alternatives ')'
+character  ::= escaped-character | plain-character
+charset    ::= '[' '^'? range+ ']'
+range      ::= range-character ( '-' range-character )?
+occurrence ::= '?' | '*' | '+' | '*?' | '+?'
+
+<?TOKENS?>
+
+escaped-character
+           ::= '\' ( [^a-zA-Z] | [strn] )
+plain-character
+           ::= .
+plain-character
+            << ')' '*' '+' '.' '?' '[' ']' '^' '|' '-' '('
+range-character
+           ::= ( plain-character - ( ']' | '\' ) )
+             | escaped-character
+range-character
+            << "^" "-"
+range-character
+            \\ '-'
+EOF ::= $
+
+<?ENCORE?>
+
+<?xquery
+  let $regexps :=
+  (
+    <regexp>[a-zA-Z0-9_]+\??</regexp>,
+    <regexp>\".*?\"(?=\.|\s)</regexp>,
+    <regexp>match\(.*?\)</regexp>,
+    <regexp>[^\s\.\"]+</regexp>,
+    <regexp>(?:[^"\\]|\\.)*</regexp>,
+    <regexp>(?:[^\'\\]|\\.)*</regexp>,
+    <regexp>[0-9]+</regexp>,
+    <regexp>\s+</regexp>
+  )
+  for $regexp in $regexps
+  return p:parse-regexp($regexp)
+?>
