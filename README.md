@@ -19,7 +19,7 @@ For listing the set of available command line options, run
 ```
 
 ## Building convert
-For building convert, JDK 8 (or higher) must be available. In the
+For building convert, JDK 11 (or higher) must be available. In the
 project folder, run this command to build the distribution .zip file:
 
 ```bash

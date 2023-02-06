@@ -1,25 +1,21 @@
 package de.bottlecaps.railroad.convert;
 
+import static de.bottlecaps.xml.XQueryProcessor.defaultXQueryProcessor;
+import static de.bottlecaps.xml.XsltProcessor.defaultXsltProcessor;
+
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.PrintStream;
-import java.io.Reader;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Arrays;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
-import java.util.TreeMap;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.stream.StreamSource;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
+import java.util.Collections;
+import java.util.Map;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.bottlecaps.railroad.convert.LRParser.ParseTreeBuilder;
 import de.bottlecaps.railroad.convert.abnf.Abnf;
@@ -28,6 +24,7 @@ import de.bottlecaps.railroad.convert.antlr_4.Antlr_4;
 import de.bottlecaps.railroad.convert.bison.Bison;
 import de.bottlecaps.railroad.convert.gold.Gold;
 import de.bottlecaps.railroad.convert.instaparse.Instaparse;
+import de.bottlecaps.railroad.convert.ixml.IXML;
 import de.bottlecaps.railroad.convert.javacc.Javacc;
 import de.bottlecaps.railroad.convert.jison.Jison;
 import de.bottlecaps.railroad.convert.pegjs.Pegjs;
@@ -36,33 +33,24 @@ import de.bottlecaps.railroad.convert.pss.Pss;
 import de.bottlecaps.railroad.convert.rex_5_9.REx_5_9;
 import de.bottlecaps.railroad.convert.w3c.W3c;
 import de.bottlecaps.railroad.convert.xtext.Xtext;
-import de.bottlecaps.railroad.core.ResourceModuleUriResolver;
-import net.sf.saxon.jaxp.SaxonTransformerFactory;
-import net.sf.saxon.s9api.DOMDestination;
-import net.sf.saxon.s9api.Processor;
-import net.sf.saxon.s9api.QName;
-import net.sf.saxon.s9api.SaxonApiException;
-import net.sf.saxon.s9api.XQueryCompiler;
-import net.sf.saxon.s9api.XQueryEvaluator;
-import net.sf.saxon.s9api.XQueryExecutable;
-import net.sf.saxon.s9api.XdmAtomicValue;
+import de.bottlecaps.xml.XQueryProcessor.Result;
 
 public class Convert
 {
-  enum Target
+  enum ParserImplementation
   {
     JAVA,
     XQUERY,
     XSLT
   };
 
-  public static final String VERSION = "v0.54";
-  public static final String REVISION = "2082";
-  public static final String DATE = "Sep 22";
-  public static final String YEAR = "2021";
+  public static final String VERSION = "v0.63";
+  public static final String REVISION = "2198";
+  public static final String DATE = "Febrary 5";
+  public static final String YEAR = "2023";
   public static final String URL = "https://bottlecaps.de/convert/";
 
-  public static void main(String args[]) throws SaxonApiException, Exception
+  public static void main(String args[]) throws Exception
   {
     int exitCode = 0;
 
@@ -76,7 +64,7 @@ public class Convert
     }
     else try
     {
-      Target target = Target.JAVA;
+      ParserImplementation parserImplementation = ParserImplementation.JAVA;
       String notation = GRAMMAR_AUTO;
       boolean toXML = false;
       boolean verbose = false;
@@ -100,15 +88,15 @@ public class Convert
         }
         else if (arg.equals("-xquery"))
         {
-          target = Target.XQUERY;
+          parserImplementation = ParserImplementation.XQUERY;
         }
         else if (arg.equals("-xslt"))
         {
-          target = Target.XSLT;
+          parserImplementation = ParserImplementation.XSLT;
         }
         else if (arg.equals("-java"))
         {
-          target = Target.JAVA;
+          parserImplementation = ParserImplementation.JAVA;
         }
         else if (arg.equals("-notimestamp"))
         {
@@ -146,7 +134,7 @@ public class Convert
         }
         else
         {
-          String ebnfGrammar = convert(notation, read(arg), localTzOffset(), toXML, recursionRemoval, factoring, inline, keep, target, noTimestamp, verbose);
+          String ebnfGrammar = convert(notation, read(arg), localTzOffset(), toXML, recursionRemoval, factoring, inline, keep, parserImplementation, noTimestamp, verbose);
           System.out.print(ebnfGrammar);
         }
       }
@@ -196,6 +184,7 @@ public class Convert
   public static final String GRAMMAR_W3C        = "w3c";
   public static final String GRAMMAR_XTEXT      = "xtext";
   public static final String GRAMMAR_INSTAPARSE = "instaparse";
+  public static final String GRAMMAR_IXML       = "ixml";
 
   private static String notations[] = new String[]{
     GRAMMAR_W3C,
@@ -206,6 +195,7 @@ public class Convert
     GRAMMAR_GOLD,
     GRAMMAR_JAVACC,
     GRAMMAR_JISON,
+    GRAMMAR_IXML,
     GRAMMAR_INSTAPARSE,
     GRAMMAR_PEGJS,
     GRAMMAR_PSS,
@@ -223,9 +213,10 @@ public class Convert
     "Grammar",
     "javacc_input",
     "jison",
+    "ixml",
     "rules",
     "Grammar",
-    "Grammar",
+    "PSS-Grammar",
     "Grammar",
     "Grammar",
     "Grammar",
@@ -233,7 +224,7 @@ public class Convert
 
   private static final IgnoringEventHandler ignoringEventHandler = new IgnoringEventHandler();
 
-  private static Parser llParsers[] = new Parser[]{
+  private static Object parsers[] = new Object[]{
     new W3c("", ignoringEventHandler),
     new Abnf("", ignoringEventHandler),
     new Antlr_3("", ignoringEventHandler),
@@ -242,29 +233,13 @@ public class Convert
     new Gold("", ignoringEventHandler),
     new Javacc("", ignoringEventHandler),
     new Jison("", ignoringEventHandler),
-    null,
+    new IXML("", ignoringEventHandler),
+    new Instaparse("", ignoringEventHandler),
     new Pegjs("", ignoringEventHandler),
     new Pss("", ignoringEventHandler),
     new Phythia("", ignoringEventHandler),
     new REx_5_9("", ignoringEventHandler),
     new Xtext("", ignoringEventHandler),
-  };
-
-  private static LRParser lrParsers[] = new LRParser[]{
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    new Instaparse("", ignoringEventHandler),
-    null,
-    null,
-    null,
-    null,
-    null,
   };
 
   public static String convert(String notation,
@@ -275,22 +250,14 @@ public class Convert
                                String factoring,
                                boolean inline,
                                boolean keep,
-                               Target target,
+                               ParserImplementation target,
                                boolean noTimestamp,
                                boolean verbose) throws Exception
   {
-    XQueryExecutable executable;
-    XQueryEvaluator evaluator;
-    Processor processor = new Processor(false);
-    XQueryCompiler compiler = processor.newXQueryCompiler();
-    compiler.setModuleURIResolver(ResourceModuleUriResolver.instance);
+    String successfullyParsedNotation = null;
+    Result parseTree = null;
+    TreeSet<Error> errorMessages = new TreeSet<>();
 
-    String sensedNotation = null;
-    Element parseTree = null;
-    int errorLocation = -1;
-    ErrorLog errorMessages = new ErrorLog();
-
-    DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
     for (int i = 0; i < notations.length; ++i)
     {
       if (notation == null || notation.equals(notations[i]))
@@ -301,89 +268,79 @@ public class Convert
           System.err.println("trying " + module + " using " + target.toString() + "-coded parser");
         }
 
-        if (target == Target.XQUERY)
+        if (target == ParserImplementation.XQUERY)
         {
           String startSymbol = startSymbols[i];
 
-          executable = compiler.compile(
-            "import module namespace p=\"de/bottlecaps/railroad/convert/xq/" + module + "/" + module + ".xquery\";\n" +
+          String moduleNamespace = "de/bottlecaps/railroad/convert/xq/" + module + "/" + module + ".xquery";
+          URL moduleURL = Thread.currentThread().getContextClassLoader().getResource(moduleNamespace);
+          String query =
+            "import module namespace p='" + moduleNamespace + "' at '" + moduleURL + "';\n" +
             "declare variable $grammar external;\n" +
-            "p:parse-" + startSymbol + "($grammar)");
-
-          evaluator = executable.load();
-          evaluator.setExternalVariable(new QName("grammar"), new XdmAtomicValue(grammar));
-          Document document = documentBuilder.newDocument();
-          processor.writeXdmValue(evaluator.evaluate(), new DOMDestination(document));
-          parseTree = document.getDocumentElement();
-
-          if (parseTree.getNodeName().equals(startSymbol))
-          {
-            sensedNotation = module;
-            errorLocation = -1;
-            errorMessages = null;
+            "let $parse-tree := p:parse-" + startSymbol + "($grammar)\n" +
+            "return\n" +
+            "  if ($parse-tree/self::ERROR) then\n" +
+            "    error(xs:QName(\"" + module + "\"), string($parse-tree))\n" +
+            "  else\n" +
+            "    document{$parse-tree}";
+          try {
+            parseTree = defaultXQueryProcessor()
+                .compile(query)
+                .evaluate(Collections.singletonMap("grammar", grammar));
+            successfullyParsedNotation = module;
             break;
           }
-
-          int e = Integer.parseInt(parseTree.getAttribute("e"));
-          errorMessages.log(e, module, parseTree.getTextContent());
-
-          if (e > errorLocation)
-          {
-            sensedNotation = module;
-            errorLocation = e;
+          catch (Exception e) {
+            if (! logError(errorMessages, module, e.getMessage()))
+              throw e;
           }
         }
-        else if (target == Target.XSLT)
+        else if (target == ParserImplementation.XSLT)
         {
           String startSymbol = startSymbols[i];
-
+          String moduleNamespace = "de/bottlecaps/railroad/convert/xq/" + module + "/" + module + ".xslt";
+          URL moduleURL = Thread.currentThread().getContextClassLoader().getResource(moduleNamespace);
           String xslt =
             "<?xml version=\"1.0\"?>"+
             "<xsl:stylesheet version=\"2.0\"\n" +
-            "                xmlns:p=\"de/bottlecaps/railroad/convert/xq/" + module + "/" + module + "\"\n" +
+            "                xmlns:p=\"de/bottlecaps/railroad/convert/xq/" + module + "/" + module + ".xslt\"\n" +
+            "                xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"\n" +
             "                xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">\n" +
-            "  <xsl:include href=\"de/bottlecaps/railroad/convert/xq/" + module + "/" + module + ".xslt\"/>" +
+            "  <xsl:include href=\"" + moduleURL + "\"/>" +
             "  <xsl:param name=\"grammar\"/>" +
             "  <xsl:template match=\"/\">\n" +
-            "    <xsl:sequence select=\"p:parse-" + startSymbol + "($grammar)\"/>\n" +
+            "    <xsl:variable name=\"parse-tree\" select=\"p:parse-" + startSymbol + "($grammar)\"/>\n" +
+            "    <xsl:choose>\n" +
+            "      <xsl:when test=\"$parse-tree/self::ERROR\">\n" +
+            "        <xsl:sequence select=\"error(xs:QName('" + module + "'), string($parse-tree))\"/>\n" +
+            "      </xsl:when>\n" +
+            "      <xsl:otherwise>\n" +
+            "        <xsl:sequence select=\"$parse-tree\"/>\n" +
+            "      </xsl:otherwise>\n" +
+            "    </xsl:choose>\n"+
             "  </xsl:template>\n" +
             "</xsl:stylesheet>";
 
-          StreamSource stylesheet = new StreamSource(new StringReader(xslt));
-          TransformerFactory transformerFactory = TransformerFactory.newInstance(SaxonTransformerFactory.class.getName(), Convert.class.getClassLoader());
-          transformerFactory.setURIResolver(ResourceModuleUriResolver.instance);
-          Transformer transformer = transformerFactory.newTransformer(stylesheet);
-          transformer.setURIResolver(ResourceModuleUriResolver.instance);
-
-          Document document = documentBuilder.newDocument();
-          transformer.setParameter("grammar", grammar);
-          transformer.transform(new StreamSource(new StringReader("<input/>")), new DOMResult(document));
-
-          parseTree = document.getDocumentElement();
-
-          if (parseTree.getNodeName().equals(startSymbol))
+          Map<String, Object> parameters = Collections.singletonMap("grammar", grammar);
+          try
           {
-            sensedNotation = module;
-            errorLocation = -1;
-            errorMessages = null;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            defaultXsltProcessor().evaluateXslt(xslt, parameters, baos);
+            parseTree = defaultXQueryProcessor().parseXml(baos.toString(StandardCharsets.UTF_8));
+            successfullyParsedNotation = module;
             break;
           }
-
-          int e = Integer.parseInt(parseTree.getAttribute("e"));
-          errorMessages.log(e, module, parseTree.getTextContent());
-
-          if (e > errorLocation)
-          {
-            sensedNotation = module;
-            errorLocation = e;
+          catch (Exception e) {
+            if (! logError(errorMessages, module, e.getMessage()))
+              throw e;
           }
         }
         else
         {
           Writer writer = new StringWriter();
-          if (llParsers[i] != null)
+          if (parsers[i] instanceof Parser)
           {
-            Parser parser = llParsers[i];
+            Parser parser = (Parser) parsers[i];
             parser.initialize(grammar, new Parser.XmlSerializer(writer, false));
             try
             {
@@ -391,20 +348,14 @@ public class Convert
             }
             catch (Parser.ParseException pe)
             {
-              int e = pe.getEnd();
-              errorMessages.log(e, module, parser.getErrorMessage(pe));
-
-              if (e > errorLocation)
-              {
-                sensedNotation = module;
-                errorLocation = e;
-              }
+              if (! logError(errorMessages, module, parser.getErrorMessage(pe)))
+                  throw pe;
               continue;
             }
           }
           else
           {
-            LRParser parser = lrParsers[i];
+            LRParser parser = (LRParser) parsers[i];
             ParseTreeBuilder treeBuilder = new ParseTreeBuilder();
             parser.initialize(grammar, treeBuilder);
             try
@@ -413,32 +364,21 @@ public class Convert
             }
             catch (LRParser.ParseException pe)
             {
-              int e = pe.getEnd();
-              errorMessages.log(e, module, parser.getErrorMessage(pe));
-
-              if (e > errorLocation)
-              {
-                sensedNotation = module;
-                errorLocation = e;
-              }
+              if (! logError(errorMessages, module, parser.getErrorMessage(pe)))
+                throw pe;
               continue;
             }
             treeBuilder.serialize(new LRParser.XmlSerializer(writer, false));
           }
           writer.flush();
-          Reader reader = new StringReader(writer.toString());
-          InputSource inputSource = new InputSource(reader);
-          Document document = documentBuilder.parse(inputSource);
-          parseTree = document.getDocumentElement();
-          sensedNotation = module;
-          errorLocation = -1;
-          errorMessages = null;
+          parseTree = defaultXQueryProcessor().parseXml(writer.toString());
+          successfullyParsedNotation = module;
           break;
         }
       }
     }
 
-    if (errorLocation >= 0)
+    if (successfullyParsedNotation == null)
     {
       if (! grammar.startsWith("<"))
       {
@@ -446,35 +386,49 @@ public class Convert
       }
       else
       {
-        Document document = documentBuilder.parse(new InputSource(new StringReader(grammar)));
-        parseTree = document.getDocumentElement();
-        sensedNotation = null;
-        errorLocation = -1;
-        errorMessages = null;
+        parseTree = defaultXQueryProcessor().parseXml(grammar);
+        successfullyParsedNotation = null;
       }
     }
 
-    String query;
+    StringBuilder query = new StringBuilder();
     String copyright = VERSION + " which is Copyright (c) 2011-" + YEAR + " by Gunther Rademacher <grd@gmx.net>";
 
-    String toW3c = sensedNotation == null
-        ? "$parse-tree"
-        : "c:" + sensedNotation + "-to-w3c($parse-tree)";
-    String transform = GRAMMAR_REX_5_9.equals(sensedNotation)
+    String toW3c = successfullyParsedNotation == null
+        ? "$parse-tree/*"
+        : "c:" + successfullyParsedNotation + "-to-w3c($parse-tree/*)";
+    String transform = GRAMMAR_REX_5_9.equals(successfullyParsedNotation)
         ? toW3c
         : "t:transform(" + toW3c + ", \"" + xqueryStringEscape(recursionRemoval) + "\", \"" + xqueryStringEscape(factoring) + "\", " + inline + "(), " + keep + "())\n";
-    String render = GRAMMAR_REX_5_9.equals(sensedNotation)
+    String render = GRAMMAR_REX_5_9.equals(successfullyParsedNotation)
         ? "string"
         : "b:render";
-    if (sensedNotation == null)
-      sensedNotation = "w3c";
+    if (successfullyParsedNotation == null)
+      successfullyParsedNotation = "w3c";
+    String[] prefixes = {"c", "e", "x", "t"};
+    String[] namespaces = {
+        "de/bottlecaps/railroad/convert/xq/" + successfullyParsedNotation + "/" + successfullyParsedNotation + "-to-w3c.xq",
+        "de/bottlecaps/railroad/xq/html-to-ebnf.xq",
+        "de/bottlecaps/railroad/convert/xq/to-w3c.xq",
+        "de/bottlecaps/railroad/xq/transform-ast.xq"
+    };
+    for (int i = 0; i < namespaces.length; ++i) {
+      URL moduleURL = Thread.currentThread().getContextClassLoader().getResource(namespaces[i]);
+      query.append("import module namespace ")
+      .append(prefixes[i])
+      .append("='")
+      .append(namespaces[i])
+      .append("' at '")
+      .append(moduleURL)
+      .append("';\n");
+    }
+    Map<String, String> outputOptions;
     if (toXML)
     {
-      query =
-        "import module namespace c=\"de/bottlecaps/railroad/convert/xq/" + sensedNotation + "/" + sensedNotation + "-to-w3c.xq\";\n" +
-        "import module namespace e=\"de/bottlecaps/railroad/xq/html-to-ebnf.xq\";\n" +
-        "import module namespace x=\"de/bottlecaps/railroad/convert/xq/to-w3c.xq\";\n" +
-        "import module namespace t=\"de/bottlecaps/railroad/xq/transform-ast.xq\";\n" +
+      outputOptions = Map.of(
+          "method", "xml",
+          "indent", "yes");
+      query.append(
         "declare namespace g=\"http://www.w3.org/2001/03/XPath/grammar\";\n" +
         "declare variable $parse-tree external;\n" +
         "document\n" +
@@ -482,40 +436,44 @@ public class Convert
         (
           noTimestamp
             ? ""
-            : ("  comment {concat(\" converted on \", e:timestamp(" + tzOffset + "), \" by " + sensedNotation + "-to-w3c " + copyright + " \")},\n")
+            : ("  comment {concat(\" converted on \", e:timestamp(" + tzOffset + "), \" by " + successfullyParsedNotation + "-to-w3c " + copyright + " \")},\n")
         ) +
         "  \"&#xA;\"," +
         "  " + transform +
-        "}";
+        "}");
     }
     else
     {
-      query =
-        "import module namespace c=\"de/bottlecaps/railroad/convert/xq/" + sensedNotation + "/" + sensedNotation + "-to-w3c.xq\";\n" +
-        "import module namespace e=\"de/bottlecaps/railroad/xq/html-to-ebnf.xq\";\n" +
-        "import module namespace b=\"de/bottlecaps/railroad/xq/ast-to-ebnf.xq\";\n" +
-        "import module namespace x=\"de/bottlecaps/railroad/convert/xq/to-w3c.xq\";\n" +
-        "import module namespace t=\"de/bottlecaps/railroad/xq/transform-ast.xq\";\n" +
-        "declare namespace g=\"http://www.w3.org/2001/03/XPath/grammar\";\n" +
-        "declare variable $parse-tree external;\n" +
-        "  concat\n" +
-        "  (\n" +
-        (
-          noTimestamp
-            ? "    \"\","
-            : ("    \"/* converted on \", e:timestamp(" + tzOffset + "), \" by " + sensedNotation + "-to-w3c " + copyright + " */&#xA;&#xA;\",")
-        ) +
-        "    let $ast := " + transform +
-        "    return " + render + "($ast)\n" +
-        "  )";
+      outputOptions = Collections.singletonMap("method", "text");
+      String namespace = "de/bottlecaps/railroad/xq/ast-to-ebnf.xq";
+      URL moduleURL = Thread.currentThread().getContextClassLoader().getResource(namespace);
+      query.append("import module namespace b='")
+        .append(namespace)
+        .append("' at '")
+        .append(moduleURL)
+        .append("';\n")
+        .append(
+          "declare namespace g=\"http://www.w3.org/2001/03/XPath/grammar\";\n" +
+          "declare variable $parse-tree external;\n" +
+          "  concat\n" +
+          "  (\n" +
+          (
+            noTimestamp
+              ? "    \"\","
+              : ("    \"/* converted on \", e:timestamp(" + tzOffset + "), \" by " + successfullyParsedNotation + "-to-w3c " + copyright + " */&#xA;&#xA;\",")
+          ) +
+          "    let $ast := " + transform +
+          "    return " + render + "($ast)\n" +
+          "  )"
+        );
     }
 
     try
     {
-      executable = compiler.compile(query);
-      evaluator = executable.load();
-      evaluator.setExternalVariable(new QName("parse-tree"), processor.newDocumentBuilder().wrap(parseTree));
-      return evaluator.evaluate().toString();
+      return defaultXQueryProcessor()
+        .compile(query.toString())
+        .evaluate(Collections.singletonMap("parse-tree", parseTree))
+        .serializeToString(outputOptions);
     }
     catch (Exception e)
     {
@@ -523,22 +481,34 @@ public class Convert
     }
   }
 
+  private static boolean logError(TreeSet<Error> errorMessages, String converter, String msg) throws Exception {
+    Pattern errorMessagePattern = Pattern.compile("(?s)^.*(?<message>(?:syntax error, found |lexical analysis failed).*at line (?<line>\\d+), column (?<column>\\d+):(?:.*\\.\\.\\.){2}).*$");
+    Matcher matcher = errorMessagePattern.matcher(msg);
+    if (! matcher.matches())
+      return false;
+    String message = matcher.group("message");
+    int line = Integer.parseInt(matcher.group("line"));
+    int column = Integer.parseInt(matcher.group("column"));
+    errorMessages.add(new Error(line, column, converter, message));
+    return true;
+  }
+
   public static class ConvertException extends RuntimeException
   {
     private static final long serialVersionUID = 1L;
-    private ErrorLog errorLog = null;
+    private TreeSet<Error> errorLog = null;
 
     public ConvertException(String message) {super(message);}
 
     public ConvertException(String message, Exception e) {super(message, e);}
 
-    public ConvertException(ErrorLog e)
+    public ConvertException(TreeSet<Error> errorLog)
     {
-      super(e.firstEntry().getValue().message);
-      errorLog = e;
+      super(errorLog.iterator().next().message);
+      this.errorLog = errorLog;
     }
 
-    public ErrorLog getErrorLog() {return errorLog;}
+    public TreeSet<Error> getErrorLog() {return errorLog;}
   }
 
   public static String xqueryStringEscape(String s)
@@ -553,28 +523,29 @@ public class Convert
     return - (c.get(Calendar.ZONE_OFFSET) + c.get(Calendar.DST_OFFSET)) / (60 * 1000);
   }
 
-  public static class ErrorLog extends TreeMap<Integer, ErrorMessage>
+  public static class Error implements Comparable<Error>
   {
-    private static final long serialVersionUID = 1L;
-
-    public void log(int position, String converter, String message)
-    {
-      int key = - position * notations.length + Arrays.binarySearch(notations, converter);
-      put(key, new ErrorMessage(converter, message));
-    }
-  }
-
-  public static class ErrorMessage
-  {
+    int line;
+    int column;
     String converter;
     String message;
 
-    ErrorMessage(String c, String m)
+    public Error(int line, int column, String converter, String message)
     {
-      converter = c;
-      message = m;
+      this.line = line;
+      this.column = column;
+      this.converter = converter;
+      this.message = message;
     }
-  };
+
+    @Override
+    public int compareTo(Error other)
+    {
+      if (line != other.line) return other.line - line;
+      if (column != other.column) return other.column - column;
+      return other.converter.compareTo(converter);
+    }
+  }
 
   private static final class IgnoringEventHandler implements Parser.EventHandler, LRParser.BottomUpEventHandler
   {

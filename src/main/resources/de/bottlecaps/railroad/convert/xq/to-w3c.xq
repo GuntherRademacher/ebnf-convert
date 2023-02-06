@@ -3,8 +3,8 @@
  :)
 module namespace x="de/bottlecaps/railroad/convert/xq/to-w3c.xq";
 
-import module namespace n="de/bottlecaps/railroad/xq/normalize-ast.xq";
-import module namespace b="de/bottlecaps/railroad/xq/ast-to-ebnf.xq";
+import module namespace n="de/bottlecaps/railroad/xq/normalize-ast.xq" at "../../xq/normalize-ast.xq";
+import module namespace b="de/bottlecaps/railroad/xq/ast-to-ebnf.xq" at "../../xq/ast-to-ebnf.xq";
 declare namespace g="http://www.w3.org/2001/03/XPath/grammar";
 
 (:~
@@ -1196,7 +1196,7 @@ declare function x:establish-oneOrMore($node as node()) as node()*
 {
   let $children := n:children($node)
   let $zeroOrMore := ($children/self::g:zeroOrMore)[1]
-  let $zeroOrMore-index := n:index-of-node($children, $zeroOrMore)
+  let $zeroOrMore-index := if (empty($zeroOrMore)) then () else n:index-of-node($children, $zeroOrMore)
   let $zeroOrMore-children := n:children($zeroOrMore)
   let $zeroOrMore-children-count := count($zeroOrMore-children)
   return

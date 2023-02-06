@@ -1,6 +1,6 @@
 module namespace x="de/bottlecaps/railroad/convert/xq/xtext/xtext-to-w3c.xq";
 
-import module namespace n="de/bottlecaps/railroad/xq/normalize-ast.xq";
+import module namespace n="de/bottlecaps/railroad/xq/normalize-ast.xq" at "../../../xq/normalize-ast.xq";
 
 declare namespace g="http://www.w3.org/2001/03/XPath/grammar";
 
@@ -84,10 +84,18 @@ declare function x:rewrite-item($symbol as element()) as element()*
   typeswitch ($symbol)
   case element(Keyword) return
     element g:string {x:unquote($symbol/STRING)}
+  case element(PredicatedKeyword) return
+    element g:string {x:unquote($symbol/STRING)}
   case element(RuleCall) return
     <g:ref name="{x:name($symbol)}"/>
+  case element(PredicatedRuleCall) return
+    <g:ref name="{x:name($symbol/RuleID)}"/>
+  case element(TerminalRuleCall) return
+    <g:ref name="{x:name($symbol)}"/>
   case element(ParenthesizedElement) return
-    x:rewrite-UnorderedGroup($symbol/Alternatives/UnorderedGroup)
+    x:rewrite-ConditionalBranch($symbol/Alternatives/ConditionalBranch)
+  case element(PredicatedGroup) return
+    x:rewrite-ConditionalBranch($symbol/Alternatives/ConditionalBranch)
   case element(ParenthesizedAssignableElement) return
     n:choice
     (
@@ -156,10 +164,15 @@ declare function x:rewrite-item($symbol as element()) as element()*
             $alternative
         return x:render-charClass($alternative)
       }}
-  case element(Wildcard) return
-    <g:ref name="."/>
+  case element(TOKEN) return
+    if ($symbol eq '.') then
+      <g:ref name="."/>
+    else if ($symbol eq 'EOF') then
+      <g:eof/>
+    else
+      error(xs:QName("x:rewrite-item"), concat("invalid node type: ", local-name($symbol), "(", xs:string($symbol), ")"))
   default return
-    error(xs:QName("x:rewrite-item"), concat("invalid node type: ", local-name($symbol)))
+    error(xs:QName("x:rewrite-item"), concat("invalid node type: ", local-name($symbol), "(", xs:string($symbol), ")"))
 };
 
 declare function x:to-char($string as xs:string)
@@ -230,17 +243,17 @@ declare function x:rewrite-AbstractTokenWithCardinality($done as element()*, $to
   else
     let $first := $todo[1]
     return
-    let $symbol := $first/(Assignment/AssignableTerminal, AbstractTerminal)/*[not(self::TOKEN)]
-    let $rewrite := x:rewrite-item($symbol)
-    let $rewrite :=
-      if ($first/TOKEN = "?") then
-        <g:optional>{$rewrite}</g:optional>
-      else if ($first/TOKEN = "+") then
-        <g:oneOrMore>{$rewrite}</g:oneOrMore>
-      else if ($first/TOKEN = "*") then
-        <g:zeroOrMore>{$rewrite}</g:zeroOrMore>
-      else
-        $rewrite
+      let $symbol := $first/(Assignment/AssignableTerminal, AbstractTerminal)/*[not(self::TOKEN)]
+      let $rewrite := x:rewrite-item($symbol)
+      let $rewrite :=
+        if ($first/TOKEN = "?") then
+          <g:optional>{$rewrite}</g:optional>
+        else if ($first/TOKEN = "+") then
+          <g:oneOrMore>{$rewrite}</g:oneOrMore>
+        else if ($first/TOKEN = "*") then
+          <g:zeroOrMore>{$rewrite}</g:zeroOrMore>
+        else
+          $rewrite
     return x:rewrite-AbstractTokenWithCardinality(($done, $rewrite), subsequence($todo, 2))
 };
 
@@ -265,7 +278,7 @@ declare function x:rewrite-TerminalToken($done as element()*, $todo as element(T
       return x:rewrite-TerminalToken(($done, $rewrite), subsequence($todo, 2))
 };
 
-declare function x:rewrite-UnorderedGroup($alternatives as element(UnorderedGroup)+) as element()*
+declare function x:rewrite-ConditionalBranch($alternatives as element(ConditionalBranch)+) as element()*
 {
   n:choice
   ((
@@ -273,9 +286,11 @@ declare function x:rewrite-UnorderedGroup($alternatives as element(UnorderedGrou
     return
       n:wrap-sequence
       (
-        if ($alternative/TOKEN = "&amp;") then
+        if ($alternative/Disjunction) then
+          n:wrap-sequence(x:rewrite-AbstractTokenWithCardinality((), $alternative/AbstractToken/AbstractTokenWithCardinality))
+        else if ($alternative/UnorderedGroup/TOKEN = "&amp;") then
           let $groups :=
-            for $group in $alternative/Group
+            for $group in $alternative/UnorderedGroup/Group
             return n:wrap-sequence(x:rewrite-AbstractTokenWithCardinality((), $group/AbstractToken/AbstractTokenWithCardinality))
           return
             if ($groups/self::g:optional) then
@@ -290,7 +305,7 @@ declare function x:rewrite-UnorderedGroup($alternatives as element(UnorderedGrou
             else
               element g:oneOrMore {n:choice($groups)}
         else
-          n:wrap-sequence(x:rewrite-AbstractTokenWithCardinality((), $alternative/Group/AbstractToken/AbstractTokenWithCardinality))
+          n:wrap-sequence(x:rewrite-AbstractTokenWithCardinality((), $alternative/UnorderedGroup/Group/AbstractToken/AbstractTokenWithCardinality))
       )
   ))
 };
@@ -298,10 +313,23 @@ declare function x:rewrite-UnorderedGroup($alternatives as element(UnorderedGrou
 declare function x:rewrite-TerminalGroup($alternatives as element(TerminalGroup)+) as element()*
 {
   n:choice
-  ((
+  (
     for $alternative in $alternatives
     return n:wrap-sequence(x:rewrite-TerminalToken((), $alternative/TerminalToken))
-  ))
+  )
+};
+
+declare function x:rewrite-EnumLiteralDeclaration($alternatives as element(EnumLiteralDeclaration)+) as element()*
+{
+  n:choice
+  (
+    for $alternative in $alternatives
+    return
+      if ($alternative/Keyword) then
+        element g:string {x:unquote($alternative/Keyword/STRING)}
+      else
+        element g:string {string($alternative/ValidID)}
+  )
 };
 
 declare function x:name($name)
@@ -314,11 +342,17 @@ declare function x:xtext-to-w3c($parse-tree as element(Grammar)) as element(g:gr
   element g:grammar
   {
     for $p in $parse-tree/AbstractRule/ParserRule
-    return <g:production name="{x:name($p/ID)}">{x:rewrite-UnorderedGroup($p/Alternatives/UnorderedGroup)}</g:production>,
+    return <g:production name="{x:name($p/RuleNameAndParams/ValidID)}">{x:rewrite-ConditionalBranch($p/Alternatives/ConditionalBranch)}</g:production>,
 
     processing-instruction TOKENS{},
 
-    for $p in $parse-tree/AbstractRule/TerminalRule
-    return <g:production name="{x:name($p/ID)}">{x:rewrite-TerminalGroup($p/TerminalAlternatives/TerminalGroup)}</g:production>
+    for $p in $parse-tree/AbstractRule/(TerminalRule|EnumRule)
+    return
+      <g:production name="{x:name($p/ValidID)}">{
+        if ($p/self::TerminalRule) then
+          x:rewrite-TerminalGroup($p/TerminalAlternatives/TerminalGroup)
+        else
+          x:rewrite-EnumLiteralDeclaration($p/EnumLiterals/EnumLiteralDeclaration)
+      }</g:production>
   }
 };

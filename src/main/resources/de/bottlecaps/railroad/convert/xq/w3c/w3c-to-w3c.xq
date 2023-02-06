@@ -1,7 +1,7 @@
 module namespace x="de/bottlecaps/railroad/convert/xq/w3c/w3c-to-w3c.xq";
 
-import module namespace a="de/bottlecaps/railroad/xq/cst-to-ast.xq" at "cst-to-ast.xq";
-import module namespace n="de/bottlecaps/railroad/xq/normalize-ast.xq" at "normalize-ast.xq";
+import module namespace a="de/bottlecaps/railroad/xq/cst-to-ast.xq" at "../../../xq/cst-to-ast.xq";
+import module namespace n="de/bottlecaps/railroad/xq/normalize-ast.xq" at "../../../xq/normalize-ast.xq";
 
 declare namespace g="http://www.w3.org/2001/03/XPath/grammar";
 

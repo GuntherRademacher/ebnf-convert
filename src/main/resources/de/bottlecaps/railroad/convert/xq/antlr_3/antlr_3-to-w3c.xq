@@ -1,6 +1,6 @@
 module namespace p="de/bottlecaps/railroad/convert/xq/antlr_3/antlr_3-to-w3c.xq";
 
-import module namespace t="de/bottlecaps/railroad/convert/xq/to-w3c.xq";
+import module namespace t="de/bottlecaps/railroad/convert/xq/to-w3c.xq" at "../to-w3c.xq";
 declare namespace g="http://www.w3.org/2001/03/XPath/grammar";
 
 declare function p:to-char($string as xs:string)

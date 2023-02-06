@@ -21,7 +21,7 @@ module namespace p="de/bottlecaps/railroad/convert/xq/gold/gold-to-w3c.xq";
         Op_Assign
                ::= Op_If ( Op_If '=' | Op_If '+=' | Op_If '-=' | Op_If '*=' | Op_If '/=' | Op_If '^=' | Op_If '&=' | Op_If '|=' | Op_If '>>=' | Op_If '<<=' )*
 
-  - verify we can pars
+  - verify we can parse
 
         int test_inc1(void a)
         {
@@ -39,8 +39,8 @@ module namespace p="de/bottlecaps/railroad/convert/xq/gold/gold-to-w3c.xq";
 
 :)
 
-import module namespace q="de/bottlecaps/railroad/convert/xq/gold/gold.xquery";
-import module namespace t="de/bottlecaps/railroad/convert/xq/to-w3c.xq";
+import module namespace q="de/bottlecaps/railroad/convert/xq/gold/gold.xquery" at "gold.xquery";
+import module namespace t="de/bottlecaps/railroad/convert/xq/to-w3c.xq" at "../to-w3c.xq";
 
 declare namespace g="http://www.w3.org/2001/03/XPath/grammar";
 

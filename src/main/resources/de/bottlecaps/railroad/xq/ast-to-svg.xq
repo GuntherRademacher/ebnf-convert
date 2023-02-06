@@ -14,7 +14,7 @@ declare namespace g="http://www.w3.org/2001/03/XPath/grammar";
 declare namespace svg="http://www.w3.org/2000/svg";
 declare namespace xlink="http://www.w3.org/1999/xlink";
 declare namespace xhtml="http://www.w3.org/1999/xhtml";
-declare namespace text-width="TextWidth";
+declare namespace xf="de/bottlecaps/railroad/core/ExtensionFunctions";
 
 declare variable $s:logo-color := "#FFCC00";
 
@@ -238,9 +238,9 @@ declare function s:style($color as xs:string, $spread as xs:integer)
 declare function s:text-width($text as xs:string, $font-weight as xs:string) as xs:integer
 {
   if ($font-weight eq "bold") then
-    text-width:bold($text)
+    xf:text-width-bold($text)
   else
-    text-width:normal($text)
+    xf:text-width-normal($text)
 };
 
 (:~
@@ -1012,15 +1012,16 @@ declare function s:render-production($p as element(g:production)) as node()*
 };
 
 (:~
- : Return an SVG element for being include in the XHTML head, containing
+ : Return an SVG element for being included in the XHTML head, containing
  : the SVG defs for the graphics to come.
  :
  : @param $color the base color code.
+ : @param $spread the hue offset.
  : @return the svg element containing the defs.
  :)
-declare function s:defs($color as xs:string)
+declare function s:defs($color as xs:string, $spread as xs:integer)
 {
-  <svg xmlns="http://www.w3.org/2000/svg"><defs>{s:style($color, 0)}</defs></svg>
+  <svg xmlns="http://www.w3.org/2000/svg"><defs>{s:style($color, $spread)}</defs></svg>
 };
 
 (:~
@@ -1040,9 +1041,10 @@ declare function s:defs($color as xs:string)
  : @param $page-width where to break for a new line, in pixels.
  : @param $color the base color code.
  : @param $spread the hue offset.
+ : @param $with-defs whether to include svg:defs.
  : @return the corresponding graphics element.
  :)
-declare function s:convert-to-svg($p as element(g:production), $page-width as xs:integer, $color as xs:string, $spread as xs:integer) as element(svg:svg)
+declare function s:convert-to-svg($p as element(g:production), $page-width as xs:integer, $color as xs:string, $spread as xs:integer, $with-defs as xs:boolean) as element(svg:svg)
 {
   let $normalized := n:normalize($p)
   let $rendered := s:line-break($page-width, 0, 0, (), (), s:render-production(n:introduce-separators($normalized)))
@@ -1053,8 +1055,8 @@ declare function s:convert-to-svg($p as element(g:production), $page-width as xs
     <svg xmlns="http://www.w3.org/2000/svg"
          xmlns:xlink="http://www.w3.org/1999/xlink"
          width="{$width + 1}" height="{$height + 1}">
-      <defs>{s:style($color, $spread)}</defs>
       {
+        <defs>{s:style($color, $spread)}</defs>[$with-defs],
         s:translate(1 - xs:integer($dimensions/@x1), 1 - xs:integer($dimensions/@y1), $rendered)
       }
     </svg>
@@ -1297,7 +1299,7 @@ declare function s:combine-path($node)
       if (not($node is $paths[last()])) then
         ()
       else
-        element svg:path
+        element path
         {
           $node/@class,
           attribute d
@@ -1427,14 +1429,17 @@ declare function s:process-annotations($nodes as node()*) as node()*
  : Construct standard xhtml head entries.
  :
  : @param $color the color code.
+ : @param $spread the hue offset.
+ : @param $page-width the page width.
+ : @param $extra-css additional css:style content.
  : @return the list of standard xhtml head entries.
  :)
-declare function s:head($color as xs:string, $page-width as xs:integer?) as element()+
+declare function s:head($color as xs:string, $spread as xs:integer, $page-width as xs:integer?, $extra-css as xs:string?) as element()+
 {
   <meta http-equiv="Content-Type" content="application/xhtml+xml" xmlns="http://www.w3.org/1999/xhtml"/>,
   <meta name="generator" content="Railroad Diagram Generator {$s:version}" xmlns="http://www.w3.org/1999/xhtml"/>,
-  style:css($color, $page-width),
-  s:defs($color)
+  <style type="text/css" xmlns="http://www.w3.org/1999/xhtml">{style:css($color, $page-width), $extra-css}</style>,
+  s:defs($color, $spread)
 };
 
 (:~
@@ -1448,10 +1453,11 @@ declare function s:head($color as xs:string, $page-width as xs:integer?) as elem
  : @param $page-width where to break for a new line, in pixels.
  : @param $color the base color code.
  : @param $spread the hue offset.
+ : @param $with-defs whether to include svg:defs.
  : @param $uri the rr generator link.
  : @return a list of XHTML elements and processing-instructions.
  :)
-declare function s:svg($grammar as element(g:grammar), $showEbnf as xs:boolean, $page-width as xs:integer, $color as xs:string, $spread as xs:integer, $uri as xs:string) as node()*
+declare function s:svg($grammar as element(g:grammar), $showEbnf as xs:boolean, $page-width as xs:integer, $color as xs:string, $spread as xs:integer, $with-defs as xs:boolean, $uri as xs:string) as node()*
 {
   let $g := n:group-productions-by-nonterminal($grammar)
   let $productions := $g//g:production
@@ -1463,46 +1469,46 @@ declare function s:svg($grammar as element(g:grammar), $showEbnf as xs:boolean, 
     for $production in $productions
     let $p := s:process-annotations($production)
     let $anchor := data($p/@name)
-    let $svg := s:combine-paths(s:convert-to-svg($p, $page-width, $color, $spread))
+    let $svg := s:combine-paths(s:convert-to-svg($p, $page-width, $color, $spread, $with-defs))
     let $references :=
       for $ref in $g/g:production[.//g:ref/@name = $anchor]/@name
       order by $ref
       return data($ref)
     return
     (
-      <xhtml:p style="font-size: {$s:font-size + 2}px; font-weight:bold"><xhtml:a name="{$anchor}">{$anchor}:</xhtml:a></xhtml:p>,
+      <p xmlns="http://www.w3.org/1999/xhtml" style="font-size: {$s:font-size + 2}px; font-weight:bold"><a name="{$anchor}">{$anchor}:</a></p>,
       $svg,
       if ($showEbnf) then
-        <xhtml:p><xhtml:div class="ebnf"><xhtml:code>{b:render-as-html(n:strip-pi($p), namespace-uri(<xhtml:a/>))}</xhtml:code></xhtml:div></xhtml:p>
+        <p xmlns="http://www.w3.org/1999/xhtml"><div class="ebnf"><code>{b:render-as-html(n:strip-pi($p), namespace-uri(<a/>))}</code></div></p>
       else
         (),
-      <xhtml:p>
+      <p xmlns="http://www.w3.org/1999/xhtml">
         {
           if (empty($references)) then
             "no references"
           else
           (
             "referenced by:",
-            <xhtml:ul>{
+            <ul>{
               for $r in $references
-              return <xhtml:li><xhtml:a href="#{$r}" title="{$r}">{$r}</xhtml:a></xhtml:li>
-            }</xhtml:ul>
+              return <li><a href="#{$r}" title="{$r}">{$r}</a></li>
+            }</ul>
           )
         }
-      </xhtml:p>,
-      <xhtml:br/>
+      </p>,
+      <br xmlns="http://www.w3.org/1999/xhtml"/>
     ),
-    <xhtml:hr/>,
-    <xhtml:p>
-      <xhtml:table border="0" class="signature">
-        <xhtml:tr>
-          <xhtml:td style="width: 100%">&#xA0;</xhtml:td>
-          <xhtml:td valign="top">
-            <xhtml:nobr class="signature">... generated by <xhtml:a name="Railroad-Diagram-Generator" class="signature" title="{$uri}" href="{$uri}" target="_blank">RR - Railroad Diagram Generator</xhtml:a></xhtml:nobr>
-          </xhtml:td>
-          <xhtml:td><xhtml:a name="Railroad-Diagram-Generator" title="{$uri}" href="{$uri}" target="_blank">{s:traffic-sign(16)}</xhtml:a></xhtml:td>
-        </xhtml:tr>
-      </xhtml:table>
-    </xhtml:p>
+    <hr xmlns="http://www.w3.org/1999/xhtml"/>,
+    <p xmlns="http://www.w3.org/1999/xhtml">
+      <table border="0" class="signature">
+        <tr>
+          <td style="width: 100%">&#xA0;</td>
+          <td valign="top">
+            <nobr class="signature">... generated by <a name="Railroad-Diagram-Generator" class="signature" title="{$uri}" href="{$uri}" target="_blank">RR - Railroad Diagram Generator</a></nobr>
+          </td>
+          <td><a name="Railroad-Diagram-Generator" title="{$uri}" href="{$uri}" target="_blank">{s:traffic-sign(16)}</a></td>
+        </tr>
+      </table>
+    </p>
   )
 };

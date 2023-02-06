@@ -9,6 +9,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 
 import javax.servlet.ServletException;
@@ -20,6 +21,7 @@ import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 
+import de.bottlecaps.railroad.convert.Convert.Error;
 import de.bottlecaps.railroad.core.Download;
 import de.bottlecaps.webapp.servlet.ServletRequest;
 
@@ -27,6 +29,7 @@ import de.bottlecaps.webapp.servlet.ServletRequest;
  * The converter servlet for pegjs grammars. Handle POST request to
  * receive grammars, and return W3C-style EBNF wrapped in an HTML page.
  */
+@SuppressWarnings("deprecation")
 public class ConvertServlet extends HttpServlet
 {
   private static final String DOWNLOAD_FILENAME =
@@ -35,12 +38,13 @@ public class ConvertServlet extends HttpServlet
           "-java" + Download.javaVersion() +
           ".zip";
   private static final String DOWNLOAD_PATH =
-		  "/download/" + 
-		  DOWNLOAD_FILENAME;
-  
+          "/download/" +
+          DOWNLOAD_FILENAME;
+
   private static final long serialVersionUID = 1L;
   private static final String GRAMMAR = "grammar";
   private static final String TARGET = "target";
+  private static final String TEXT_HTML = "text/html";
   private static final String TEXT_PLAIN = "text/plain";
   private static final String UTF_8 = "UTF-8";
 
@@ -102,7 +106,7 @@ public class ConvertServlet extends HttpServlet
     String pathInfo = request.getPathInfo();
 
     ServletRequest servletRequest = new ServletRequest(request);
-	if (pathInfo.equals(DOWNLOAD_PATH) && Download.warFile(servletRequest) != null)
+    if (pathInfo.equals(DOWNLOAD_PATH) && Download.warFile(servletRequest) != null)
     {
       response.setStatus(200);
       response.setContentType("application/zip");
@@ -111,12 +115,14 @@ public class ConvertServlet extends HttpServlet
       Download.distZip(
             (out, warName) -> Convert.usage(out, warName),
             license -> license.replaceAll("RR - Railroad Diagram Generator", "Convert - Grammar Converter"),
-	        Download.warFile(servletRequest),
-    		outputStream);
+            Download.warFile(servletRequest),
+            outputStream);
     }
     else if (pathInfo.equals("") || pathInfo.equals("/"))
     {
       String page = getHtmlPage(pathInfo, response, DEFAULT_PARAMETERS);
+      response.setContentType(TEXT_HTML);
+      response.setCharacterEncoding(UTF_8);
       response.getWriter().write(page);
     }
     else
@@ -218,7 +224,7 @@ public class ConvertServlet extends HttpServlet
       boolean keep = parameters.get("keep") != null;
       String recursionRemoval = parameters.get("recursion") == null ? "none" : "full";
 
-      ebnfGrammar = Convert.convert(null, parameters.get(GRAMMAR), tzOffset, xml, recursionRemoval, factoring, inline, keep, Convert.Target.JAVA, false, false);
+      ebnfGrammar = Convert.convert(null, parameters.get(GRAMMAR), tzOffset, xml, recursionRemoval, factoring, inline, keep, Convert.ParserImplementation.JAVA, false, false);
 
       if (xml)
       {
@@ -260,7 +266,7 @@ public class ConvertServlet extends HttpServlet
     {
       ebnfGrammar = null;
 
-      Convert.ErrorLog log = c.getErrorLog();
+      TreeSet<Error> log = c.getErrorLog();
       if (log == null)
       {
         fragment =
@@ -271,7 +277,7 @@ public class ConvertServlet extends HttpServlet
       {
         fragment = "";
         int i = 0;
-        for (Convert.ErrorMessage m : log.values())
+        for (Convert.Error m : log)
         {
           fragment += m.converter + "-to-w3c conversion failed:\n<br/>" +
             "<pre style=\"left-margin: 30px;\">" + escapeErrorMessage(m.message) + "</pre>\n" +
@@ -305,6 +311,8 @@ public class ConvertServlet extends HttpServlet
     String resultPage = getHtmlPage("/", response, parameters);
     resultPage = resultPage.replaceFirst("<textarea name=\\\"grammar\\\"></textarea>", Matcher.quoteReplacement("<textarea name=\"grammar\">" + parameters.get(GRAMMAR) + "</textarea>"));
     resultPage = resultPage.replaceFirst("<p class=\"result\"/>", Matcher.quoteReplacement(fragment));
+    response.setContentType(TEXT_HTML);
+    response.setCharacterEncoding(UTF_8);
     response.getWriter().write(resultPage);
   }
 

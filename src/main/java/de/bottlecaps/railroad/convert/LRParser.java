@@ -1,5 +1,5 @@
-// This file was generated on Sun Mar 22, 2020 10:35 (UTC+01) by REx v5.50 which is Copyright (c) 1979-2019 by Gunther Rademacher <grd@gmx.net>
-// REx command line: -interface lib.LRParser -lalr 1 -java -saxon -tree -main
+// This file was generated on Sat Jan 7, 2023 15:53 (UTC+01) by REx v5.56 which is Copyright (c) 1979-2022 by Gunther Rademacher <grd@gmx.net>
+// REx command line: -interface de.bottlecaps.railroad.convert.LRParser -glalr 1 -java -saxon -tree -main
 
 package de.bottlecaps.railroad.convert;
 
@@ -16,6 +16,7 @@ import net.sf.saxon.s9api.Location;
 import net.sf.saxon.om.NoNamespaceName;
 import net.sf.saxon.trans.XPathException;
 import net.sf.saxon.type.AnyType;
+import net.sf.saxon.str.StringView;
 
 public interface LRParser
 {
@@ -28,6 +29,8 @@ public interface LRParser
   {
     private static final long serialVersionUID = 1L;
     private int begin, end, offending, expected, state;
+    private boolean ambiguousInput;
+    private ParseTreeBuilder ambiguityDescriptor;
 
     public ParseException(int b, int e, int s, int o, int x)
     {
@@ -36,18 +39,29 @@ public interface LRParser
       state = s;
       offending = o;
       expected = x;
+      ambiguousInput = false;
+    }
+
+    public ParseException(int b, int e, ParseTreeBuilder ambiguityDescriptor)
+    {
+      this(b, e, 1, -1, -1);
+      ambiguousInput = true;
+      this.ambiguityDescriptor = ambiguityDescriptor;
     }
 
     @Override
     public String getMessage()
     {
-      return offending < 0
+      return ambiguousInput
+           ? "ambiguous input"
+           : offending < 0
            ? "lexical analysis failed"
            : "syntax error";
     }
 
     public void serialize(EventHandler eventHandler)
     {
+      ambiguityDescriptor.serialize(eventHandler);
     }
 
     public int getBegin() {return begin;}
@@ -55,7 +69,7 @@ public interface LRParser
     public int getState() {return state;}
     public int getOffending() {return offending;}
     public int getExpected() {return expected;}
-    public boolean isAmbiguousInput() {return false;}
+    public boolean isAmbiguousInput() {return ambiguousInput;}
   }
 
   public interface EventHandler
@@ -383,7 +397,7 @@ public interface LRParser
       {
         try
         {
-          builder.characters(input.subSequence(begin, end), LOCATION, 0);
+          builder.characters(StringView.of(input.subSequence(begin, end).toString()), LOCATION, 0);
         }
         catch (XPathException e)
         {
@@ -396,8 +410,8 @@ public interface LRParser
   public static class ParseTreeBuilder implements BottomUpEventHandler
   {
     private CharSequence input;
-    private Symbol[] stack = new Symbol[64];
-    private int top = -1;
+    public Symbol[] stack = new Symbol[64];
+    public int top = -1;
 
     @Override
     public void reset(CharSequence input)
@@ -409,6 +423,16 @@ public interface LRParser
     @Override
     public void nonterminal(String name, int begin, int end, int count)
     {
+      if (count > top + 1)
+      {
+        Symbol[] content = pop(top + 1);
+        nonterminal("UNAMBIGUOUS", begin, content.length == 0 ? end : content[0].begin, 0);
+        for (Symbol symbol : content)
+        {
+          push(symbol);
+        }
+        count = top + 1;
+      }
       push(new Nonterminal(name, begin, end, pop(count)));
     }
 
@@ -427,7 +451,7 @@ public interface LRParser
       }
     }
 
-    private void push(Symbol s)
+    public void push(Symbol s)
     {
       if (++top >= stack.length)
       {
@@ -436,7 +460,7 @@ public interface LRParser
       stack[top] = s;
     }
 
-    private Symbol[] pop(int count)
+    public Symbol[] pop(int count)
     {
       top -= count;
       return Arrays.copyOfRange(stack, top + 1, top + count + 1);

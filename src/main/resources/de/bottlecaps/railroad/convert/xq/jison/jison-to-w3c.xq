@@ -1,6 +1,6 @@
 module namespace x="de/bottlecaps/railroad/convert/xq/jison/jison-to-w3c.xq";
 
-import module namespace t="de/bottlecaps/railroad/convert/xq/to-w3c.xq";
+import module namespace t="de/bottlecaps/railroad/convert/xq/to-w3c.xq" at "../to-w3c.xq";
 
 declare namespace g="http://www.w3.org/2001/03/XPath/grammar";
 

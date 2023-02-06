@@ -1,10 +1,10 @@
-// This file was generated on Fri May 1, 2020 11:22 (UTC+02) by REx v5.50 which is Copyright (c) 1979-2020 by Gunther Rademacher <grd@gmx.net>
-// REx command line: -lalr 4 -tree -a none -java -interface de.bottlecaps.railroad.convert.LRParser -saxon10 -name de.bottlecaps.railroad.convert.instaparse.Instaparse instaparse.ebnf
+// This file was generated on Sat Jan 7, 2023 21:30 (UTC+01) by REx v5.56 which is Copyright (c) 1979-2022 by Gunther Rademacher <grd@gmx.net>
+// REx command line: -lalr 4 -tree -a none -java -interface de.bottlecaps.railroad.convert.LRParser -basex -saxon -name de.bottlecaps.railroad.convert.instaparse.Instaparse instaparse.ebnf
 
 package de.bottlecaps.railroad.convert.instaparse;
 
+import java.io.IOException;
 import java.util.Arrays;
-
 import java.util.ArrayList;
 import java.util.List;
 import net.sf.saxon.Configuration;
@@ -22,6 +22,16 @@ import net.sf.saxon.trans.XPathException;
 import net.sf.saxon.type.AnySimpleType;
 import net.sf.saxon.type.AnyType;
 import net.sf.saxon.value.SequenceType;
+import net.sf.saxon.str.StringView;
+import org.basex.build.MemBuilder;
+import org.basex.build.SingleParser;
+import org.basex.core.MainOptions;
+import org.basex.io.IOContent;
+import org.basex.query.value.item.Str;
+import org.basex.query.value.node.ANode;
+import org.basex.query.value.node.DBNode;
+import org.basex.util.Atts;
+import org.basex.util.Token;
 
 public class Instaparse implements de.bottlecaps.railroad.convert.LRParser
 {
@@ -69,7 +79,7 @@ public class Instaparse implements de.bottlecaps.railroad.convert.LRParser
     abstract Sequence execute(XPathContext context, String input) throws XPathException;
 
     @Override
-    public StructuredQName getFunctionQName() {return new StructuredQName("p", "Instaparse", functionName());}
+    public StructuredQName getFunctionQName() {return new StructuredQName("p", "de/bottlecaps/railroad/convert/instaparse/Instaparse", functionName());}
     @Override
     public SequenceType[] getArgumentTypes() {return new SequenceType[] {SequenceType.SINGLE_STRING};}
     @Override
@@ -108,8 +118,148 @@ public class Instaparse implements de.bottlecaps.railroad.convert.LRParser
       attributes.add(new AttributeInfo(new NoNamespaceName("x"), anySimpleType, Integer.toString(pe.getExpected()), LOCATION, 0));
     }
     builder.startElement(new NoNamespaceName("ERROR"), AnyType.getInstance(), new SmallAttributeMap(attributes), NO_NAMESPACES, LOCATION, 0);
-    builder.characters(parser.getErrorMessage(pe), LOCATION, 0);
+    builder.characters(StringView.of(parser.getErrorMessage(pe)), LOCATION, 0);
     builder.endElement();
+  }
+
+  public static ANode parseRules(Str str) throws IOException
+  {
+    BaseXFunction baseXFunction = new BaseXFunction()
+    {
+      @Override
+      public void execute(Instaparse p) {p.parse_rules();}
+    };
+    return baseXFunction.call(str);
+  }
+
+  public static abstract class BaseXFunction
+  {
+    protected abstract void execute(Instaparse p);
+
+    public ANode call(Str str) throws IOException
+    {
+      String input = str.toJava();
+      SingleParser singleParser = new SingleParser(new IOContent(""), new MainOptions())
+      {
+        @Override
+        protected void parse() throws IOException {}
+      };
+      MemBuilder memBuilder = new MemBuilder(input, singleParser);
+      memBuilder.init();
+      BaseXTreeBuilder treeBuilder = new BaseXTreeBuilder(memBuilder);
+      ParseTreeBuilder bottomUpTreeBuilder = new ParseTreeBuilder();
+      Instaparse parser = new Instaparse();
+      parser.initialize(input, bottomUpTreeBuilder);
+      try
+      {
+        execute(parser);
+        bottomUpTreeBuilder.serialize(treeBuilder);
+      }
+      catch (ParseException pe)
+      {
+        memBuilder = new MemBuilder(input, singleParser);
+        memBuilder.init();
+        Atts atts = new Atts();
+        atts.add(Token.token("b"), Token.token(pe.getBegin() + 1));
+        atts.add(Token.token("e"), Token.token(pe.getEnd() + 1));
+        if (pe.getOffending() < 0)
+        {
+          atts.add(Token.token("s"), Token.token(pe.getState()));
+        }
+        else
+        {
+          atts.add(Token.token("o"), Token.token(pe.getOffending()));
+          atts.add(Token.token("x"), Token.token(pe.getExpected()));
+        }
+        memBuilder.openElem(Token.token("ERROR"), atts, new Atts());
+        memBuilder.text(Token.token(parser.getErrorMessage(pe)));
+        memBuilder.closeElem();
+      }
+      return new DBNode(memBuilder.data());
+    }
+  }
+
+  public static class BaseXTreeBuilder implements EventHandler
+  {
+    private CharSequence input;
+    private MemBuilder builder;
+    private Atts nsp = new Atts();
+    private Atts atts = new Atts();
+
+    public BaseXTreeBuilder(MemBuilder b)
+    {
+      input = null;
+      builder = b;
+    }
+
+    @Override
+    public void reset(CharSequence string)
+    {
+      input = string;
+    }
+
+    @Override
+    public void startNonterminal(String name, int begin)
+    {
+      try
+      {
+        builder.openElem(Token.token(name), atts, nsp);
+      }
+      catch (IOException e)
+      {
+        throw new RuntimeException(e);
+      }
+    }
+
+    @Override
+    public void endNonterminal(String name, int end)
+    {
+      try
+      {
+        builder.closeElem();
+      }
+      catch (IOException e)
+      {
+        throw new RuntimeException(e);
+      }
+    }
+
+    @Override
+    public void terminal(String name, int begin, int end)
+    {
+      if (name.charAt(0) == '\'')
+      {
+        name = "TOKEN";
+      }
+      startNonterminal(name, begin);
+      characters(begin, end);
+      endNonterminal(name, end);
+    }
+
+    @Override
+    public void whitespace(int begin, int end)
+    {
+      characters(begin, end);
+    }
+
+    private void characters(int begin, int end)
+    {
+      if (begin < end)
+      {
+        try
+        {
+          builder.text(Token.token(input.subSequence(begin, end).toString()));
+        }
+        catch (IOException e)
+        {
+          throw new RuntimeException(e);
+        }
+      }
+    }
+  }
+
+  public Instaparse()
+  {
   }
 
   public Instaparse(CharSequence string, BottomUpEventHandler t)

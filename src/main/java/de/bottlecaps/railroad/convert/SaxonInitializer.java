@@ -6,6 +6,7 @@ import de.bottlecaps.railroad.convert.antlr_4.Antlr_4;
 import de.bottlecaps.railroad.convert.bison.Bison;
 import de.bottlecaps.railroad.convert.gold.Gold;
 import de.bottlecaps.railroad.convert.instaparse.Instaparse;
+import de.bottlecaps.railroad.convert.ixml.IXML;
 import de.bottlecaps.railroad.convert.javacc.Javacc;
 import de.bottlecaps.railroad.convert.jison.Jison;
 import de.bottlecaps.railroad.convert.pegjs.Pegjs;
@@ -29,6 +30,7 @@ public class SaxonInitializer implements Initializer
     new Bison.SaxonInitializer().initialize(config);
     new Gold.SaxonInitializer().initialize(config);
     new Instaparse.SaxonInitializer().initialize(config);
+    new IXML.SaxonInitializer().initialize(config);
     new Javacc.SaxonInitializer().initialize(config);
     new Jison.SaxonInitializer().initialize(config);
     new Pegjs.SaxonInitializer().initialize(config);

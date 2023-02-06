@@ -1,5 +1,5 @@
-// This file was generated on Tue Apr 14, 2020 13:26 (UTC+02) by REx v5.50 which is Copyright (c) 1979-2020 by Gunther Rademacher <grd@gmx.net>
-// REx command line: -interface lib.Parser -java -saxon -tree -main
+// This file was generated on Sat Jan 7, 2023 15:53 (UTC+01) by REx v5.56 which is Copyright (c) 1979-2022 by Gunther Rademacher <grd@gmx.net>
+// REx command line: -interface de.bottlecaps.railroad.convert.Parser -java -saxon -tree -main
 
 package de.bottlecaps.railroad.convert;
 
@@ -16,6 +16,7 @@ import net.sf.saxon.s9api.Location;
 import net.sf.saxon.om.NoNamespaceName;
 import net.sf.saxon.trans.XPathException;
 import net.sf.saxon.type.AnyType;
+import net.sf.saxon.str.StringView;
 
 public interface Parser
 {
@@ -376,7 +377,7 @@ public interface Parser
       {
         try
         {
-          builder.characters(input.subSequence(begin, end), LOCATION, 0);
+          builder.characters(StringView.of(input.subSequence(begin, end).toString()), LOCATION, 0);
         }
         catch (XPathException e)
         {

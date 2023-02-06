@@ -1,10 +1,10 @@
 xquery version "1.0" encoding "UTF-8";
 
-(: This file was generated on Sat Jan 25, 2020 22:59 (UTC+01) by REx v5.50 which is Copyright (c) 1979-2019 by Gunther Rademacher <grd@gmx.net> :)
-(: REx command line: -tree -a none -xquery -name de/bottlecaps/railroad/convert/xq/regexp/regexp.xquery regexp.ebnf :)
+(: This file was generated on Wed Dec 21, 2022 23:19 (UTC+01) by REx v5.56 which is Copyright (c) 1979-2022 by Gunther Rademacher <grd@gmx.net> :)
+(: REx command line: -tree -a none -xquery -name de/bottlecaps/railroad/convert/xq/regexp/regexp.xquery ..\..\..\..\..\..\..\..\main\java\de\bottlecaps\railroad\convert\regexp\regexp.ebnf :)
 
 (:~
- : The parser that was generated for the regexp grammar.
+ : The parser that was generated for the de/bottlecaps/railroad/convert/xq/regexp/regexp.xquery grammar.
  :)
 module namespace p="de/bottlecaps/railroad/convert/xq/regexp/regexp.xquery";
 declare default function namespace "http://www.w3.org/2005/xpath-functions";

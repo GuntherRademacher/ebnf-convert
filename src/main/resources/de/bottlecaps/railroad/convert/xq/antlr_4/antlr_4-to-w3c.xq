@@ -1,7 +1,7 @@
 module namespace p="de/bottlecaps/railroad/convert/xq/antlr_4/antlr_4-to-w3c.xq";
 
-import module namespace t="de/bottlecaps/railroad/convert/xq/to-w3c.xq";
-import module namespace b="de/bottlecaps/railroad/xq/ast-to-ebnf.xq";
+import module namespace t="de/bottlecaps/railroad/convert/xq/to-w3c.xq" at "../to-w3c.xq";
+import module namespace b="de/bottlecaps/railroad/xq/ast-to-ebnf.xq" at "../../../xq/ast-to-ebnf.xq";
 declare namespace g="http://www.w3.org/2001/03/XPath/grammar";
 
 declare function p:to-char($string as xs:string)
@@ -191,6 +191,8 @@ declare function p:rewrite-item($item as element())
     <g:complement>{<g:charClass>{($item/notSet/setElement, $item/notSet/blockSet/setElement)/*!p:render-charClass(.)}</g:charClass>}</g:complement>
   else if ($item/self::lexerAtom/wildcard) then
     <g:ref name="."/>
+  else if ($item/self::atom/wildcard) then
+    <g:ref name="_any_token"/>
   else if ($item/self::lexerAtom/LEXER_CHAR_SET) then
     <g:charClass>{$item/LEXER_CHAR_SET/LEXER_CHAR_RANGE!p:rewrite-item(.)}</g:charClass>
   else if ($item/self::LEXER_CHAR_RANGE) then
@@ -319,9 +321,9 @@ declare function p:rewrite-lexer-choice($alt as element(lexerElements)+)
       $choice/*
 };
 
-declare function p:isToken($p)
+declare function p:isToken($name)
 {
-  let $initial := substring($p/@name, 1, 1)
+  let $initial := substring($name, 1, 1)
   return $initial eq upper-case($initial)
 };
 
@@ -502,8 +504,8 @@ declare function p:antlr_4-to-w3c($parse-tree)
       }
       </g:grammar>
     )/g:production
-  let $syntax-productions := $productions[not(p:isToken(.))]
-  let $tokens-productions := $productions[    p:isToken(.) ]
+  let $syntax-productions := $productions[not(p:isToken(@name))]
+  let $tokens-productions := $productions[    p:isToken(@name) ]
 
   let $ignore-production :=
     let $whitespace :=
@@ -522,24 +524,30 @@ declare function p:antlr_4-to-w3c($parse-tree)
       </g:production>
 
   let $syntax-productions := ($syntax-productions, $ignore-production)
-  let $productions := ($syntax-productions, $tokens-productions)
 
+  let $tokens :=
+    for $t in distinct-values($syntax-productions//g:ref/@name)[p:isToken(.) and not(. = ("_any_token", "EOF"))]
+    order by $t
+    return <g:production name="{$t}"></g:production>
   let $strings :=
     for $d in distinct-values($syntax-productions//g:string)
+    order by $d
     return <g:string>{$d}</g:string>
 
-  let $nonterminals := data($syntax-productions/@name)
-  let $token-refs := distinct-values($syntax-productions//g:ref/@name)[not(. = $nonterminals)]
-  let $tokens := data($tokens-productions/@name)[. = $token-refs]
-  let $eof-production :=
-    if (exists($syntax-productions//g:ref[@name = "EOF"]) and empty($productions[@name = "EOF"])
-     or exists($tokens-productions//g:ref[@name = "EOF"]) and empty($tokens-productions[@name = "EOF"])) then
-      <g:production name="EOF"><g:ref name="$"/></g:production>
+  let $syntax-productions :=
+    if (exists($syntax-productions//g:ref[@name = "_any_token"])) then
+      ($syntax-productions, <g:production name="_any_token"><g:complement/></g:production>)
     else
-      ()
-  let $syntax-productions := p:translate-token-complements($syntax-productions, ($strings, $tokens-productions[@name = $tokens]))
-  let $tokens-productions := ($tokens-productions, $eof-production)
-  let $productions := ($syntax-productions, $tokens-productions)
+      $syntax-productions
+
+  let $syntax-productions := p:translate-token-complements($syntax-productions, ($strings, $tokens))
+
+  let $tokens-productions :=
+    if (exists($syntax-productions//g:ref[@name = "EOF"]) and empty($tokens-productions[@name = "EOF"])
+     or exists($tokens-productions//g:ref[@name = "EOF"]) and empty($tokens-productions[@name = "EOF"])) then
+      ($tokens-productions, <g:production name="EOF"><g:ref name="$"/></g:production>)
+    else
+      $tokens-productions
 
   return
     element g:grammar

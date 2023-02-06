@@ -67,7 +67,7 @@ symbol_decl.1
          ::= symbol+
 rules_or_grammar_declaration
          ::= rules
-           | ( grammar_declaration 
+           | ( grammar_declaration
              ) ';'
 rules    ::= id named_ref.opt ':' rhs ( '|' rhs | ';' )*
 rhs      ::= ( ( symbol | tag.opt BRACED_CODE ) named_ref.opt | BRACED_PREDICATE | '%empty' | '%prec' symbol | ( '%dprec' | '%expect' | '%expect-rr' ) INT_LITERAL | '%merge' TAG )*
@@ -84,7 +84,7 @@ string_as_id
 epilogue.opt
          ::= ( '%%' EPILOGUE )?
 
-TAG      ::= '<' ( ANGLELESS_CODE | TAG )* '>' 
+TAG      ::= '<' ( ANGLELESS_CODE | TAG )* '>'
           /* ws: explicit */
 BRACED_CODE
          ::= '{' ( BRACELESS_CODE | BRACED_CODE )* '}'

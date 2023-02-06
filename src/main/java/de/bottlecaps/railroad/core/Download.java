@@ -28,10 +28,10 @@ public class Download
     ".zip";
 
   public static void distZip(
-		  BiConsumer<PrintStream, String> usage,
-		  Function<String, String> adaptLicense,
-		  File warFile,
-		  OutputStream outputStream) throws IOException, FileNotFoundException
+          BiConsumer<PrintStream, String> usage,
+          Function<String, String> adaptLicense,
+          File warFile,
+          OutputStream outputStream) throws IOException, FileNotFoundException
   {
     try (ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream))
     {
@@ -51,7 +51,7 @@ public class Download
             ZipEntry licenseEntry = new ZipEntry(entry.getName());
             licenseEntry.setTime(warFile.lastModified());
             zipOutputStream.putNextEntry(licenseEntry);
-            
+
             String licenseContent = toString(warStream);
             licenseContent = adaptLicense.apply(licenseContent);
             zipOutputStream.write(licenseContent.getBytes("UTF-8"));
@@ -90,7 +90,7 @@ public class Download
   {
     if (warFile == null)
     {
-      warFile = Optional.ofNullable(null);
+      warFile = Optional.empty();
       String javaCommand = System.getProperty("sun.java.command");
       if (javaCommand != null)
       {
@@ -109,7 +109,7 @@ public class Download
         }
       }
     }
-    return warFile.get();
+    return warFile.orElse(null);
   }
 
   public static File warFile(Request request)
@@ -135,7 +135,7 @@ public class Download
         return warFile();
     }
 
-    return warFile.get();
+    return warFile.orElse(null);
   }
 
   public static int javaVersion()

@@ -1,5 +1,5 @@
 // This file was generated on Sat Jan 25, 2020 22:59 (UTC+01) by REx v5.50 which is Copyright (c) 1979-2019 by Gunther Rademacher <grd@gmx.net>
-// REx command line: -interface lib.Parser -java -saxon -tree -main
+// REx command line: -interface de.bottlecaps.railroad.convert.Parser -java -saxon -tree -main
 
 package de.bottlecaps.convert;
 

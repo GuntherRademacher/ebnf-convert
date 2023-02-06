@@ -1,7 +1,7 @@
 module namespace x="de/bottlecaps/railroad/convert/xq/instaparse/instaparse-to-w3c.xq";
 
-import module namespace q="de/bottlecaps/railroad/convert/xq/regexp/regexp.xquery";
-import module namespace y="de/bottlecaps/railroad/convert/xq/regexp/regexp-to-w3c.xq";
+import module namespace q="de/bottlecaps/railroad/convert/xq/regexp/regexp.xquery" at "../regexp/regexp.xquery";
+import module namespace y="de/bottlecaps/railroad/convert/xq/regexp/regexp-to-w3c.xq" at "../regexp/regexp-to-w3c.xq";
 
 declare namespace g="http://www.w3.org/2001/03/XPath/grammar";
 
