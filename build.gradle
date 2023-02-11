@@ -61,7 +61,8 @@ dependencies {
     implementation 'commons-fileupload:commons-fileupload:1.4'
     implementation 'commons-io:commons-io:2.11.0'
 
-    implementation files('../basex/basex-core/target/basex-10.5-SNAPSHOT.jar')
+//  implementation files('../basex/basex-core/target/basex-10.5-SNAPSHOT.jar')
+    implementation 'org.basex:basex:10.5-SNAPSHOT'
 }
 
 configurations.all {
