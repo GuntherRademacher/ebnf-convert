@@ -13,10 +13,10 @@ plugins {
 defaultTasks 'build'
 build.dependsOn 'distZip'
 
-version = '0.63-SNAPSHOT'
+version = '0.64'
 group = 'de.bottlecaps.convert'
 def buildTime = new Date()
-def aceVersion = '1.14.0'
+def aceVersion = '1.15.2'
 def rrVersion = '2.0'
 
 def generatedSrc = "$buildDir/generated-src/main"
@@ -53,16 +53,16 @@ dependencies {
 	rrLib "de.bottlecaps.rr:rr-lib:$rrVersion"
 	rrWebapp "de.bottlecaps.rr:rr-webapp:$rrVersion"
 
-    compileOnly 'org.apache.tomcat:tomcat-servlet-api:8.5.85'
+    compileOnly 'org.apache.tomcat:tomcat-servlet-api:8.5.87'
     compileOnly "de.bottlecaps.rr:rr-lib:$rrVersion"
 
     implementation 'net.sf.saxon:Saxon-HE:12.0'
     implementation 'org.xmlresolver:xmlresolver:4.6.0'
-    implementation 'commons-fileupload:commons-fileupload:1.4'
+    implementation 'commons-fileupload:commons-fileupload:1.5'
     implementation 'commons-io:commons-io:2.11.0'
 
 //  implementation files('../basex/basex-core/target/basex-10.5-SNAPSHOT.jar')
-    implementation 'org.basex:basex:10.5-SNAPSHOT'
+//  implementation 'org.basex:basex:10.5-SNAPSHOT'
 }
 
 configurations.all {

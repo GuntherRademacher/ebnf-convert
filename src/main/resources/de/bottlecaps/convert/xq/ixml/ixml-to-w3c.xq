@@ -6,14 +6,20 @@ import module namespace n="de/bottlecaps/railroad/xq/normalize-ast.xq" at "../..
 
 declare namespace g="http://www.w3.org/2001/03/XPath/grammar";
 
+declare function x:rewrite-string($string as element(string)) as element()*
+{
+  if ($string/dchar) then
+    <g:string>{replace(string-join($string/dchar), '""', '"')}</g:string>
+  else
+    <g:string>{replace(string-join($string/schar), "''", "'")}</g:string>
+};
+
 declare function x:rewrite-literal($literal as element(literal)) as element()*
 {
-  if ($literal/quoted/string/dstring) then
-    <g:string>{replace($literal/quoted/string/dstring, '""', '"')}</g:string>
-  else if ($literal/quoted/string/sstring) then
-    <g:string>{replace($literal/quoted/string/sstring, "''", "'")}</g:string>
-  else
+  if ($literal/encoded) then
     <g:charCode value="{$literal/encoded/hex}"/>
+  else
+    x:rewrite-string($literal/quoted/string)
 };
 
 declare function x:rewrite-character($character as element(literal)) as element()*
@@ -39,14 +45,16 @@ declare function x:rewrite-factor($factor as element(factor)) as element()*
       <g:charClass>{
         for $member in $factor/terminal/charset/*/set/member
         return
-          if ($member/literal) then
-            let $r := x:rewrite-literal($member/literal)
+          if ($member/string) then
+            let $r := x:rewrite-string($member/string)
             return
               if ($r/self::g:string) then
                 for $c in string-to-codepoints($r)
                 return <g:char>{codepoints-to-string($c)}</g:char>
               else
                 $r
+          else if ($member/hex) then
+            <g:charCode value="{$member/hex}"/>
           else if ($member/range/*/character/hex) then
             <g:charCodeRange minValue="{x:character-to-hex($member/range/from/character)}"
                              maxValue="{x:character-to-hex($member/range/to  /character)}"/>

@@ -1,7 +1,11 @@
-         ixml::= s rule (s rule)* s
+         ixml::= s prolog? rule (RS rule)* s eof
 
             s::= (whitespace | comment)*
+           RS::= (whitespace | comment)+           
       comment::= "{" (cchar | comment)* "}"
+
+       prolog::= version s
+      version::= "i" "x" "m" "l" RS "v" "e" "r" "s" "i" "o" "n" RS string s "."
 
          rule::= (mark s)? name s ("=" | ":") s alts "."
          mark::= "@" | "^" | "-"
@@ -13,77 +17,76 @@
                | repeat1
        factor::= terminal
                | nonterminal
+               | insertion
                | "(" s alts ")" s
-      repeat0::= factor "*" s sep?
-      repeat1::= factor "+" s sep?
+      repeat0::= factor ("*" s | "**" s sep)
+      repeat1::= factor ("+" s | "++" s sep)
        option::= factor "?" s
           sep::= factor
   nonterminal::= (mark s)? name s
+
+         name::= namestart namefollower*
+    namestart::= namestart^token
+               | "i"
+ namefollower::= namefollower^token
+               | "." | "x"
 
      terminal::= literal
                | charset
       literal::= quoted
                | encoded
-       quoted::= (tmark s)? string
-
-         name::= namestart namefollower*
-    namestart::= "_" | capital | letter | namestart1
- namefollower::= namestart | "-" | "." | namefollower1
+       quoted::= (tmark s)? string s
 
         tmark::= "^" | "-"
-       string::= '"' dstring '"' s
-               | "'" sstring "'" s
-      dstring::= dchar+
-      sstring::= schar+
+       string::= '"' dchar+ '"'
+               | "'" schar+ "'"
       encoded::= (tmark s)? "#" hex s
 
       charset::= inclusion
                | exclusion
     inclusion::= (tmark s)?       set
     exclusion::= (tmark s)? "~" s set
-          set::= "[" s  (member (((";" | "|") s) member)*)? "]" s
-       member::= literal
+          set::= "[" s  (member s (((";" | "|") s) member s)*)? "]" s
+       member::= string
+               | "#" hex
                | range
                | class
-        range::= from "-" s to
+        range::= from s "-" s to
          from::= character
            to::= character
-    character::= '"' dchar '"' s
-               | "'" schar "'" s
-               | "#" hex s
-        class::= code s
+    character::= '"' dchar '"'
+               | "'" schar "'"
+               | "#" hex
+        class::= code
          code::= capital letter?
+    insertion::= "+" s (string | "#" hex) s
 
 <?TOKENS?>
 
+   whitespace::= (
+// \p{Zs}
+                   #x0020
+                 | #x00A0
+                 | #x1680
+                 | #x180E
+                 | [#x2000-#x200A]
+                 | #x202F
+                 | #x205F
+                 | #x3000
+
+                 | tab
+                 | lf
+                 | cr
+                 )+
           tab::= #x9
            lf::= #xa
            cr::= #xd
         cchar::= [^{}]
-        dchar::= [^"#xa#xd]
-               | '"' '"'
-        schar::= [^'#xa#xd]
-               | "'" "'"
-          hex::= [0-9a-fA-F]+
-      capital::= [A-Z]
-       letter::= [a-z]
 
-   whitespace::= tab
-               | lf
-               | cr
-// \p{Zs}
-               | #x0020
-               | #x00A0
-               | #x1680
-               | #x180E
-               | [#x2000-#x200A]
-               | #x202F
-               | #x205F
-               | #x3000
-
-   namestart1::=
-// \p{L} - [A-Za-z]
-                 #x00AA
+    namestart::= "_"
+// \p{L}
+               | [A-Za-z]
+               | #x00AA
                | #x00B5
                | #x00BA
                | [#x00C0-#x00D6]
@@ -568,9 +571,12 @@
                | [#x2B740-#x2B81D]
                | [#x2F800-#x2FA1D]
 
-namefollower1::= #x00B7
+ namefollower::= namestart
+               | "-"
+               | "."
+               | #x00B7
                | #x203F
-               | #x2040
+               | #x2040               
 // \p{Nd}
                | [0-9]
                | [#x0660-#x0669]
@@ -835,5 +841,18 @@ namefollower1::= #x00B7
                | [#x1D1AA-#x1D1AD]
                | [#x1D242-#x1D244]
                | [#xE0100-#xE01EF]
+
+        dchar::= [^"#xa#xd]
+               | '"' '"'
+        schar::= [^'#xa#xd]
+               | "'" "'"
+          hex::= [0-9a-fA-F]+
+      capital::= [A-Z]
+       letter::= [a-z]
+
+          eof::= $
+
+namestart^token    << "i"
+namefollower^token << "." "x"
 
 // End

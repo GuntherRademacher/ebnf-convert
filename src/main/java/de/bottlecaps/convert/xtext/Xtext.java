@@ -1,5 +1,5 @@
-// This file was generated on Sat Feb 11, 2023 18:01 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net>
-// REx command line: -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.xtext.Xtext xtext.ebnf
+// This file was generated on Thu Mar 9, 2023 13:03 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net>
+// REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.xtext.Xtext xtext.ebnf
 
 package de.bottlecaps.convert.xtext;
 

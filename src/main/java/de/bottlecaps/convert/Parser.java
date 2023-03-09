@@ -1,5 +1,5 @@
-// This file was generated on Sat Feb 11, 2023 18:01 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net>
-// REx command line: -interface de.bottlecaps.convert.Parser -java -saxon -tree -main
+// This file was generated on Thu Mar 9, 2023 13:03 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net>
+// REx command line: -q -interface de.bottlecaps.convert.Parser -java -tree -main
 
 package de.bottlecaps.convert;
 
@@ -7,17 +7,6 @@ import java.io.IOException;
 import java.io.Writer;
 
 import java.util.Arrays;
-import net.sf.saxon.event.Builder;
-import net.sf.saxon.expr.parser.Loc;
-import net.sf.saxon.om.AttributeMap;
-import net.sf.saxon.om.EmptyAttributeMap;
-import net.sf.saxon.om.NamespaceMap;
-import net.sf.saxon.s9api.Location;
-import net.sf.saxon.om.NoNamespaceName;
-import net.sf.saxon.trans.XPathException;
-import net.sf.saxon.type.AnyType;
-import net.sf.saxon.str.StringView;
-
 public interface Parser
 {
   public void initialize(CharSequence input, EventHandler eh);
@@ -307,89 +296,6 @@ public interface Parser
       }
     }
   }
-
-  public static class SaxonTreeBuilder implements EventHandler
-  {
-    private CharSequence input;
-    private Builder builder;
-    private AnyType anyType;
-
-    public SaxonTreeBuilder(Builder b)
-    {
-      input = null;
-      builder = b;
-      anyType = AnyType.getInstance();
-    }
-
-    @Override
-    public void reset(CharSequence string)
-    {
-      input = string;
-    }
-
-    @Override
-    public void startNonterminal(String name, int begin)
-    {
-      try
-      {
-        builder.startElement(new NoNamespaceName(name), anyType, NO_ATTRIBUTES, NO_NAMESPACES, LOCATION, 0);
-      }
-      catch (XPathException e)
-      {
-        throw new RuntimeException(e);
-      }
-    }
-
-    @Override
-    public void endNonterminal(String name, int end)
-    {
-      try
-      {
-        builder.endElement();
-      }
-      catch (XPathException e)
-      {
-        throw new RuntimeException(e);
-      }
-    }
-
-    @Override
-    public void terminal(String name, int begin, int end)
-    {
-      if (name.charAt(0) == '\'')
-      {
-        name = "TOKEN";
-      }
-      startNonterminal(name, begin);
-      characters(begin, end);
-      endNonterminal(name, end);
-    }
-
-    @Override
-    public void whitespace(int begin, int end)
-    {
-      characters(begin, end);
-    }
-
-    private void characters(int begin, int end)
-    {
-      if (begin < end)
-      {
-        try
-        {
-          builder.characters(StringView.of(input.subSequence(begin, end).toString()), LOCATION, 0);
-        }
-        catch (XPathException e)
-        {
-          throw new RuntimeException(e);
-        }
-      }
-    }
-  }
-
-  public static final AttributeMap NO_ATTRIBUTES = EmptyAttributeMap.getInstance();
-  public static final NamespaceMap NO_NAMESPACES = NamespaceMap.emptyMap();
-  public static final Location LOCATION = Loc.NONE;
 }
 
 // End

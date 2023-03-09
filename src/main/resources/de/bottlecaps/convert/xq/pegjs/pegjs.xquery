@@ -1,7 +1,7 @@
 xquery version "1.0" encoding "UTF-8";
 
-(: This file was generated on Fri Feb 10, 2023 18:44 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net> :)
-(: REx command line: -tree -a none -xquery -name de/bottlecaps/convert/xq/pegjs/pegjs.xquery ../../../../../../../main/java/de/bottlecaps/convert/pegjs/pegjs.ebnf :)
+(: This file was generated on Thu Mar 9, 2023 13:03 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net> :)
+(: REx command line: -q -tree -a none -xquery -name de/bottlecaps/convert/xq/pegjs/pegjs.xquery ../../../../../../../main/java/de/bottlecaps/convert/pegjs/pegjs.ebnf :)
 
 (:~
  : The parser that was generated for the de/bottlecaps/convert/xq/pegjs/pegjs.xquery grammar.

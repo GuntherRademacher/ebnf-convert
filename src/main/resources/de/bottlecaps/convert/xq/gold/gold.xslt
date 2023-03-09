@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This file was generated on Fri Feb 10, 2023 18:43 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net> -->
-<!-- REx command line: -backtrack -tree -a none -xslt -name de/bottlecaps/convert/xq/gold/gold.xslt ../../../../../../../main/java/de/bottlecaps/convert/gold/gold.ebnf -->
+<!-- This file was generated on Thu Mar 9, 2023 13:03 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net> -->
+<!-- REx command line: -q -backtrack -tree -a none -xslt -name de/bottlecaps/convert/xq/gold/gold.xslt ../../../../../../../main/java/de/bottlecaps/convert/gold/gold.ebnf -->
 
 <xsl:stylesheet version="2.0"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
