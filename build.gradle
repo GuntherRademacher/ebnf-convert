@@ -54,6 +54,7 @@ dependencies {
     compileOnly 'org.apache.tomcat:tomcat-servlet-api:8.5.87'
     compileOnly "de.bottlecaps.rr:rr-lib:$rrVersion"
 
+    implementation 'org.basex:basex:10.7'
     implementation 'net.sf.saxon:Saxon-HE:12.0'
     implementation 'org.xmlresolver:xmlresolver:4.6.0'
     implementation 'commons-fileupload:commons-fileupload:1.5'
