@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This file was generated on Thu Mar 9, 2023 13:03 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net> -->
+<!-- This file was generated on Tue Nov 7, 2023 20:16 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net> -->
 <!-- REx command line: -q -tree -a none -xslt -name de/bottlecaps/convert/xq/abnf/abnf.xslt ../../../../../../../main/java/de/bottlecaps/convert/abnf/abnf.ebnf -->
 
 <xsl:stylesheet version="2.0"
@@ -76,9 +76,9 @@
    ! The codepoint to charclass mapping for 7 bit codepoints.
   -->
   <xsl:variable name="p:MAP0" as="xs:integer+" select="
-    30, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 5, 6, 5, 5, 7, 5, 5, 8, 9, 10, 5, 5, 11, 12, 13, 14, 14,
+    32, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 5, 6, 5, 5, 7, 5, 5, 8, 9, 10, 5, 5, 11, 12, 13, 14, 14,
     15, 15, 15, 15, 15, 15, 15, 15, 16, 17, 18, 19, 20, 5, 5, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22,
-    22, 22, 23, 5, 24, 5, 25, 5, 21, 26, 21, 27, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 28, 22, 22, 5, 29, 5, 5, 0
+    22, 22, 23, 5, 24, 5, 25, 5, 21, 26, 21, 27, 21, 21, 22, 22, 28, 22, 22, 22, 22, 22, 22, 22, 22, 22, 29, 22, 22, 22, 22, 30, 22, 22, 5, 31, 5, 5, 0
   "/>
 
   <!--~
@@ -87,44 +87,45 @@
   <xsl:variable name="p:MAP1" as="xs:integer+" select="
     54, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58,
     58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 90, 136, 167, 199, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104,
-    104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 30, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 32, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 5, 6, 5, 5, 7, 5, 5, 8, 9, 10, 5, 5, 11, 12, 13, 14, 14, 15, 15, 15, 15, 15, 15, 15,
     15, 16, 17, 18, 19, 20, 5, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23, 5, 24, 5, 25, 5, 21,
-    26, 21, 27, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 28, 22, 22, 5, 29, 5, 5, 0
+    26, 21, 27, 21, 21, 22, 22, 28, 22, 22, 22, 22, 22, 22, 22, 22, 22, 29, 22, 22, 22, 22, 30, 22, 22, 5, 31, 5, 5, 0
   "/>
 
   <!--~
    ! The token-set-id to DFA-initial-state mapping.
   -->
   <xsl:variable name="p:INITIAL" as="xs:integer+" select="
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
   "/>
 
   <!--~
    ! The DFA transition table.
   -->
   <xsl:variable name="p:TRANSITION" as="xs:integer+" select="
-    258, 258, 258, 258, 258, 258, 258, 258, 258, 248, 423, 425, 250, 258, 256, 258, 258, 264, 442, 280, 443, 258, 283, 258, 258, 289, 306, 308, 360, 258, 312,
-    258, 258, 248, 423, 425, 250, 260, 256, 258, 258, 258, 258, 258, 375, 260, 256, 258, 258, 259, 318, 319, 375, 323, 256, 258, 258, 343, 331, 332, 375, 260,
-    256, 258, 258, 349, 336, 337, 375, 260, 256, 258, 258, 258, 267, 270, 375, 260, 256, 258, 273, 258, 275, 276, 375, 260, 256, 258, 258, 258, 258, 341, 402,
-    260, 256, 258, 258, 258, 258, 347, 375, 260, 256, 258, 258, 258, 292, 295, 375, 353, 256, 258, 357, 258, 384, 386, 402, 260, 256, 258, 388, 258, 384, 386,
-    402, 260, 256, 258, 258, 399, 258, 399, 375, 392, 256, 258, 258, 252, 378, 380, 375, 260, 256, 258, 258, 285, 326, 327, 375, 260, 256, 258, 258, 396, 258,
-    396, 375, 260, 413, 258, 258, 258, 258, 258, 375, 416, 256, 258, 420, 405, 408, 409, 402, 260, 256, 258, 258, 405, 408, 409, 402, 260, 256, 258, 258, 298,
-    301, 302, 375, 260, 256, 258, 258, 258, 363, 366, 375, 260, 256, 258, 258, 258, 258, 258, 402, 260, 256, 258, 420, 429, 408, 409, 402, 260, 256, 258, 420,
-    432, 408, 409, 402, 260, 256, 258, 258, 435, 408, 409, 402, 260, 256, 258, 258, 258, 369, 372, 375, 260, 256, 258, 258, 258, 314, 439, 258, 258, 258, 258,
-    80, 0, 80, 0, 19, 0, 19, 0, 0, 26, 0, 0, 0, 0, 23, 24, 81, 0, 81, 0, 0, 0, 384, 384, 384, 0, 0, 0, 416, 416, 416, 0, 81, 81, 81, 17, 17, 0, 0, 0, 24, 82, 0,
-    82, 0, 0, 0, 512, 512, 512, 0, 0, 0, 640, 640, 640, 640, 0, 0, 0, 82, 82, 82, 25, 0, 25, 0, 0, 0, 288, 23, 23, 23, 23, 0, 0, 0, 160, 24, 24, 24, 24, 0, 320,
-    320, 320, 320, 0, 352, 352, 352, 352, 0, 0, 448, 0, 0, 0, 320, 480, 480, 0, 0, 0, 352, 0, 608, 23, 24, 129, 194, 227, 0, 0, 18, 0, 0, 0, 672, 672, 672, 0,
-    0, 0, 800, 800, 800, 0, 0, 19, 0, 0, 19, 19, 19, 26, 129, 0, 129, 129, 129, 0, 227, 0, 27, 0, 23, 24, 0, 0, 598, 0, 0, 21, 0, 0, 19, 116, 0, 0, 116, 116,
-    116, 116, 0, 0, 26, 544, 0, 0, 23, 256, 0, 0, 227, 0, 0, 80, 80, 80, 80, 116, 704, 0, 116, 736, 0, 116, 768, 0, 116, 288, 288, 288, 0, 0, 81, 81, 0
+    355, 355, 355, 355, 355, 355, 355, 355, 355, 264, 267, 267, 269, 355, 289, 355, 355, 326, 324, 324, 322, 355, 319, 355, 355, 275, 273, 273, 279, 355, 424,
+    355, 355, 264, 267, 267, 269, 422, 393, 355, 355, 355, 355, 355, 356, 422, 393, 355, 355, 422, 283, 283, 356, 287, 393, 355, 355, 355, 293, 293, 356, 422,
+    393, 355, 355, 355, 297, 297, 356, 422, 393, 355, 355, 355, 355, 301, 356, 422, 393, 355, 311, 355, 312, 305, 356, 422, 393, 355, 355, 355, 355, 343, 356,
+    309, 393, 355, 355, 355, 355, 316, 356, 422, 393, 355, 355, 355, 355, 330, 356, 386, 393, 355, 337, 355, 416, 334, 356, 309, 393, 355, 419, 355, 416, 334,
+    356, 309, 393, 355, 355, 368, 355, 368, 356, 383, 393, 355, 355, 401, 399, 399, 396, 422, 393, 355, 355, 355, 350, 350, 356, 422, 393, 355, 355, 346, 355,
+    346, 356, 422, 393, 354, 355, 355, 355, 355, 356, 422, 360, 355, 340, 367, 364, 364, 356, 309, 393, 355, 355, 367, 364, 364, 356, 309, 393, 355, 355, 355,
+    372, 372, 356, 422, 393, 355, 355, 355, 355, 376, 356, 422, 393, 355, 355, 355, 355, 355, 356, 309, 393, 355, 340, 380, 364, 364, 356, 309, 393, 355, 340,
+    390, 364, 364, 356, 309, 393, 355, 355, 367, 364, 364, 356, 309, 405, 355, 355, 367, 364, 364, 356, 309, 409, 355, 355, 413, 364, 364, 356, 309, 393, 355,
+    355, 355, 355, 428, 356, 422, 393, 355, 355, 355, 355, 432, 355, 355, 355, 355, 81, 81, 0, 81, 81, 81, 81, 0, 20, 83, 83, 83, 83, 0, 83, 27, 0, 0, 19, 22,
+    22, 22, 22, 0, 160, 0, 0, 0, 28, 345, 345, 345, 345, 416, 416, 416, 416, 448, 448, 448, 448, 480, 480, 480, 480, 117, 22, 0, 0, 0, 480, 480, 0, 544, 544, 0,
+    0, 18, 18, 0, 82, 82, 82, 82, 0, 82, 576, 576, 576, 576, 129, 129, 129, 129, 194, 227, 0, 0, 227, 0, 0, 512, 0, 0, 0, 664, 26, 26, 26, 26, 608, 0, 0, 0, 0,
+    20, 0, 256, 0, 28, 117, 117, 117, 117, 0, 0, 0, 23, 704, 704, 704, 704, 736, 736, 736, 736, 117, 0, 768, 0, 22, 29, 0, 22, 0, 672, 117, 0, 800, 0, 26, 0,
+    28, 0, 0, 20, 20, 20, 20, 0, 20, 352, 26, 0, 28, 384, 26, 0, 28, 117, 0, 832, 0, 129, 0, 129, 0, 227, 0, 22, 0, 0, 0, 27, 864, 864, 864, 864, 288, 288, 288,
+    288
   "/>
 
   <!--~
    ! The DFA-state to expected-token-set mapping.
   -->
   <xsl:variable name="p:EXPECTED" as="xs:integer+" select="
-    8, 32, 64, 4096, 6, 14680064, 458754, 525972, 525980, 530068, 530078, 18390942, 18407326, 18415518, 18849694, 2, 2, 2, 2, 4, 65536, 262144, 16, 128, 2, 2,
-    65536
+    8, 32, 64, 16384, 6, 18, 58720256, 1835010, 2104982, 2104990, 2121366, 2121374, 73564062, 73629598, 73662366, 75399070, 2, 2, 2, 2, 4, 16, 262144, 1048576,
+    3072, 128, 2, 2, 262144
   "/>
 
   <!--~
@@ -135,12 +136,14 @@
     'whitespace',
     'rulename',
     'integer',
-    'char-val',
+    'quoted-string',
     'bits',
     'hexdigs',
     'prose-val',
     'EOF',
     &quot;'%'&quot;,
+    &quot;'%i'&quot;,
+    &quot;'%s'&quot;,
     &quot;'('&quot;,
     &quot;')'&quot;,
     &quot;'*'&quot;,
@@ -296,7 +299,7 @@
 
     <xsl:if test="$state > 0">
       <xsl:for-each select="0 to 0">
-        <xsl:variable name="i0" select=". * 27 + $state - 1"/>
+        <xsl:variable name="i0" select=". * 29 + $state - 1"/>
         <xsl:sequence select="p:token((), $p:EXPECTED[$i0 + 1], . * 32 + 1)"/>
       </xsl:for-each>
     </xsl:if>
@@ -319,13 +322,13 @@
         <xsl:sequence select="$state"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:variable name="state" select="p:consume(14, $input, $state)"/>         <!-- '.' -->
+        <xsl:variable name="state" select="p:consume(16, $input, $state)"/>         <!-- '.' -->
         <xsl:variable name="state" select="p:lookahead1(2, $input, $state)"/>       <!-- hexdigs -->
         <xsl:variable name="state" select="p:consume(6, $input, $state)"/>          <!-- hexdigs -->
-        <xsl:variable name="state" select="p:lookahead1W(12, $input, $state)"/>     <!-- whitespace | rulename | integer | char-val | prose-val | EOF | '%' |
-                                                                                         '(' | ')' | '*' | '.' | '/' | '[' | ']' | '|' -->
+        <xsl:variable name="state" select="p:lookahead1W(13, $input, $state)"/>     <!-- whitespace | rulename | integer | quoted-string | prose-val | EOF |
+                                                                                         '%' | '%i' | '%s' | '(' | ')' | '*' | '.' | '/' | '[' | ']' | '|' -->
         <xsl:choose>
-          <xsl:when test="$state[$p:l1] != 14">                                     <!-- '.' -->
+          <xsl:when test="$state[$p:l1] != 16">                                     <!-- '.' -->
             <xsl:sequence select="$state"/>
           </xsl:when>
           <xsl:otherwise>
@@ -349,29 +352,30 @@
 
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
-    <xsl:variable name="state" select="p:consume(23, $input, $state)"/>             <!-- 'x' -->
+    <xsl:variable name="state" select="p:consume(25, $input, $state)"/>             <!-- 'x' -->
     <xsl:variable name="state" select="p:lookahead1(2, $input, $state)"/>           <!-- hexdigs -->
     <xsl:variable name="state" select="p:consume(6, $input, $state)"/>              <!-- hexdigs -->
-    <xsl:variable name="state" select="p:lookahead1W(13, $input, $state)"/>         <!-- whitespace | rulename | integer | char-val | prose-val | EOF | '%' |
-                                                                                         '(' | ')' | '*' | '-' | '.' | '/' | '[' | ']' | '|' -->
+    <xsl:variable name="state" select="p:lookahead1W(14, $input, $state)"/>         <!-- whitespace | rulename | integer | quoted-string | prose-val | EOF |
+                                                                                         '%' | '%i' | '%s' | '(' | ')' | '*' | '-' | '.' | '/' | '[' | ']' |
+                                                                                         '|' -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:error]">
           <xsl:sequence select="$state"/>
         </xsl:when>
-        <xsl:when test="$state[$p:l1] = 13                                            (: '-' :)
-                     or $state[$p:l1] = 14">                                        <!-- '.' -->
+        <xsl:when test="$state[$p:l1] = 15                                            (: '-' :)
+                     or $state[$p:l1] = 16">                                        <!-- '.' -->
           <xsl:variable name="state" as="item()+">
             <xsl:choose>
               <xsl:when test="$state[$p:error]">
                 <xsl:sequence select="$state"/>
               </xsl:when>
-              <xsl:when test="$state[$p:l1] = 14">                                  <!-- '.' -->
+              <xsl:when test="$state[$p:l1] = 16">                                  <!-- '.' -->
                 <xsl:variable name="state" select="p:parse-hex-val-1($input, $state)"/>
                 <xsl:sequence select="$state"/>
               </xsl:when>
               <xsl:otherwise>
-                <xsl:variable name="state" select="p:consume(13, $input, $state)"/> <!-- '-' -->
+                <xsl:variable name="state" select="p:consume(15, $input, $state)"/> <!-- '-' -->
                 <xsl:variable name="state" select="p:lookahead1(2, $input, $state)"/> <!-- hexdigs -->
                 <xsl:variable name="state" select="p:consume(6, $input, $state)"/>  <!-- hexdigs -->
                 <xsl:sequence select="$state"/>
@@ -406,13 +410,13 @@
         <xsl:sequence select="$state"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:variable name="state" select="p:consume(14, $input, $state)"/>         <!-- '.' -->
+        <xsl:variable name="state" select="p:consume(16, $input, $state)"/>         <!-- '.' -->
         <xsl:variable name="state" select="p:lookahead1(0, $input, $state)"/>       <!-- integer -->
         <xsl:variable name="state" select="p:consume(3, $input, $state)"/>          <!-- integer -->
-        <xsl:variable name="state" select="p:lookahead1W(12, $input, $state)"/>     <!-- whitespace | rulename | integer | char-val | prose-val | EOF | '%' |
-                                                                                         '(' | ')' | '*' | '.' | '/' | '[' | ']' | '|' -->
+        <xsl:variable name="state" select="p:lookahead1W(13, $input, $state)"/>     <!-- whitespace | rulename | integer | quoted-string | prose-val | EOF |
+                                                                                         '%' | '%i' | '%s' | '(' | ')' | '*' | '.' | '/' | '[' | ']' | '|' -->
         <xsl:choose>
-          <xsl:when test="$state[$p:l1] != 14">                                     <!-- '.' -->
+          <xsl:when test="$state[$p:l1] != 16">                                     <!-- '.' -->
             <xsl:sequence select="$state"/>
           </xsl:when>
           <xsl:otherwise>
@@ -436,29 +440,30 @@
 
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
-    <xsl:variable name="state" select="p:consume(22, $input, $state)"/>             <!-- 'd' -->
+    <xsl:variable name="state" select="p:consume(24, $input, $state)"/>             <!-- 'd' -->
     <xsl:variable name="state" select="p:lookahead1(0, $input, $state)"/>           <!-- integer -->
     <xsl:variable name="state" select="p:consume(3, $input, $state)"/>              <!-- integer -->
-    <xsl:variable name="state" select="p:lookahead1W(13, $input, $state)"/>         <!-- whitespace | rulename | integer | char-val | prose-val | EOF | '%' |
-                                                                                         '(' | ')' | '*' | '-' | '.' | '/' | '[' | ']' | '|' -->
+    <xsl:variable name="state" select="p:lookahead1W(14, $input, $state)"/>         <!-- whitespace | rulename | integer | quoted-string | prose-val | EOF |
+                                                                                         '%' | '%i' | '%s' | '(' | ')' | '*' | '-' | '.' | '/' | '[' | ']' |
+                                                                                         '|' -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:error]">
           <xsl:sequence select="$state"/>
         </xsl:when>
-        <xsl:when test="$state[$p:l1] = 13                                            (: '-' :)
-                     or $state[$p:l1] = 14">                                        <!-- '.' -->
+        <xsl:when test="$state[$p:l1] = 15                                            (: '-' :)
+                     or $state[$p:l1] = 16">                                        <!-- '.' -->
           <xsl:variable name="state" as="item()+">
             <xsl:choose>
               <xsl:when test="$state[$p:error]">
                 <xsl:sequence select="$state"/>
               </xsl:when>
-              <xsl:when test="$state[$p:l1] = 14">                                  <!-- '.' -->
+              <xsl:when test="$state[$p:l1] = 16">                                  <!-- '.' -->
                 <xsl:variable name="state" select="p:parse-dec-val-1($input, $state)"/>
                 <xsl:sequence select="$state"/>
               </xsl:when>
               <xsl:otherwise>
-                <xsl:variable name="state" select="p:consume(13, $input, $state)"/> <!-- '-' -->
+                <xsl:variable name="state" select="p:consume(15, $input, $state)"/> <!-- '-' -->
                 <xsl:variable name="state" select="p:lookahead1(0, $input, $state)"/> <!-- integer -->
                 <xsl:variable name="state" select="p:consume(3, $input, $state)"/>  <!-- integer -->
                 <xsl:sequence select="$state"/>
@@ -493,13 +498,13 @@
         <xsl:sequence select="$state"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:variable name="state" select="p:consume(14, $input, $state)"/>         <!-- '.' -->
+        <xsl:variable name="state" select="p:consume(16, $input, $state)"/>         <!-- '.' -->
         <xsl:variable name="state" select="p:lookahead1(1, $input, $state)"/>       <!-- bits -->
         <xsl:variable name="state" select="p:consume(5, $input, $state)"/>          <!-- bits -->
-        <xsl:variable name="state" select="p:lookahead1W(12, $input, $state)"/>     <!-- whitespace | rulename | integer | char-val | prose-val | EOF | '%' |
-                                                                                         '(' | ')' | '*' | '.' | '/' | '[' | ']' | '|' -->
+        <xsl:variable name="state" select="p:lookahead1W(13, $input, $state)"/>     <!-- whitespace | rulename | integer | quoted-string | prose-val | EOF |
+                                                                                         '%' | '%i' | '%s' | '(' | ')' | '*' | '.' | '/' | '[' | ']' | '|' -->
         <xsl:choose>
-          <xsl:when test="$state[$p:l1] != 14">                                     <!-- '.' -->
+          <xsl:when test="$state[$p:l1] != 16">                                     <!-- '.' -->
             <xsl:sequence select="$state"/>
           </xsl:when>
           <xsl:otherwise>
@@ -523,29 +528,30 @@
 
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
-    <xsl:variable name="state" select="p:consume(21, $input, $state)"/>             <!-- 'b' -->
+    <xsl:variable name="state" select="p:consume(23, $input, $state)"/>             <!-- 'b' -->
     <xsl:variable name="state" select="p:lookahead1(1, $input, $state)"/>           <!-- bits -->
     <xsl:variable name="state" select="p:consume(5, $input, $state)"/>              <!-- bits -->
-    <xsl:variable name="state" select="p:lookahead1W(13, $input, $state)"/>         <!-- whitespace | rulename | integer | char-val | prose-val | EOF | '%' |
-                                                                                         '(' | ')' | '*' | '-' | '.' | '/' | '[' | ']' | '|' -->
+    <xsl:variable name="state" select="p:lookahead1W(14, $input, $state)"/>         <!-- whitespace | rulename | integer | quoted-string | prose-val | EOF |
+                                                                                         '%' | '%i' | '%s' | '(' | ')' | '*' | '-' | '.' | '/' | '[' | ']' |
+                                                                                         '|' -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:error]">
           <xsl:sequence select="$state"/>
         </xsl:when>
-        <xsl:when test="$state[$p:l1] = 13                                            (: '-' :)
-                     or $state[$p:l1] = 14">                                        <!-- '.' -->
+        <xsl:when test="$state[$p:l1] = 15                                            (: '-' :)
+                     or $state[$p:l1] = 16">                                        <!-- '.' -->
           <xsl:variable name="state" as="item()+">
             <xsl:choose>
               <xsl:when test="$state[$p:error]">
                 <xsl:sequence select="$state"/>
               </xsl:when>
-              <xsl:when test="$state[$p:l1] = 14">                                  <!-- '.' -->
+              <xsl:when test="$state[$p:l1] = 16">                                  <!-- '.' -->
                 <xsl:variable name="state" select="p:parse-bin-val-1($input, $state)"/>
                 <xsl:sequence select="$state"/>
               </xsl:when>
               <xsl:otherwise>
-                <xsl:variable name="state" select="p:consume(13, $input, $state)"/> <!-- '-' -->
+                <xsl:variable name="state" select="p:consume(15, $input, $state)"/> <!-- '-' -->
                 <xsl:variable name="state" select="p:lookahead1(1, $input, $state)"/> <!-- bits -->
                 <xsl:variable name="state" select="p:consume(5, $input, $state)"/>  <!-- bits -->
                 <xsl:sequence select="$state"/>
@@ -577,13 +583,13 @@
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
     <xsl:variable name="state" select="p:consume(9, $input, $state)"/>              <!-- '%' -->
-    <xsl:variable name="state" select="p:lookahead1(5, $input, $state)"/>           <!-- 'b' | 'd' | 'x' -->
+    <xsl:variable name="state" select="p:lookahead1(6, $input, $state)"/>           <!-- 'b' | 'd' | 'x' -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:error]">
           <xsl:sequence select="$state"/>
         </xsl:when>
-        <xsl:when test="$state[$p:l1] = 21">                                        <!-- 'b' -->
+        <xsl:when test="$state[$p:l1] = 23">                                        <!-- 'b' -->
           <xsl:variable name="state" select="
             if ($state[$p:error]) then
               $state
@@ -592,7 +598,7 @@
           "/>
           <xsl:sequence select="$state"/>
         </xsl:when>
-        <xsl:when test="$state[$p:l1] = 22">                                        <!-- 'd' -->
+        <xsl:when test="$state[$p:l1] = 24">                                        <!-- 'd' -->
           <xsl:variable name="state" select="
             if ($state[$p:error]) then
               $state
@@ -617,6 +623,101 @@
   </xsl:function>
 
   <!--~
+   ! Parse case-sensitive-string.
+   !
+   ! @param $input the input string.
+   ! @param $state lexer state, error indicator, and result.
+   ! @return the updated state.
+  -->
+  <xsl:function name="p:parse-case-sensitive-string" as="item()+">
+    <xsl:param name="input" as="xs:string"/>
+    <xsl:param name="state" as="item()+"/>
+
+    <xsl:variable name="count" select="count($state)"/>
+    <xsl:variable name="begin" select="$state[$p:e0]"/>
+    <xsl:variable name="state" select="p:consume(11, $input, $state)"/>             <!-- '%s' -->
+    <xsl:variable name="state" select="p:lookahead1W(5, $input, $state)"/>          <!-- whitespace | quoted-string -->
+    <xsl:variable name="state" select="p:consume(4, $input, $state)"/>              <!-- quoted-string -->
+    <xsl:variable name="end" select="$state[$p:e0]"/>
+    <xsl:sequence select="p:reduce($state, 'case-sensitive-string', $count, $begin, $end)"/>
+  </xsl:function>
+
+  <!--~
+   ! Parse case-insensitive-string.
+   !
+   ! @param $input the input string.
+   ! @param $state lexer state, error indicator, and result.
+   ! @return the updated state.
+  -->
+  <xsl:function name="p:parse-case-insensitive-string" as="item()+">
+    <xsl:param name="input" as="xs:string"/>
+    <xsl:param name="state" as="item()+"/>
+
+    <xsl:variable name="count" select="count($state)"/>
+    <xsl:variable name="begin" select="$state[$p:e0]"/>
+    <xsl:variable name="state" as="item()+">
+      <xsl:choose>
+        <xsl:when test="$state[$p:error]">
+          <xsl:sequence select="$state"/>
+        </xsl:when>
+        <xsl:when test="$state[$p:l1] = 10">                                        <!-- '%i' -->
+          <xsl:variable name="state" select="p:consume(10, $input, $state)"/>       <!-- '%i' -->
+          <xsl:sequence select="$state"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:sequence select="$state"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="state" select="p:lookahead1W(5, $input, $state)"/>          <!-- whitespace | quoted-string -->
+    <xsl:variable name="state" select="p:consume(4, $input, $state)"/>              <!-- quoted-string -->
+    <xsl:variable name="end" select="$state[$p:e0]"/>
+    <xsl:sequence select="p:reduce($state, 'case-insensitive-string', $count, $begin, $end)"/>
+  </xsl:function>
+
+  <!--~
+   ! Parse char-val.
+   !
+   ! @param $input the input string.
+   ! @param $state lexer state, error indicator, and result.
+   ! @return the updated state.
+  -->
+  <xsl:function name="p:parse-char-val" as="item()+">
+    <xsl:param name="input" as="xs:string"/>
+    <xsl:param name="state" as="item()+"/>
+
+    <xsl:variable name="count" select="count($state)"/>
+    <xsl:variable name="begin" select="$state[$p:e0]"/>
+    <xsl:variable name="state" as="item()+">
+      <xsl:choose>
+        <xsl:when test="$state[$p:error]">
+          <xsl:sequence select="$state"/>
+        </xsl:when>
+        <xsl:when test="$state[$p:l1] = 11">                                        <!-- '%s' -->
+          <xsl:variable name="state" select="
+            if ($state[$p:error]) then
+              $state
+            else
+              p:parse-case-sensitive-string($input, $state)
+          "/>
+          <xsl:sequence select="$state"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:variable name="state" select="
+            if ($state[$p:error]) then
+              $state
+            else
+              p:parse-case-insensitive-string($input, $state)
+          "/>
+          <xsl:sequence select="$state"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="end" select="$state[$p:e0]"/>
+    <xsl:sequence select="p:reduce($state, 'char-val', $count, $begin, $end)"/>
+  </xsl:function>
+
+  <!--~
    ! Parse option.
    !
    ! @param $input the input string.
@@ -629,9 +730,9 @@
 
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
-    <xsl:variable name="state" select="p:consume(19, $input, $state)"/>             <!-- '[' -->
-    <xsl:variable name="state" select="p:lookahead1W(10, $input, $state)"/>         <!-- whitespace | rulename | integer | char-val | prose-val | '%' | '(' |
-                                                                                         '*' | '[' -->
+    <xsl:variable name="state" select="p:consume(21, $input, $state)"/>             <!-- '[' -->
+    <xsl:variable name="state" select="p:lookahead1W(11, $input, $state)"/>         <!-- whitespace | rulename | integer | quoted-string | prose-val | '%' |
+                                                                                         '%i' | '%s' | '(' | '*' | '[' -->
     <xsl:variable name="state" select="p:whitespace($input, $state)"/>
     <xsl:variable name="state" select="
       if ($state[$p:error]) then
@@ -639,7 +740,7 @@
       else
         p:parse-alternation($input, $state)
     "/>
-    <xsl:variable name="state" select="p:consume(20, $input, $state)"/>             <!-- ']' -->
+    <xsl:variable name="state" select="p:consume(22, $input, $state)"/>             <!-- ']' -->
     <xsl:variable name="end" select="$state[$p:e0]"/>
     <xsl:sequence select="p:reduce($state, 'option', $count, $begin, $end)"/>
   </xsl:function>
@@ -657,9 +758,9 @@
 
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
-    <xsl:variable name="state" select="p:consume(10, $input, $state)"/>             <!-- '(' -->
-    <xsl:variable name="state" select="p:lookahead1W(10, $input, $state)"/>         <!-- whitespace | rulename | integer | char-val | prose-val | '%' | '(' |
-                                                                                         '*' | '[' -->
+    <xsl:variable name="state" select="p:consume(12, $input, $state)"/>             <!-- '(' -->
+    <xsl:variable name="state" select="p:lookahead1W(11, $input, $state)"/>         <!-- whitespace | rulename | integer | quoted-string | prose-val | '%' |
+                                                                                         '%i' | '%s' | '(' | '*' | '[' -->
     <xsl:variable name="state" select="p:whitespace($input, $state)"/>
     <xsl:variable name="state" select="
       if ($state[$p:error]) then
@@ -667,7 +768,7 @@
       else
         p:parse-alternation($input, $state)
     "/>
-    <xsl:variable name="state" select="p:consume(11, $input, $state)"/>             <!-- ')' -->
+    <xsl:variable name="state" select="p:consume(13, $input, $state)"/>             <!-- ')' -->
     <xsl:variable name="end" select="$state[$p:e0]"/>
     <xsl:sequence select="p:reduce($state, 'group', $count, $begin, $end)"/>
   </xsl:function>
@@ -685,7 +786,8 @@
 
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
-    <xsl:variable name="state" select="p:lookahead1(7, $input, $state)"/>           <!-- rulename | char-val | prose-val | '%' | '(' | '[' -->
+    <xsl:variable name="state" select="p:lookahead1W(8, $input, $state)"/>          <!-- whitespace | rulename | quoted-string | prose-val | '%' | '%i' | '%s' |
+                                                                                         '(' | '[' -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:error]">
@@ -695,7 +797,7 @@
           <xsl:variable name="state" select="p:consume(2, $input, $state)"/>        <!-- rulename -->
           <xsl:sequence select="$state"/>
         </xsl:when>
-        <xsl:when test="$state[$p:l1] = 10">                                        <!-- '(' -->
+        <xsl:when test="$state[$p:l1] = 12">                                        <!-- '(' -->
           <xsl:variable name="state" select="
             if ($state[$p:error]) then
               $state
@@ -704,17 +806,13 @@
           "/>
           <xsl:sequence select="$state"/>
         </xsl:when>
-        <xsl:when test="$state[$p:l1] = 19">                                        <!-- '[' -->
+        <xsl:when test="$state[$p:l1] = 21">                                        <!-- '[' -->
           <xsl:variable name="state" select="
             if ($state[$p:error]) then
               $state
             else
               p:parse-option($input, $state)
           "/>
-          <xsl:sequence select="$state"/>
-        </xsl:when>
-        <xsl:when test="$state[$p:l1] = 4">                                         <!-- char-val -->
-          <xsl:variable name="state" select="p:consume(4, $input, $state)"/>        <!-- char-val -->
           <xsl:sequence select="$state"/>
         </xsl:when>
         <xsl:when test="$state[$p:l1] = 9">                                         <!-- '%' -->
@@ -726,8 +824,17 @@
           "/>
           <xsl:sequence select="$state"/>
         </xsl:when>
-        <xsl:otherwise>
+        <xsl:when test="$state[$p:l1] = 7">                                         <!-- prose-val -->
           <xsl:variable name="state" select="p:consume(7, $input, $state)"/>        <!-- prose-val -->
+          <xsl:sequence select="$state"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:variable name="state" select="
+            if ($state[$p:error]) then
+              $state
+            else
+              p:parse-char-val($input, $state)
+          "/>
           <xsl:sequence select="$state"/>
         </xsl:otherwise>
       </xsl:choose>
@@ -752,7 +859,8 @@
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:l1] eq 3">                                        <!-- integer -->
-          <xsl:variable name="state" select="p:lookahead2(9, $input, $state)"/>     <!-- rulename | char-val | prose-val | '%' | '(' | '*' | '[' -->
+          <xsl:variable name="state" select="p:lookahead2W(10, $input, $state)"/>   <!-- whitespace | rulename | quoted-string | prose-val | '%' | '%i' | '%s' |
+                                                                                         '(' | '*' | '[' -->
           <xsl:sequence select="$state"/>
         </xsl:when>
         <xsl:otherwise>
@@ -765,8 +873,8 @@
         <xsl:when test="$state[$p:error]">
           <xsl:sequence select="$state"/>
         </xsl:when>
-        <xsl:when test="$state[$p:lk] = 12                                            (: '*' :)
-                     or $state[$p:lk] = 387">                                       <!-- integer '*' -->
+        <xsl:when test="$state[$p:lk] = 14                                            (: '*' :)
+                     or $state[$p:lk] = 451">                                       <!-- integer '*' -->
           <xsl:variable name="state" as="item()+">
             <xsl:choose>
               <xsl:when test="$state[$p:error]">
@@ -782,8 +890,9 @@
             </xsl:choose>
           </xsl:variable>
           <xsl:variable name="state" select="p:lookahead1(3, $input, $state)"/>     <!-- '*' -->
-          <xsl:variable name="state" select="p:consume(12, $input, $state)"/>       <!-- '*' -->
-          <xsl:variable name="state" select="p:lookahead1(8, $input, $state)"/>     <!-- rulename | integer | char-val | prose-val | '%' | '(' | '[' -->
+          <xsl:variable name="state" select="p:consume(14, $input, $state)"/>       <!-- '*' -->
+          <xsl:variable name="state" select="p:lookahead1W(9, $input, $state)"/>    <!-- whitespace | rulename | integer | quoted-string | prose-val | '%' |
+                                                                                         '%i' | '%s' | '(' | '[' -->
           <xsl:variable name="state" as="item()+">
             <xsl:choose>
               <xsl:when test="$state[$p:error]">
@@ -829,7 +938,7 @@
           <xsl:sequence select="$state"/>
         </xsl:when>
         <xsl:when test="$state[$p:l1] = 3                                             (: integer :)
-                     or $state[$p:l1] = 12">                                        <!-- '*' -->
+                     or $state[$p:l1] = 14">                                        <!-- '*' -->
           <xsl:variable name="state" select="
             if ($state[$p:error]) then
               $state
@@ -877,13 +986,14 @@
           else
             p:parse-repetition($input, $state)
         "/>
-        <xsl:variable name="state" select="p:lookahead1W(11, $input, $state)"/>     <!-- whitespace | rulename | integer | char-val | prose-val | EOF | '%' |
-                                                                                         '(' | ')' | '*' | '/' | '[' | ']' | '|' -->
+        <xsl:variable name="state" select="p:lookahead1W(12, $input, $state)"/>     <!-- whitespace | rulename | integer | quoted-string | prose-val | EOF |
+                                                                                         '%' | '%i' | '%s' | '(' | ')' | '*' | '/' | '[' | ']' | '|' -->
         <xsl:variable name="state" as="item()+">
           <xsl:choose>
             <xsl:when test="$state[$p:l1] eq 2">                                    <!-- rulename -->
-              <xsl:variable name="state" select="p:lookahead2W(14, $input, $state)"/> <!-- whitespace | rulename | integer | char-val | prose-val | EOF | '%' |
-                                                                                           '(' | ')' | '*' | '/' | '::=' | '=' | '=/' | '[' | ']' | '|' -->
+              <xsl:variable name="state" select="p:lookahead2W(15, $input, $state)"/> <!-- whitespace | rulename | integer | quoted-string | prose-val | EOF |
+                                                                                           '%' | '%i' | '%s' | '(' | ')' | '*' | '/' | '::=' | '=' | '=/' |
+                                                                                           '[' | ']' | '|' -->
               <xsl:sequence select="$state"/>
             </xsl:when>
             <xsl:otherwise>
@@ -893,13 +1003,13 @@
         </xsl:variable>
         <xsl:choose>
           <xsl:when test="$state[$p:lk] = 8                                           (: EOF :)
-                       or $state[$p:lk] = 11                                          (: ')' :)
-                       or $state[$p:lk] = 15                                          (: '/' :)
-                       or $state[$p:lk] = 20                                          (: ']' :)
-                       or $state[$p:lk] = 24                                          (: '|' :)
-                       or $state[$p:lk] = 514                                         (: rulename '::=' :)
-                       or $state[$p:lk] = 546                                         (: rulename '=' :)
-                       or $state[$p:lk] = 578">                                     <!-- rulename '=/' -->
+                       or $state[$p:lk] = 13                                          (: ')' :)
+                       or $state[$p:lk] = 17                                          (: '/' :)
+                       or $state[$p:lk] = 22                                          (: ']' :)
+                       or $state[$p:lk] = 26                                          (: '|' :)
+                       or $state[$p:lk] = 578                                         (: rulename '::=' :)
+                       or $state[$p:lk] = 610                                         (: rulename '=' :)
+                       or $state[$p:lk] = 642">                                     <!-- rulename '=/' -->
             <xsl:sequence select="$state"/>
           </xsl:when>
           <xsl:otherwise>
@@ -946,8 +1056,8 @@
       </xsl:when>
       <xsl:otherwise>
         <xsl:choose>
-          <xsl:when test="$state[$p:l1] != 15                                         (: '/' :)
-                      and $state[$p:l1] != 24">                                     <!-- '|' -->
+          <xsl:when test="$state[$p:l1] != 17                                         (: '/' :)
+                      and $state[$p:l1] != 26">                                     <!-- '|' -->
             <xsl:sequence select="$state"/>
           </xsl:when>
           <xsl:otherwise>
@@ -956,18 +1066,18 @@
                 <xsl:when test="$state[$p:error]">
                   <xsl:sequence select="$state"/>
                 </xsl:when>
-                <xsl:when test="$state[$p:l1] = 15">                                <!-- '/' -->
-                  <xsl:variable name="state" select="p:consume(15, $input, $state)"/> <!-- '/' -->
+                <xsl:when test="$state[$p:l1] = 17">                                <!-- '/' -->
+                  <xsl:variable name="state" select="p:consume(17, $input, $state)"/> <!-- '/' -->
                   <xsl:sequence select="$state"/>
                 </xsl:when>
                 <xsl:otherwise>
-                  <xsl:variable name="state" select="p:consume(24, $input, $state)"/> <!-- '|' -->
+                  <xsl:variable name="state" select="p:consume(26, $input, $state)"/> <!-- '|' -->
                   <xsl:sequence select="$state"/>
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:variable>
-            <xsl:variable name="state" select="p:lookahead1W(10, $input, $state)"/> <!-- whitespace | rulename | integer | char-val | prose-val | '%' | '(' |
-                                                                                         '*' | '[' -->
+            <xsl:variable name="state" select="p:lookahead1W(11, $input, $state)"/> <!-- whitespace | rulename | integer | quoted-string | prose-val | '%' |
+                                                                                         '%i' | '%s' | '(' | '*' | '[' -->
             <xsl:variable name="state" select="p:whitespace($input, $state)"/>
             <xsl:variable name="state" select="
               if ($state[$p:error]) then
@@ -1047,16 +1157,16 @@
         <xsl:when test="$state[$p:error]">
           <xsl:sequence select="$state"/>
         </xsl:when>
-        <xsl:when test="$state[$p:l1] = 17">                                        <!-- '=' -->
-          <xsl:variable name="state" select="p:consume(17, $input, $state)"/>       <!-- '=' -->
+        <xsl:when test="$state[$p:l1] = 19">                                        <!-- '=' -->
+          <xsl:variable name="state" select="p:consume(19, $input, $state)"/>       <!-- '=' -->
           <xsl:sequence select="$state"/>
         </xsl:when>
-        <xsl:when test="$state[$p:l1] = 18">                                        <!-- '=/' -->
-          <xsl:variable name="state" select="p:consume(18, $input, $state)"/>       <!-- '=/' -->
+        <xsl:when test="$state[$p:l1] = 20">                                        <!-- '=/' -->
+          <xsl:variable name="state" select="p:consume(20, $input, $state)"/>       <!-- '=/' -->
           <xsl:sequence select="$state"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:variable name="state" select="p:consume(16, $input, $state)"/>       <!-- '::=' -->
+          <xsl:variable name="state" select="p:consume(18, $input, $state)"/>       <!-- '::=' -->
           <xsl:sequence select="$state"/>
         </xsl:otherwise>
       </xsl:choose>
@@ -1079,7 +1189,7 @@
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
     <xsl:variable name="state" select="p:consume(2, $input, $state)"/>              <!-- rulename -->
-    <xsl:variable name="state" select="p:lookahead1W(6, $input, $state)"/>          <!-- whitespace | '::=' | '=' | '=/' -->
+    <xsl:variable name="state" select="p:lookahead1W(7, $input, $state)"/>          <!-- whitespace | '::=' | '=' | '=/' -->
     <xsl:variable name="state" select="p:whitespace($input, $state)"/>
     <xsl:variable name="state" select="
       if ($state[$p:error]) then
@@ -1087,8 +1197,8 @@
       else
         p:parse-defined-as($input, $state)
     "/>
-    <xsl:variable name="state" select="p:lookahead1W(10, $input, $state)"/>         <!-- whitespace | rulename | integer | char-val | prose-val | '%' | '(' |
-                                                                                         '*' | '[' -->
+    <xsl:variable name="state" select="p:lookahead1W(11, $input, $state)"/>         <!-- whitespace | rulename | integer | quoted-string | prose-val | '%' |
+                                                                                         '%i' | '%s' | '(' | '*' | '[' -->
     <xsl:variable name="state" select="p:whitespace($input, $state)"/>
     <xsl:variable name="state" select="
       if ($state[$p:error]) then
@@ -1423,33 +1533,6 @@
         "/>
       </xsl:otherwise>
     </xsl:choose>
-  </xsl:function>
-
-  <!--~
-   ! Lookahead one token on level 2.
-   !
-   ! @param $set the code of the DFA entry state for the set of valid tokens.
-   ! @param $input the input string.
-   ! @param $state lexer state, error indicator, and result stack.
-   ! @return the updated state.
-  -->
-  <xsl:function name="p:lookahead2" as="item()+">
-    <xsl:param name="set" as="xs:integer"/>
-    <xsl:param name="input" as="xs:string"/>
-    <xsl:param name="state" as="item()+"/>
-
-    <xsl:variable name="match" select="
-      if ($state[$p:l2] ne 0) then
-        subsequence($state, $p:l2, 3)
-      else
-        p:match($input, $state[$p:e1], $set)
-    "/>
-    <xsl:sequence select="
-      $match[1] * 32 + $state[$p:l1],
-      subsequence($state, $p:b0, 5),
-      $match,
-      subsequence($state, 10)
-    "/>
   </xsl:function>
 
   <!--~

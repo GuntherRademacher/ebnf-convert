@@ -25,6 +25,12 @@ element       ::= rulename
                 | prose-val
 group         ::= "(" alternation ")"
 option        ::= "[" alternation "]"
+char-val      ::= case-insensitive-string
+                | case-sensitive-string
+case-insensitive-string
+              ::= "%i"? quoted-string
+case-sensitive-string
+              ::= "%s" quoted-string
 num-val       ::= "%" (bin-val | dec-val | hex-val)
                /* ws:explicit */
 bin-val       ::= "b" bits
@@ -50,7 +56,7 @@ c-nl          ::= comment | CRLF
                        // comment or newline
 integer       ::= DIGIT+
 comment       ::= ";" (WSP | VCHAR)* CRLF
-char-val      ::= DQUOTE ([#x20-#x21] | [#x23-#x7E])* DQUOTE
+quoted-string ::= DQUOTE ([#x20-#x21] | [#x23-#x7E])* DQUOTE
                        // quoted string of SP and VCHAR
                        //  without DQUOTE
 bits          ::= BIT+

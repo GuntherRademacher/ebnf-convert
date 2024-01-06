@@ -7,7 +7,7 @@ convert, the Grammar Converter. It builds both an experimental rr.war and conver
 
 convert comes in a .war file, convert.war. This can be deployed
 in servlet containers like Tomcat or Jetty for serving the GUI, and it makes up the webapp
-that is running on the original website, <https://bottlecaps.de/convert>.
+that is running on the original website, <https://www.bottlecaps.de/convert>.
 
 convert.war file is a Java "executable war", i.e. it can also be started
 standalone from command line.

@@ -51,7 +51,8 @@ declare function x:rewrite($alternatives as element(concatenation)+) as element(
         if ($primary/rulename) then
           <g:ref name="{$primary/rulename}"/>
         else if ($primary/char-val) then
-          t:split-string(substring($primary/char-val, 2, string-length($primary/char-val) - 2))
+          let $quoted-string := $primary/char-val/*/quoted-string
+          return t:split-string(substring($quoted-string, 2, string-length($quoted-string) - 2))
         else if ($primary/option) then
           element g:optional {x:rewrite($primary/option/alternation/concatenation)}
         else if ($primary/group) then

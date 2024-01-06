@@ -1,4 +1,4 @@
-// This file was generated on Thu Mar 9, 2023 13:02 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Tue Nov 7, 2023 20:16 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.abnf.Abnf abnf.ebnf
 
 package de.bottlecaps.convert.abnf;
@@ -113,10 +113,11 @@ public class Abnf implements de.bottlecaps.convert.Parser
   {
     eventHandler.startNonterminal("rule", e0);
     consume(2);                     // rulename
-    lookahead1W(6);                 // whitespace | '::=' | '=' | '=/'
+    lookahead1W(7);                 // whitespace | '::=' | '=' | '=/'
     whitespace();
     parse_defined_as();
-    lookahead1W(10);                // whitespace | rulename | integer | char-val | prose-val | '%' | '(' | '*' | '['
+    lookahead1W(11);                // whitespace | rulename | integer | quoted-string | prose-val | '%' | '%i' | '%s' |
+                                    // '(' | '*' | '['
     whitespace();
     parse_elements();
     eventHandler.endNonterminal("rule", e0);
@@ -127,14 +128,14 @@ public class Abnf implements de.bottlecaps.convert.Parser
     eventHandler.startNonterminal("defined-as", e0);
     switch (l1)
     {
-    case 17:                        // '='
-      consume(17);                  // '='
+    case 19:                        // '='
+      consume(19);                  // '='
       break;
-    case 18:                        // '=/'
-      consume(18);                  // '=/'
+    case 20:                        // '=/'
+      consume(20);                  // '=/'
       break;
     default:
-      consume(16);                  // '::='
+      consume(18);                  // '::='
     }
     eventHandler.endNonterminal("defined-as", e0);
   }
@@ -152,20 +153,21 @@ public class Abnf implements de.bottlecaps.convert.Parser
     parse_concatenation();
     for (;;)
     {
-      if (l1 != 15                  // '/'
-       && l1 != 24)                 // '|'
+      if (l1 != 17                  // '/'
+       && l1 != 26)                 // '|'
       {
         break;
       }
       switch (l1)
       {
-      case 15:                      // '/'
-        consume(15);                // '/'
+      case 17:                      // '/'
+        consume(17);                // '/'
         break;
       default:
-        consume(24);                // '|'
+        consume(26);                // '|'
       }
-      lookahead1W(10);              // whitespace | rulename | integer | char-val | prose-val | '%' | '(' | '*' | '['
+      lookahead1W(11);              // whitespace | rulename | integer | quoted-string | prose-val | '%' | '%i' | '%s' |
+                                    // '(' | '*' | '['
       whitespace();
       parse_concatenation();
     }
@@ -179,25 +181,25 @@ public class Abnf implements de.bottlecaps.convert.Parser
     {
       whitespace();
       parse_repetition();
-      lookahead1W(11);              // whitespace | rulename | integer | char-val | prose-val | EOF | '%' | '(' | ')' |
-                                    // '*' | '/' | '[' | ']' | '|'
+      lookahead1W(12);              // whitespace | rulename | integer | quoted-string | prose-val | EOF | '%' | '%i' |
+                                    // '%s' | '(' | ')' | '*' | '/' | '[' | ']' | '|'
       switch (l1)
       {
       case 2:                       // rulename
-        lookahead2W(14);            // whitespace | rulename | integer | char-val | prose-val | EOF | '%' | '(' | ')' |
-                                    // '*' | '/' | '::=' | '=' | '=/' | '[' | ']' | '|'
+        lookahead2W(15);            // whitespace | rulename | integer | quoted-string | prose-val | EOF | '%' | '%i' |
+                                    // '%s' | '(' | ')' | '*' | '/' | '::=' | '=' | '=/' | '[' | ']' | '|'
         break;
       default:
         lk = l1;
       }
       if (lk == 8                   // EOF
-       || lk == 11                  // ')'
-       || lk == 15                  // '/'
-       || lk == 20                  // ']'
-       || lk == 24                  // '|'
-       || lk == 514                 // rulename '::='
-       || lk == 546                 // rulename '='
-       || lk == 578)                // rulename '=/'
+       || lk == 13                  // ')'
+       || lk == 17                  // '/'
+       || lk == 22                  // ']'
+       || lk == 26                  // '|'
+       || lk == 578                 // rulename '::='
+       || lk == 610                 // rulename '='
+       || lk == 642)                // rulename '=/'
       {
         break;
       }
@@ -209,7 +211,7 @@ public class Abnf implements de.bottlecaps.convert.Parser
   {
     eventHandler.startNonterminal("repetition", e0);
     if (l1 == 3                     // integer
-     || l1 == 12)                   // '*'
+     || l1 == 14)                   // '*'
     {
       parse_repeat();
     }
@@ -223,22 +225,24 @@ public class Abnf implements de.bottlecaps.convert.Parser
     switch (l1)
     {
     case 3:                         // integer
-      lookahead2(9);                // rulename | char-val | prose-val | '%' | '(' | '*' | '['
+      lookahead2W(10);              // whitespace | rulename | quoted-string | prose-val | '%' | '%i' | '%s' | '(' |
+                                    // '*' | '['
       break;
     default:
       lk = l1;
     }
     switch (lk)
     {
-    case 12:                        // '*'
-    case 387:                       // integer '*'
+    case 14:                        // '*'
+    case 451:                       // integer '*'
       if (l1 == 3)                  // integer
       {
         consume(3);                 // integer
       }
       lookahead1(3);                // '*'
-      consume(12);                  // '*'
-      lookahead1(8);                // rulename | integer | char-val | prose-val | '%' | '(' | '['
+      consume(14);                  // '*'
+      lookahead1W(9);               // whitespace | rulename | integer | quoted-string | prose-val | '%' | '%i' | '%s' |
+                                    // '(' | '['
       if (l1 == 3)                  // integer
       {
         consume(3);                 // integer
@@ -253,26 +257,26 @@ public class Abnf implements de.bottlecaps.convert.Parser
   private void parse_element()
   {
     eventHandler.startNonterminal("element", e0);
-    lookahead1(7);                  // rulename | char-val | prose-val | '%' | '(' | '['
+    lookahead1W(8);                 // whitespace | rulename | quoted-string | prose-val | '%' | '%i' | '%s' | '(' | '['
     switch (l1)
     {
     case 2:                         // rulename
       consume(2);                   // rulename
       break;
-    case 10:                        // '('
+    case 12:                        // '('
       parse_group();
       break;
-    case 19:                        // '['
+    case 21:                        // '['
       parse_option();
-      break;
-    case 4:                         // char-val
-      consume(4);                   // char-val
       break;
     case 9:                         // '%'
       parse_num_val();
       break;
-    default:
+    case 7:                         // prose-val
       consume(7);                   // prose-val
+      break;
+    default:
+      parse_char_val();
     }
     eventHandler.endNonterminal("element", e0);
   }
@@ -280,36 +284,73 @@ public class Abnf implements de.bottlecaps.convert.Parser
   private void parse_group()
   {
     eventHandler.startNonterminal("group", e0);
-    consume(10);                    // '('
-    lookahead1W(10);                // whitespace | rulename | integer | char-val | prose-val | '%' | '(' | '*' | '['
+    consume(12);                    // '('
+    lookahead1W(11);                // whitespace | rulename | integer | quoted-string | prose-val | '%' | '%i' | '%s' |
+                                    // '(' | '*' | '['
     whitespace();
     parse_alternation();
-    consume(11);                    // ')'
+    consume(13);                    // ')'
     eventHandler.endNonterminal("group", e0);
   }
 
   private void parse_option()
   {
     eventHandler.startNonterminal("option", e0);
-    consume(19);                    // '['
-    lookahead1W(10);                // whitespace | rulename | integer | char-val | prose-val | '%' | '(' | '*' | '['
+    consume(21);                    // '['
+    lookahead1W(11);                // whitespace | rulename | integer | quoted-string | prose-val | '%' | '%i' | '%s' |
+                                    // '(' | '*' | '['
     whitespace();
     parse_alternation();
-    consume(20);                    // ']'
+    consume(22);                    // ']'
     eventHandler.endNonterminal("option", e0);
+  }
+
+  private void parse_char_val()
+  {
+    eventHandler.startNonterminal("char-val", e0);
+    switch (l1)
+    {
+    case 11:                        // '%s'
+      parse_case_sensitive_string();
+      break;
+    default:
+      parse_case_insensitive_string();
+    }
+    eventHandler.endNonterminal("char-val", e0);
+  }
+
+  private void parse_case_insensitive_string()
+  {
+    eventHandler.startNonterminal("case-insensitive-string", e0);
+    if (l1 == 10)                   // '%i'
+    {
+      consume(10);                  // '%i'
+    }
+    lookahead1W(5);                 // whitespace | quoted-string
+    consume(4);                     // quoted-string
+    eventHandler.endNonterminal("case-insensitive-string", e0);
+  }
+
+  private void parse_case_sensitive_string()
+  {
+    eventHandler.startNonterminal("case-sensitive-string", e0);
+    consume(11);                    // '%s'
+    lookahead1W(5);                 // whitespace | quoted-string
+    consume(4);                     // quoted-string
+    eventHandler.endNonterminal("case-sensitive-string", e0);
   }
 
   private void parse_num_val()
   {
     eventHandler.startNonterminal("num-val", e0);
     consume(9);                     // '%'
-    lookahead1(5);                  // 'b' | 'd' | 'x'
+    lookahead1(6);                  // 'b' | 'd' | 'x'
     switch (l1)
     {
-    case 21:                        // 'b'
+    case 23:                        // 'b'
       parse_bin_val();
       break;
-    case 22:                        // 'd'
+    case 24:                        // 'd'
       parse_dec_val();
       break;
     default:
@@ -321,32 +362,32 @@ public class Abnf implements de.bottlecaps.convert.Parser
   private void parse_bin_val()
   {
     eventHandler.startNonterminal("bin-val", e0);
-    consume(21);                    // 'b'
+    consume(23);                    // 'b'
     lookahead1(1);                  // bits
     consume(5);                     // bits
-    lookahead1W(13);                // whitespace | rulename | integer | char-val | prose-val | EOF | '%' | '(' | ')' |
-                                    // '*' | '-' | '.' | '/' | '[' | ']' | '|'
-    if (l1 == 13                    // '-'
-     || l1 == 14)                   // '.'
+    lookahead1W(14);                // whitespace | rulename | integer | quoted-string | prose-val | EOF | '%' | '%i' |
+                                    // '%s' | '(' | ')' | '*' | '-' | '.' | '/' | '[' | ']' | '|'
+    if (l1 == 15                    // '-'
+     || l1 == 16)                   // '.'
     {
       switch (l1)
       {
-      case 14:                      // '.'
+      case 16:                      // '.'
         for (;;)
         {
-          consume(14);              // '.'
+          consume(16);              // '.'
           lookahead1(1);            // bits
           consume(5);               // bits
-          lookahead1W(12);          // whitespace | rulename | integer | char-val | prose-val | EOF | '%' | '(' | ')' |
-                                    // '*' | '.' | '/' | '[' | ']' | '|'
-          if (l1 != 14)             // '.'
+          lookahead1W(13);          // whitespace | rulename | integer | quoted-string | prose-val | EOF | '%' | '%i' |
+                                    // '%s' | '(' | ')' | '*' | '.' | '/' | '[' | ']' | '|'
+          if (l1 != 16)             // '.'
           {
             break;
           }
         }
         break;
       default:
-        consume(13);                // '-'
+        consume(15);                // '-'
         lookahead1(1);              // bits
         consume(5);                 // bits
       }
@@ -357,32 +398,32 @@ public class Abnf implements de.bottlecaps.convert.Parser
   private void parse_dec_val()
   {
     eventHandler.startNonterminal("dec-val", e0);
-    consume(22);                    // 'd'
+    consume(24);                    // 'd'
     lookahead1(0);                  // integer
     consume(3);                     // integer
-    lookahead1W(13);                // whitespace | rulename | integer | char-val | prose-val | EOF | '%' | '(' | ')' |
-                                    // '*' | '-' | '.' | '/' | '[' | ']' | '|'
-    if (l1 == 13                    // '-'
-     || l1 == 14)                   // '.'
+    lookahead1W(14);                // whitespace | rulename | integer | quoted-string | prose-val | EOF | '%' | '%i' |
+                                    // '%s' | '(' | ')' | '*' | '-' | '.' | '/' | '[' | ']' | '|'
+    if (l1 == 15                    // '-'
+     || l1 == 16)                   // '.'
     {
       switch (l1)
       {
-      case 14:                      // '.'
+      case 16:                      // '.'
         for (;;)
         {
-          consume(14);              // '.'
+          consume(16);              // '.'
           lookahead1(0);            // integer
           consume(3);               // integer
-          lookahead1W(12);          // whitespace | rulename | integer | char-val | prose-val | EOF | '%' | '(' | ')' |
-                                    // '*' | '.' | '/' | '[' | ']' | '|'
-          if (l1 != 14)             // '.'
+          lookahead1W(13);          // whitespace | rulename | integer | quoted-string | prose-val | EOF | '%' | '%i' |
+                                    // '%s' | '(' | ')' | '*' | '.' | '/' | '[' | ']' | '|'
+          if (l1 != 16)             // '.'
           {
             break;
           }
         }
         break;
       default:
-        consume(13);                // '-'
+        consume(15);                // '-'
         lookahead1(0);              // integer
         consume(3);                 // integer
       }
@@ -393,32 +434,32 @@ public class Abnf implements de.bottlecaps.convert.Parser
   private void parse_hex_val()
   {
     eventHandler.startNonterminal("hex-val", e0);
-    consume(23);                    // 'x'
+    consume(25);                    // 'x'
     lookahead1(2);                  // hexdigs
     consume(6);                     // hexdigs
-    lookahead1W(13);                // whitespace | rulename | integer | char-val | prose-val | EOF | '%' | '(' | ')' |
-                                    // '*' | '-' | '.' | '/' | '[' | ']' | '|'
-    if (l1 == 13                    // '-'
-     || l1 == 14)                   // '.'
+    lookahead1W(14);                // whitespace | rulename | integer | quoted-string | prose-val | EOF | '%' | '%i' |
+                                    // '%s' | '(' | ')' | '*' | '-' | '.' | '/' | '[' | ']' | '|'
+    if (l1 == 15                    // '-'
+     || l1 == 16)                   // '.'
     {
       switch (l1)
       {
-      case 14:                      // '.'
+      case 16:                      // '.'
         for (;;)
         {
-          consume(14);              // '.'
+          consume(16);              // '.'
           lookahead1(2);            // hexdigs
           consume(6);               // hexdigs
-          lookahead1W(12);          // whitespace | rulename | integer | char-val | prose-val | EOF | '%' | '(' | ')' |
-                                    // '*' | '.' | '/' | '[' | ']' | '|'
-          if (l1 != 14)             // '.'
+          lookahead1W(13);          // whitespace | rulename | integer | quoted-string | prose-val | EOF | '%' | '%i' |
+                                    // '%s' | '(' | ')' | '*' | '.' | '/' | '[' | ']' | '|'
+          if (l1 != 16)             // '.'
           {
             break;
           }
         }
         break;
       default:
-        consume(13);                // '-'
+        consume(15);                // '-'
         lookahead1(2);              // hexdigs
         consume(6);                 // hexdigs
       }
@@ -495,17 +536,6 @@ public class Abnf implements de.bottlecaps.convert.Parser
     }
   }
 
-  private void lookahead2(int tokenSetId)
-  {
-    if (l2 == 0)
-    {
-      l2 = match(tokenSetId);
-      b2 = begin;
-      e2 = end;
-    }
-    lk = (l2 << 5) | l1;
-  }
-
   private int error(int b, int e, int s, int l, int t)
   {
     throw new ParseException(b, e, s, l, t);
@@ -578,10 +608,10 @@ public class Abnf implements de.bottlecaps.convert.Parser
   {
     java.util.ArrayList<String> expected = new java.util.ArrayList<>();
     int s = tokenSetId < 0 ? - tokenSetId : INITIAL[tokenSetId] & 31;
-    for (int i = 0; i < 25; i += 32)
+    for (int i = 0; i < 27; i += 32)
     {
       int j = i;
-      int i0 = (i >> 5) * 27 + s - 1;
+      int i0 = (i >> 5) * 29 + s - 1;
       int f = EXPECTED[i0];
       for ( ; f != 0; f >>>= 1, ++j)
       {
@@ -596,11 +626,11 @@ public class Abnf implements de.bottlecaps.convert.Parser
 
   private static final int[] MAP0 =
   {
-    /*   0 */ 30, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 5, 6,
+    /*   0 */ 32, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 5, 6,
     /*  35 */ 5, 5, 7, 5, 5, 8, 9, 10, 5, 5, 11, 12, 13, 14, 14, 15, 15, 15, 15, 15, 15, 15, 15, 16, 17, 18, 19, 20, 5,
     /*  64 */ 5, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22,
-    /*  91 */ 23, 5, 24, 5, 25, 5, 21, 26, 21, 27, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22,
-    /* 118 */ 22, 22, 28, 22, 22, 5, 29, 5, 5, 0
+    /*  91 */ 23, 5, 24, 5, 25, 5, 21, 26, 21, 27, 21, 21, 22, 22, 28, 22, 22, 22, 22, 22, 22, 22, 22, 22, 29, 22, 22,
+    /* 118 */ 22, 22, 30, 22, 22, 5, 31, 5, 5, 0
   };
 
   private static final int[] MAP1 =
@@ -608,47 +638,47 @@ public class Abnf implements de.bottlecaps.convert.Parser
     /*   0 */ 54, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58,
     /*  26 */ 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58,
     /*  52 */ 58, 58, 90, 136, 167, 199, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104,
-    /*  74 */ 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 30, 0, 0, 0, 0, 0, 0, 0,
+    /*  74 */ 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 32, 0, 0, 0, 0, 0, 0, 0,
     /*  98 */ 0, 1, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     /* 133 */ 0, 0, 0, 4, 5, 6, 5, 5, 7, 5, 5, 8, 9, 10, 5, 5, 11, 12, 13, 14, 14, 15, 15, 15, 15, 15, 15, 15, 15, 16,
     /* 163 */ 17, 18, 19, 20, 5, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22,
-    /* 190 */ 22, 22, 22, 22, 23, 5, 24, 5, 25, 5, 21, 26, 21, 27, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22,
-    /* 217 */ 22, 22, 22, 22, 22, 22, 28, 22, 22, 5, 29, 5, 5, 0
+    /* 190 */ 22, 22, 22, 22, 23, 5, 24, 5, 25, 5, 21, 26, 21, 27, 21, 21, 22, 22, 28, 22, 22, 22, 22, 22, 22, 22, 22,
+    /* 217 */ 22, 29, 22, 22, 22, 22, 30, 22, 22, 5, 31, 5, 5, 0
   };
 
   private static final int[] INITIAL =
   {
-    /*  0 */ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
+    /*  0 */ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
   };
 
   private static final int[] TRANSITION =
   {
-    /*   0 */ 258, 258, 258, 258, 258, 258, 258, 258, 258, 248, 423, 425, 250, 258, 256, 258, 258, 264, 442, 280, 443,
-    /*  21 */ 258, 283, 258, 258, 289, 306, 308, 360, 258, 312, 258, 258, 248, 423, 425, 250, 260, 256, 258, 258, 258,
-    /*  42 */ 258, 258, 375, 260, 256, 258, 258, 259, 318, 319, 375, 323, 256, 258, 258, 343, 331, 332, 375, 260, 256,
-    /*  63 */ 258, 258, 349, 336, 337, 375, 260, 256, 258, 258, 258, 267, 270, 375, 260, 256, 258, 273, 258, 275, 276,
-    /*  84 */ 375, 260, 256, 258, 258, 258, 258, 341, 402, 260, 256, 258, 258, 258, 258, 347, 375, 260, 256, 258, 258,
-    /* 105 */ 258, 292, 295, 375, 353, 256, 258, 357, 258, 384, 386, 402, 260, 256, 258, 388, 258, 384, 386, 402, 260,
-    /* 126 */ 256, 258, 258, 399, 258, 399, 375, 392, 256, 258, 258, 252, 378, 380, 375, 260, 256, 258, 258, 285, 326,
-    /* 147 */ 327, 375, 260, 256, 258, 258, 396, 258, 396, 375, 260, 413, 258, 258, 258, 258, 258, 375, 416, 256, 258,
-    /* 168 */ 420, 405, 408, 409, 402, 260, 256, 258, 258, 405, 408, 409, 402, 260, 256, 258, 258, 298, 301, 302, 375,
-    /* 189 */ 260, 256, 258, 258, 258, 363, 366, 375, 260, 256, 258, 258, 258, 258, 258, 402, 260, 256, 258, 420, 429,
-    /* 210 */ 408, 409, 402, 260, 256, 258, 420, 432, 408, 409, 402, 260, 256, 258, 258, 435, 408, 409, 402, 260, 256,
-    /* 231 */ 258, 258, 258, 369, 372, 375, 260, 256, 258, 258, 258, 314, 439, 258, 258, 258, 258, 80, 0, 80, 0, 19, 0,
-    /* 254 */ 19, 0, 0, 26, 0, 0, 0, 0, 23, 24, 81, 0, 81, 0, 0, 0, 384, 384, 384, 0, 0, 0, 416, 416, 416, 0, 81, 81,
-    /* 282 */ 81, 17, 17, 0, 0, 0, 24, 82, 0, 82, 0, 0, 0, 512, 512, 512, 0, 0, 0, 640, 640, 640, 640, 0, 0, 0, 82, 82,
-    /* 310 */ 82, 25, 0, 25, 0, 0, 0, 288, 23, 23, 23, 23, 0, 0, 0, 160, 24, 24, 24, 24, 0, 320, 320, 320, 320, 0, 352,
-    /* 337 */ 352, 352, 352, 0, 0, 448, 0, 0, 0, 320, 480, 480, 0, 0, 0, 352, 0, 608, 23, 24, 129, 194, 227, 0, 0, 18,
-    /* 363 */ 0, 0, 0, 672, 672, 672, 0, 0, 0, 800, 800, 800, 0, 0, 19, 0, 0, 19, 19, 19, 26, 129, 0, 129, 129, 129, 0,
-    /* 390 */ 227, 0, 27, 0, 23, 24, 0, 0, 598, 0, 0, 21, 0, 0, 19, 116, 0, 0, 116, 116, 116, 116, 0, 0, 26, 544, 0, 0,
-    /* 418 */ 23, 256, 0, 0, 227, 0, 0, 80, 80, 80, 80, 116, 704, 0, 116, 736, 0, 116, 768, 0, 116, 288, 288, 288, 0, 0,
-    /* 444 */ 81, 81, 0
+    /*   0 */ 355, 355, 355, 355, 355, 355, 355, 355, 355, 264, 267, 267, 269, 355, 289, 355, 355, 326, 324, 324, 322,
+    /*  21 */ 355, 319, 355, 355, 275, 273, 273, 279, 355, 424, 355, 355, 264, 267, 267, 269, 422, 393, 355, 355, 355,
+    /*  42 */ 355, 355, 356, 422, 393, 355, 355, 422, 283, 283, 356, 287, 393, 355, 355, 355, 293, 293, 356, 422, 393,
+    /*  63 */ 355, 355, 355, 297, 297, 356, 422, 393, 355, 355, 355, 355, 301, 356, 422, 393, 355, 311, 355, 312, 305,
+    /*  84 */ 356, 422, 393, 355, 355, 355, 355, 343, 356, 309, 393, 355, 355, 355, 355, 316, 356, 422, 393, 355, 355,
+    /* 105 */ 355, 355, 330, 356, 386, 393, 355, 337, 355, 416, 334, 356, 309, 393, 355, 419, 355, 416, 334, 356, 309,
+    /* 126 */ 393, 355, 355, 368, 355, 368, 356, 383, 393, 355, 355, 401, 399, 399, 396, 422, 393, 355, 355, 355, 350,
+    /* 147 */ 350, 356, 422, 393, 355, 355, 346, 355, 346, 356, 422, 393, 354, 355, 355, 355, 355, 356, 422, 360, 355,
+    /* 168 */ 340, 367, 364, 364, 356, 309, 393, 355, 355, 367, 364, 364, 356, 309, 393, 355, 355, 355, 372, 372, 356,
+    /* 189 */ 422, 393, 355, 355, 355, 355, 376, 356, 422, 393, 355, 355, 355, 355, 355, 356, 309, 393, 355, 340, 380,
+    /* 210 */ 364, 364, 356, 309, 393, 355, 340, 390, 364, 364, 356, 309, 393, 355, 355, 367, 364, 364, 356, 309, 405,
+    /* 231 */ 355, 355, 367, 364, 364, 356, 309, 409, 355, 355, 413, 364, 364, 356, 309, 393, 355, 355, 355, 355, 428,
+    /* 252 */ 356, 422, 393, 355, 355, 355, 355, 432, 355, 355, 355, 355, 81, 81, 0, 81, 81, 81, 81, 0, 20, 83, 83, 83,
+    /* 276 */ 83, 0, 83, 27, 0, 0, 19, 22, 22, 22, 22, 0, 160, 0, 0, 0, 28, 345, 345, 345, 345, 416, 416, 416, 416, 448,
+    /* 302 */ 448, 448, 448, 480, 480, 480, 480, 117, 22, 0, 0, 0, 480, 480, 0, 544, 544, 0, 0, 18, 18, 0, 82, 82, 82,
+    /* 327 */ 82, 0, 82, 576, 576, 576, 576, 129, 129, 129, 129, 194, 227, 0, 0, 227, 0, 0, 512, 0, 0, 0, 664, 26, 26,
+    /* 352 */ 26, 26, 608, 0, 0, 0, 0, 20, 0, 256, 0, 28, 117, 117, 117, 117, 0, 0, 0, 23, 704, 704, 704, 704, 736, 736,
+    /* 378 */ 736, 736, 117, 0, 768, 0, 22, 29, 0, 22, 0, 672, 117, 0, 800, 0, 26, 0, 28, 0, 0, 20, 20, 20, 20, 0, 20,
+    /* 405 */ 352, 26, 0, 28, 384, 26, 0, 28, 117, 0, 832, 0, 129, 0, 129, 0, 227, 0, 22, 0, 0, 0, 27, 864, 864, 864,
+    /* 431 */ 864, 288, 288, 288, 288
   };
 
   private static final int[] EXPECTED =
   {
-    /*  0 */ 8, 32, 64, 4096, 6, 14680064, 458754, 525972, 525980, 530068, 530078, 18390942, 18407326, 18415518,
-    /* 14 */ 18849694, 2, 2, 2, 2, 4, 65536, 262144, 16, 128, 2, 2, 65536
+    /*  0 */ 8, 32, 64, 16384, 6, 18, 58720256, 1835010, 2104982, 2104990, 2121366, 2121374, 73564062, 73629598,
+    /* 14 */ 73662366, 75399070, 2, 2, 2, 2, 4, 16, 262144, 1048576, 3072, 128, 2, 2, 262144
   };
 
   private static final String[] TOKEN =
@@ -657,12 +687,14 @@ public class Abnf implements de.bottlecaps.convert.Parser
     "whitespace",
     "rulename",
     "integer",
-    "char-val",
+    "quoted-string",
     "bits",
     "hexdigs",
     "prose-val",
     "EOF",
     "'%'",
+    "'%i'",
+    "'%s'",
     "'('",
     "')'",
     "'*'",
