@@ -249,7 +249,7 @@ public class ConvertServlet extends HttpServlet
           if (part.length >= 2) name = part[1];
         }
         fragment =
-          "<form enctype=\"multipart/form-data\" method=\"POST\" action=\"https://bottlecaps.de/rr/ui\">\n" +
+          "<form enctype=\"multipart/form-data\" method=\"POST\" action=\"https://www.bottlecaps.de/rr/ui\">\n" +
           "  <h4>W3C-style&#160;grammar:</h4>\n" +
           "  <p><nobr><b>Name:&#160;</b><input type=\"text\" name=\"name\" value=\"" + name + "\"/></nobr></p>\n" +
           "  <textarea name=\"text\">" + escapeXmlContent(ebnfGrammar) + "</textarea>\n" +

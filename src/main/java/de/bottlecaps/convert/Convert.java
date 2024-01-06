@@ -48,7 +48,7 @@ public class Convert
     XSLT
   };
 
-  public static final String CONVERT_URL = "https://bottlecaps.de/" + ConvertVersion.PROJECT_NAME;
+  public static final String CONVERT_URL = "https://www.bottlecaps.de/" + ConvertVersion.PROJECT_NAME;
 
   public static void main(String args[]) throws Exception
   {
