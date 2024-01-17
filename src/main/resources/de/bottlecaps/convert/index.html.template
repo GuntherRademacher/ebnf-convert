@@ -28,7 +28,7 @@
     --></script>
   </head>
   <body onload="onLoad()">
-    <h3>Grammar Conversion</h3>
+    <h3>PROJECT - Grammar Converter</h3>
     <p class="text">
       Paste grammar into textarea and click button for converting to
       <a href="https://www.w3.org/TR/xquery-31/#EBNFNotation">W3C grammar notation</a>.
@@ -43,7 +43,7 @@
       <a href="https://invisiblexml.org/ixml-specification.html">Invisible XML</a>,
       <a href="https://javacc.github.io/javacc/documentation/grammar.html">JavaCC</a>,
       <a href="https://github.com/zaach/jison">Jison</a>,
-      <a href="https://pegjs.org/documentation#grammar-syntax-and-semantics">PEG.js</a>,
+      <a href="https://github.com/pegjs/pegjs/tree/master/docs/grammar">PEG.js</a>,
       <a href="https://eclipse.org/Xtext/documentation/301_grammarlanguage.html">Xtext</a>.
 
       This is work in progress.
@@ -107,7 +107,7 @@ to epsilon only.">
     </form>
     <p class="result"/>
     <hr/>
-    <small>Convert
+    <small>PROJECT
       VERSION -
       DATE
       <br/>&#169;

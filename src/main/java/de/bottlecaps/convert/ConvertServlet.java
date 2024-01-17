@@ -35,7 +35,7 @@ import de.bottlecaps.webapp.servlet.ServletRequest;
 public class ConvertServlet extends HttpServlet
 {
   private static final String DOWNLOAD_FILENAME =
-          "convert" +
+          ConvertVersion.PROJECT_NAME +
           "-" + ConvertVersion.VERSION +
           "-java" + Download.javaVersion() +
           ".zip";
@@ -74,21 +74,13 @@ public class ConvertServlet extends HttpServlet
     {
       throw new RuntimeException(e.getMessage(), e);
     }
-    content = content.replaceAll("VERSION", "v" + ConvertVersion.VERSION)
+    content = content.replaceAll("PROJECT", ConvertVersion.PROJECT_NAME)
+                     .replaceAll("VERSION", "v" + ConvertVersion.VERSION)
                      .replaceAll("DATE", ConvertVersion.DATE)
                      .replaceAll("YEAR", ConvertVersion.DATE.replaceFirst("[^,]+, ", ""))
                      .replaceAll("TARGET-EBNF", "ebnf".equals(parameters.get("target")) ? "selected=\"selected\"" : "")
                      .replaceAll("TARGET-XML", "xml".equals(parameters.get("target")) ? "selected=\"selected\"" : "")
-//                       .replaceAll("FACTORING-NONE", "none".equals(parameters.get("factoring")) ? "selected=\"selected\"" : "")
-//                       .replaceAll("FACTORING-LEFT-ONLY", "left-only".equals(parameters.get("factoring")) ? "selected=\"selected\"" : "")
-//                       .replaceAll("FACTORING-RIGHT-ONLY", "right-only".equals(parameters.get("factoring")) ? "selected=\"selected\"" : "")
-//                       .replaceAll("FACTORING-FULL-LEFT", "full-left".equals(parameters.get("factoring")) ? "selected=\"selected\"" : "")
-//                       .replaceAll("FACTORING-FULL-RIGHT", "full-right".equals(parameters.get("factoring")) ? "selected=\"selected\"" : "")
                      .replaceAll("FACTORING", parameters.get("factoring") == null ? "" : "checked=\"on\"")
-//                       .replaceAll("RECURSION-REMOVAL-NONE", "none".equals(parameters.get("recursion-removal")) ? "selected=\"selected\"" : "")
-//                       .replaceAll("RECURSION-REMOVAL-LEFT", "left".equals(parameters.get("recursion-removal")) ? "selected=\"selected\"" : "")
-//                       .replaceAll("RECURSION-REMOVAL-RIGHT", "right".equals(parameters.get("recursion-removal")) ? "selected=\"selected\"" : "")
-//                       .replaceAll("RECURSION-REMOVAL-FULL", "full".equals(parameters.get("recursion-removal")) ? "selected=\"selected\"" : "")
                      .replaceAll("RECURSION", parameters.get("recursion") == null ? "" : "checked=\"on\"")
                      .replaceAll("INLINE", parameters.get("inline") == null ? "" : "checked=\"on\"")
                      .replaceAll("KEEP", parameters.get("keep") == null ? "" : "checked=\"on\"")
