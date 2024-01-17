@@ -8,7 +8,7 @@ with [REx Parser Generator][REx].
 Input grammars are accepted in these notations:
 
 - [ABNF](https://datatracker.ietf.org/doc/html/rfc5234)
-- [ANTLR 3](https://www.antlr3.org/>)
+- [ANTLR 3](https://www.antlr3.org/)
 - [ANTLR 4](https://www.antlr.org/)
 - [Bison](https://www.gnu.org/software/bison/manual/html_node/Grammar-File.html)
 - [GOLD](http://goldparser.org/doc/index.htm)
@@ -16,7 +16,7 @@ Input grammars are accepted in these notations:
 - [Invisible XML](https://invisiblexml.org/ixml-specification.html)
 - [JavaCC](https://javacc.github.io/javacc/documentation/grammar.html)
 - [Jison](https://github.com/zaach/jison)
-- [PEG](https://pegjs.org/documentation#grammar-syntax-and-semantics)
+- [PEG](https://github.com/pegjs/pegjs/tree/master/docs/grammar)
 - [Xtext](https://eclipse.org/Xtext/documentation/301_grammarlanguage.html)
 
 Besides converting these grammar notations, ebnf-convert can also perform some grammar transformation,
