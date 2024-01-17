@@ -28,7 +28,7 @@
     --></script>
   </head>
   <body onload="onLoad()">
-    <h3>Grammar Conversion</h3>
+    <h3>PROJECT - Grammar Converter</h3>
     <p class="text">
       Paste grammar into textarea and click button for converting to
       <a href="https://www.w3.org/TR/xquery-31/#EBNFNotation">W3C grammar notation</a>.
@@ -107,7 +107,7 @@ to epsilon only.">
     </form>
     <p class="result"/>
     <hr/>
-    <small>Convert
+    <small>PROJECT
       VERSION -
       DATE
       <br/>&#169;

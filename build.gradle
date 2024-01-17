@@ -1,5 +1,5 @@
 /*
- * Gradle build file for Convert - Grammar Converter.
+ * Gradle build file for ebnf-convert - Grammar Converter.
  */
 
 plugins {
@@ -13,10 +13,9 @@ plugins {
 defaultTasks 'build'
 build.dependsOn 'distZip'
 
-version = '0.66'
-group = 'de.bottlecaps.convert'
+version = '0.67'
+group = 'de.bottlecaps.ebnf-convert'
 def buildTime = new Date()
-def aceVersion = '1.32.3'
 def rrVersion = '2.1'
 
 def generatedSrc = "$buildDir/generated-src/main"
@@ -38,15 +37,13 @@ repositories {
 }
 
 configurations {
-    ace
-	rrLib
-	rrWebapp
+    rrLib
+    rrWebapp
 }
 
 dependencies {
-    ace "org.webjars.npm:ace-builds:$aceVersion"
-	rrLib "de.bottlecaps.rr:rr-lib:$rrVersion"
-	rrWebapp "de.bottlecaps.rr:rr-webapp:$rrVersion"
+    rrLib "de.bottlecaps.rr:rr-lib:$rrVersion"
+    rrWebapp "de.bottlecaps.rr:rr-webapp:$rrVersion"
 
     compileOnly 'org.apache.tomcat:tomcat-servlet-api:8.5.97'
     compileOnly "de.bottlecaps.rr:rr-lib:$rrVersion"
@@ -57,7 +54,11 @@ dependencies {
     implementation 'commons-io:commons-io:2.15.1'
 }
 
-configurations.all {
+configurations.rrLib {
+    transitive = false
+}
+
+configurations.runtimeClasspath {
     transitive = false
 }
 
@@ -86,21 +87,12 @@ jar {
 
 licenseReport {
     outputDir = "$buildDir/LICENSE"
-    configurations = ['runtimeClasspath', 'ace']
+    configurations = ['runtimeClasspath']
     renderers = [new com.github.jk1.license.render.TextReportRenderer()]
 }
 
 task generateSrc {
     doFirst {
-        def aceBuilds = configurations.ace.find { it =~ /ace-builds/ }
-        def zip = new java.util.zip.ZipFile(aceBuilds)
-        ['ace.js', 'ext-searchbox.js'].each { script ->
-            def entry = zip.getEntry("META-INF/resources/webjars/ace-builds/$aceVersion/src-min-noconflict/$script")
-            def file = new File("$generatedSrc/resources/htdocs/$script")
-            file.parentFile.exists() || file.parentFile.mkdirs()
-            file.withWriter { it << zip.getInputStream(entry) }
-        }
-
         def convertVersion = new File("$generatedSrc/java/de/bottlecaps/convert", 'ConvertVersion.java')
         convertVersion.parentFile.exists() || convertVersion.parentFile.mkdirs()
         convertVersion.withWriter {
@@ -120,6 +112,7 @@ public class ConvertVersion
 compileJava {
     dependsOn generateSrc
     options.release = 11
+	options.encoding = 'UTF-8'
 }
 
 java {
@@ -135,9 +128,9 @@ task generateLicense {
         def licenseTxt = new File("$buildDir", 'LICENSE.TXT')
         licenseTxt.parentFile.exists() || licenseTxt.parentFile.mkdirs()
         licenseTxt.withWriter {
-            it << $/Convert - Grammar Converter
+            it << $/${project.name} - Grammar Converter
 
-Copyright 2010-$year Gunther Rademacher <grd@gmx.net>
+Copyright 2011-$year Gunther Rademacher <grd@gmx.net>
 
 Licensed under the Apache 2.0 License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -151,18 +144,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
 implied. See the License for the specific language governing
 permissions and limitations under the License.
 
-This distribution also includes
+For third-party license information see THIRD-PARTY-NOTICES.txt.
 
-      - Saxon-HE from Saxonica.com
-      - TagSoup
-      - Apache Batik
-      - Apache XML Graphics Commons
-      - Apache XML Commons XML APIs
-      - Ace Editor
-
-For their license information see THIRD-PARTY-NOTICES.txt.
-
-Thank you for choosing Convert - Grammar Converter.
+Thank you for choosing ${project.name} - Grammar Converter.
 /$
         }
     }
@@ -196,7 +180,7 @@ war {
 task distZip(type:JavaExec) {
     dependsOn war
     mainClass = '-jar'
-    args "$buildDir/libs/convert.war", '-distZip'
+    args "$buildDir/libs/${project.name}.war", '-distZip'
     workingDir = "$buildDir/distributions"
 
     doFirst {
@@ -211,7 +195,7 @@ void configureMetadata(MavenPublication mavenPublication) {
         pom {
             name = groupId + ':' + artifactId
             description = 'Grammar Converter'
-            url = 'https://www.bottlecaps.de/convert'
+            url = "https://www.bottlecaps.de/${project.name}"
             licenses {
                 license {
                     name = 'Apache-2.0'
@@ -227,9 +211,9 @@ void configureMetadata(MavenPublication mavenPublication) {
                 }
             }
             scm {
-                connection = 'git@github.com:GuntherRademacher/convert.git'
-                developerConnection = 'git@github.com:GuntherRademacher/convert.git'
-                url = 'https://github.com/GuntherRademacher/convert'
+                connection = "git@github.com:GuntherRademacher/${project.name}.git"
+                developerConnection = "git@github.com:GuntherRademacher/${project.name}.git"
+                url = "https://github.com/GuntherRademacher/${project.name}"
             }
         }
     }
@@ -250,12 +234,12 @@ publishing {
 
     publications {
         jar(MavenPublication) {
-            artifactId = 'convert-lib'
+            artifactId = 'ebnf-convert-lib'
             from components.java
             configureMetadata delegate
         }
         war(MavenPublication) {
-            artifactId = 'convert-webapp'
+            artifactId = 'ebnf-convert-webapp'
             from components.web
             configureMetadata delegate
         }

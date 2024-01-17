@@ -4,9 +4,9 @@
          xmlns="http://java.sun.com/xml/ns/j2ee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-  <display-name>Convert - Grammar Converter</display-name>
+  <display-name>ebnf-convert - Grammar Converter</display-name>
   <servlet>
-    <display-name>Convert - Grammar Converter</display-name>
+    <display-name>ebnf-convert - Grammar Converter</display-name>
     <servlet-name>ConvertServlet</servlet-name>
     <servlet-class>de.bottlecaps.convert.ConvertServlet</servlet-class>
   </servlet>

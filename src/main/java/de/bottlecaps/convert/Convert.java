@@ -162,7 +162,7 @@ public class Convert
       {
         String resource = Convert.class.getResource("/" + Convert.class.getName().replace('.',  '/') + ".class").toString();
         final String file = resource.startsWith("jar:fatjar:")
-          ? "convert.war"
+          ? ConvertVersion.PROJECT_NAME + ".war"
           : Convert.class.getName();
         usage(System.err, file);
       }
@@ -595,9 +595,9 @@ public class Convert
 
   public static void usage(PrintStream out, final String file) {
     final String jar = file.endsWith(".war") ? "-jar " : "";
-    out.println("Convert - Grammar Converter");
+    out.println("ebnf-onvert - Grammar Converter");
     out.println();
-    out.println("converts foreign grammars to W3C-style EBNF as suitable for REx and RR");
+    out.println("Converts foreign grammars to W3C-style EBNF as suitable for REx and RR.");
     out.println();
     out.println("  version v" + ConvertVersion.VERSION);
     out.println("  released " + ConvertVersion.DATE);
