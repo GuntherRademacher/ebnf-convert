@@ -16,7 +16,7 @@ Input grammars are accepted in these notations:
 - [Invisible XML](https://invisiblexml.org/ixml-specification.html)
 - [JavaCC](https://javacc.github.io/javacc/documentation/grammar.html)
 - [Jison](https://github.com/zaach/jison)
-- [PEG](https://github.com/pegjs/pegjs/tree/master/docs/grammar)
+- [PEG.js](https://github.com/pegjs/pegjs/tree/master/docs/grammar)
 - [Xtext](https://eclipse.org/Xtext/documentation/301_grammarlanguage.html)
 
 Besides converting these grammar notations, ebnf-convert can also perform some grammar transformation,
