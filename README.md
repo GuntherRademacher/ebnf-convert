@@ -55,6 +55,23 @@ project folder, run this command to build the distribution `.zip` file in the `b
 gradlew
 ```
 
+## Installation
+
+Some platforms will have [packages available](https://repology.org/project/ebnf-convert/versions).
+For example on Arch Linux, an [AUR recipie](https://aur.archlinux.org/packages/ebnf-convert) can be installed with the official procedure or your favorite AUR helper.
+
+```console
+$ paru -S ebnf-convert
+```
+
+The Arch package installs a wrapper script in the system bin directory named `ebnf-convert` that calls the Java application.
+If you are on a different distro and want something similar, such a script would look like this:
+
+```bash
+#!/usr/bin/env bash
+exec java -jar 'path/to/ebnf-convert.war' "$@"
+```
+
 ## Thanks
 
 This project makes use of
