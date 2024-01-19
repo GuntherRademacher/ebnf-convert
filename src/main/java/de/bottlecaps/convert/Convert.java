@@ -595,7 +595,7 @@ public class Convert
 
   public static void usage(PrintStream out, final String file) {
     final String jar = file.endsWith(".war") ? "-jar " : "";
-    out.println("ebnf-onvert - Grammar Converter");
+    out.println("ebnf-convert - Grammar Converter");
     out.println();
     out.println("Converts foreign grammars to W3C-style EBNF as suitable for REx and RR.");
     out.println();
