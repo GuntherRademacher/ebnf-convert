@@ -137,8 +137,10 @@ WS       ::= ( ' ' | #x9 | #xD | #xA )+
 
 ID       ::= '^'? [a-zA-Z_] [a-zA-Z_0-9]*
 
-STRING   ::= '"' ( '\' ('b'|'t'|'n'|'f'|'r'|'"'|"'"|'\') | [^\"] )* '"'
-           | "'" ( '\' ('b'|'t'|'n'|'f'|'r'|'"'|"'"|'\') | [^\'] )* "'"
+STRING   ::= '"' ( '\' ('b'|'t'|'n'|'f'|'r'|'v'|'u' HEX4|'"'|"'"|'\') | [^\"] )* '"'
+           | "'" ( '\' ('b'|'t'|'n'|'f'|'r'|'v'|'u' HEX4|'"'|"'"|'\') | [^\'] )* "'"
+HEX4     ::= HEX HEX HEX HEX
+HEX      ::= [0-9A-Fa-f]
 EOF      ::= $
 
 ID       << "EOF" "as" "enum" "false" "fragment" "generate" "hidden" "import" "terminal" "true" "with"
