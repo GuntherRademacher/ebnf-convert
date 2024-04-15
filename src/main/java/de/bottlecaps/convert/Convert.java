@@ -609,7 +609,7 @@ public class Convert
     out.println("  -f FACTORING     apply factoring (any of \"full-left\" (default), \"left-only\", \"full-right\", \"right-only\", or \"none\")");
     out.println("  -r KIND          remove direct recursion, where KIND is any of \"full\" (default), \"left\", \"right\", or \"none\"");
     out.println("  -noinline        do not inline nonterminals that derive to a single string literal");
-    out.println("  -noepsilon       do not keep nonterminal referemces, that derive to epsilon only");
+    out.println("  -noepsilon       do not keep nonterminal references, that derive to epsilon only");
     out.println("  -v               verbose output");
     out.println();
     out.println("  GRAMMAR          path of foreign grammar");
