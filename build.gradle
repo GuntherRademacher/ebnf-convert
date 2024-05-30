@@ -13,10 +13,10 @@ plugins {
 defaultTasks 'build'
 build.dependsOn 'distZip'
 
-version = '0.68-SNAPSHOT'
+version = '0.68-basex-SNAPSHOT'
 group = 'de.bottlecaps.ebnf-convert'
 def buildTime = new Date()
-def rrVersion = '2.1'
+def rrVersion = '2.2-basex-SNAPSHOT'
 
 def generatedSrc = "$buildDir/generated-src/main"
 
@@ -34,6 +34,7 @@ sourceSets {
 repositories {
     mavenLocal()
     mavenCentral()
+    maven {url 'https://files.basex.org/maven/'}
 }
 
 configurations {
@@ -48,7 +49,7 @@ dependencies {
     compileOnly 'org.apache.tomcat:tomcat-servlet-api:8.5.97'
     compileOnly "de.bottlecaps.rr:rr-lib:$rrVersion"
 
-    implementation 'org.basex:basex:10.7'
+    implementation 'org.basex:basex:11.0-SNAPSHOT'
     implementation 'net.sf.saxon:Saxon-HE:12.4'
     implementation 'org.xmlresolver:xmlresolver:5.2.2'
     implementation 'commons-fileupload:commons-fileupload:1.5'
