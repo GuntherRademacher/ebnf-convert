@@ -29,7 +29,7 @@ ebnf-convert has a simple browser UI as well as a command line interface for bat
 
 ebnf-convert comes as a `.zip`, containing a `.war` file. The `.war` file can be deployed
 in servlet containers like Tomcat or Jetty for serving the browser UI. This makes up the webapp
-that is running on the original website, <https://www.bottlecaps.de/ebnf-convert> (note: IPv6 only).
+that is running on the original website, <https://www.bottlecaps.de/ebnf-convert>.
 
 The `.war` file is a Java "executable war", i.e. it can also be started
 standalone from command line:
@@ -72,7 +72,7 @@ Copyright (c) 2011-2024 Gunther Rademacher. ebnf-convert is provided under the [
 
 ## Links
 
-The official website for ebnf-convert is <https://www.bottlecaps.de/ebnf-convert> (note: IPv6 only).
+The official website for ebnf-convert is <https://www.bottlecaps.de/ebnf-convert>.
 
 [ASL]: http://www.apache.org/licenses/LICENSE-2.0
 [W3C-EBNF]: http://www.w3.org/TR/2010/REC-xquery-20101214/#EBNFNotation
