@@ -49,47 +49,41 @@ declare function x:tokenize($string as xs:string*) as xs:string*
 
 declare function x:jison-to-w3c($parse-tree as element(jison)) as element(g:grammar)
 {
-  t:remove-right-recursion
-  (
-    t:remove-left-recursion
-    (
-      element g:grammar
-      {
-        for $p in $parse-tree/spec/grammar/production_list/production
-        return element g:production {attribute name {$p/id/ID}, x:rewrite($p/handle_list/handle_action)},
+  element g:grammar
+  {
+    for $p in $parse-tree/spec/grammar/production_list/production
+    return element g:production {attribute name {$p/id/ID}, x:rewrite($p/handle_list/handle_action)},
 
-        for $p in $parse-tree/json/bnf-pair/rule-pair
-        let $id := $p/string
+    for $p in $parse-tree/json/bnf-pair/rule-pair
+    let $id := $p/string
+    return
+      element g:production
+      {
+        attribute name {substring($id, 2, string-length($id) - 2)},
+        x:rewrite
+        (
+        for $s in $p/alternative/string
+        let $symbols := x:tokenize(substring($s, 2, string-length($s) - 2))
         return
-          element g:production
-          {
-            attribute name {substring($id, 2, string-length($id) - 2)},
-            x:rewrite
-            (
-            for $s in $p/alternative/string
-            let $symbols := x:tokenize(substring($s, 2, string-length($s) - 2))
-            return
-              if (empty($symbols)) then
-                <handle_action/>
-              else
-                element handle_action
+          if (empty($symbols)) then
+            <handle_action/>
+          else
+            element handle_action
+            {
+              for $t in $symbols
+              return
+                element handle
                 {
-                  for $t in $symbols
-                  return
-                    element handle
-                    {
-                      element symbol
-                      {
-                        if (matches($t, "^\p{Lu}") or $parse-tree/json/bnf-pair/rule-pair/string = concat("""", $t, """")) then
-                          element id {element ID {$t}}
-                        else
-                          element STRING {concat('"', $t, '"')}
-                      }
-                    }
+                  element symbol
+                  {
+                    if (matches($t, "^\p{Lu}") or $parse-tree/json/bnf-pair/rule-pair/string = concat("""", $t, """")) then
+                      element id {element ID {$t}}
+                    else
+                      element STRING {concat('"', $t, '"')}
+                  }
                 }
-            )
-          }
+            }
+        )
       }
-    )
-  )
+  }
 };

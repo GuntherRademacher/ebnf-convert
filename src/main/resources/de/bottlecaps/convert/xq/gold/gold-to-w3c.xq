@@ -676,19 +676,13 @@ declare function p:gold-to-w3c($parse-tree as element(Grammar)) as element(g:gra
 :)
       ()
   return
-    t:remove-right-recursion
+    p:case-insensitive-refs
     (
-      t:remove-left-recursion
-      (
-        p:case-insensitive-refs
-        (
-          <g:grammar>
-            {$syntax-productions, $ignore-production[@whitespace-spec]}
-            {processing-instruction TOKENS{}}
-            {$tokens-productions, $ignore-production[empty(@whitespace-spec)], $eof-production}
-            {$preferences}
-          </g:grammar>
-        )
-      )
+      <g:grammar>
+        {$syntax-productions, $ignore-production[@whitespace-spec]}
+        {processing-instruction TOKENS{}}
+        {$tokens-productions, $ignore-production[empty(@whitespace-spec)], $eof-production}
+        {$preferences}
+      </g:grammar>
     )
 };
