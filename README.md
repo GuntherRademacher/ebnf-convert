@@ -68,7 +68,7 @@ This project makes use of
 
 ## License
 
-Copyright (c) 2011-2024 Gunther Rademacher. ebnf-convert is provided under the [Apache 2 License][ASL].
+Copyright (c) 2011-2025 Gunther Rademacher. ebnf-convert is provided under the [Apache 2 License][ASL].
 
 ## Links
 
