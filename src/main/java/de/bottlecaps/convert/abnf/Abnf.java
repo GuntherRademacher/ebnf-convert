@@ -1,4 +1,4 @@
-// This file was generated on Tue Nov 7, 2023 20:16 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.abnf.Abnf abnf.ebnf
 
 package de.bottlecaps.convert.abnf;
@@ -683,7 +683,7 @@ public class Abnf implements de.bottlecaps.convert.Parser
 
   private static final String[] TOKEN =
   {
-    "(0)",
+    "%ERROR",
     "whitespace",
     "rulename",
     "integer",

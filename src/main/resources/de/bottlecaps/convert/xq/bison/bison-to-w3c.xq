@@ -37,23 +37,17 @@ declare function x:rewrite($alternatives as element(rhs)+) as element()*
 
 declare function x:bison-to-w3c($parse-tree as element(input)) as element(g:grammar)
 {
-  t:remove-right-recursion
-  (
-    t:remove-left-recursion
-    (
-      element g:grammar
+  element g:grammar
+  {
+    let $rules := $parse-tree//rules
+    for $id in distinct-values($rules/id/ID)
+    let $rule := $rules[id/ID = $id]
+    order by min($rule/index-of($rules, .))
+    return
+      element g:production
       {
-        let $rules := $parse-tree//rules
-        for $id in distinct-values($rules/id/ID)
-        let $rule := $rules[id/ID = $id]
-        order by min($rule/index-of($rules, .))
-        return
-          element g:production
-          {
-            attribute name {$id},
-            x:rewrite($rule/rhs)
-          }
+        attribute name {$id},
+        x:rewrite($rule/rhs)
       }
-    )
-  )
+  }
 };

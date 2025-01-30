@@ -1,6 +1,6 @@
 xquery version "3.1" encoding "UTF-8";
 
-(: This file was generated on Thu Mar 9, 2023 13:03 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net> :)
+(: This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net> :)
 (: REx command line: -q -glr 1 -tree -a none -xquery -name de/bottlecaps/convert/xq/ixml/ixml.xquery ../../../../../../../main/java/de/bottlecaps/convert/ixml/ixml.ebnf :)
 
 (:~
@@ -593,7 +593,7 @@ declare variable $p:GOTO as xs:integer+ :=
  :)
 declare variable $p:TOKEN as xs:string+ :=
 (
-  "(0)",
+  "%ERROR",
   "cchar",
   "dchar",
   "schar",
@@ -977,9 +977,9 @@ declare function p:next-thread($threads as map(*)*, $thread as xs:integer, $i as
 declare function p:thread-equals($t1 as map(*), $t2 as map(*)) as xs:boolean
 {
   if ($t1?accepted ne $t2?accepted) then false() else
-  if ($t1?b1 ne $t2?lexer-state[$p:b1]) then false() else
-  if ($t1?e1 ne $t2?lexer-state[$p:e1]) then false() else
-  if ($t1?l1 ne $t2?lexer-state[$p:l1]) then false() else
+  if ($t1?lexer-state[$p:b1] ne $t2?lexer-state[$p:b1]) then false() else
+  if ($t1?lexer-state[$p:e1] ne $t2?lexer-state[$p:e1]) then false() else
+  if ($t1?lexer-state[$p:l1] ne $t2?lexer-state[$p:l1]) then false() else
   if ($t1?state ne $t2?state) then false() else
   if ($t1?action ne $t2?action) then false() else deep-equal($t1?stack, $t2?stack)
 };
