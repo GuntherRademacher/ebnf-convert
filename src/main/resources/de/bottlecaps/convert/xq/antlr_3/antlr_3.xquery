@@ -1,6 +1,6 @@
 xquery version "1.0" encoding "UTF-8";
 
-(: This file was generated on Thu Mar 9, 2023 13:03 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net> :)
+(: This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net> :)
 (: REx command line: -q -backtrack -tree -a none -xquery -name de/bottlecaps/convert/xq/antlr_3/antlr_3.xquery ../../../../../../../main/java/de/bottlecaps/convert/antlr_3/antlr_3.ebnf :)
 
 (:~
@@ -606,7 +606,7 @@ declare variable $p:EXPECTED as xs:integer+ :=
  :)
 declare variable $p:TOKEN as xs:string+ :=
 (
-  "(0)",
+  "%ERROR",
   "DOC_COMMENT",
   "COMMENT",
   "CHAR_LITERAL",

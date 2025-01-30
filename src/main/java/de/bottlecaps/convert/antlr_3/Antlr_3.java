@@ -1,4 +1,4 @@
-// This file was generated on Thu Mar 9, 2023 13:02 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -backtrack -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.antlr_3.Antlr_3 antlr_3.ebnf
 
 package de.bottlecaps.convert.antlr_3;
@@ -3742,7 +3742,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private static final String[] TOKEN =
   {
-    "(0)",
+    "%ERROR",
     "DOC_COMMENT",
     "COMMENT",
     "CHAR_LITERAL",

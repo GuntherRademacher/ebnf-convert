@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This file was generated on Thu Mar 9, 2023 13:03 (UTC+01) by REx v5.57 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net> -->
+<!-- This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net> -->
 <!-- REx command line: -q -tree -a none -xslt -name de/bottlecaps/convert/xq/jison/jison.xslt ../../../../../../../main/java/de/bottlecaps/convert/jison/jison.ebnf -->
 
 <xsl:stylesheet version="2.0"
@@ -183,7 +183,7 @@
    ! The token-string table.
   -->
   <xsl:variable name="p:TOKEN" as="xs:string+" select="
-    '(0)',
+    '%ERROR',
     'CODE',
     &quot;'%start'&quot;,
     'LEX_BLOCK',

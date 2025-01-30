@@ -5,7 +5,7 @@
 plugins {
     id 'java'
     id 'war'
-    id 'com.github.jk1.dependency-license-report' version '2.5'
+    id 'com.github.jk1.dependency-license-report' version '2.9'
     id 'maven-publish'
     id 'signing'
 }
@@ -13,10 +13,10 @@ plugins {
 defaultTasks 'build'
 build.dependsOn 'distZip'
 
-version = '0.68-SNAPSHOT'
+version = '0.68'
 group = 'de.bottlecaps.ebnf-convert'
 def buildTime = new Date()
-def rrVersion = '2.1'
+def rrVersion = '2.2'
 
 def generatedSrc = "$buildDir/generated-src/main"
 
@@ -45,13 +45,13 @@ dependencies {
     rrLib "de.bottlecaps.rr:rr-lib:$rrVersion"
     rrWebapp "de.bottlecaps.rr:rr-webapp:$rrVersion"
 
-    compileOnly 'org.apache.tomcat:tomcat-servlet-api:8.5.97'
+    compileOnly 'org.apache.tomcat:tomcat-servlet-api:8.5.100'
     compileOnly "de.bottlecaps.rr:rr-lib:$rrVersion"
 
-    implementation 'net.sf.saxon:Saxon-HE:12.4'
+    implementation 'net.sf.saxon:Saxon-HE:12.5'
     implementation 'org.xmlresolver:xmlresolver:5.2.2'
     implementation 'commons-fileupload:commons-fileupload:1.5'
-    implementation 'commons-io:commons-io:2.15.1'
+    implementation 'commons-io:commons-io:2.18.0'
 }
 
 configurations.rrLib {
@@ -247,6 +247,7 @@ publishing {
 }
 
 signing {
+    useGpgCmd()
     sign publishing.publications.jar
     sign publishing.publications.war
 }
