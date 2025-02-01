@@ -227,7 +227,6 @@ public class ConvertServlet extends HttpServlet
         fragment =
           "<h4>W3C-style&#160;grammar:</h4>\n" +
           "<textarea name=\"text\">" +
-          escapeXmlContent("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n") +
           escapeXmlContent(ebnfGrammar) +
           "</textarea>\n";
       }
