@@ -13,10 +13,10 @@ plugins {
 defaultTasks 'build'
 build.dependsOn 'distZip'
 
-version = '0.69-SNAPSHOT'
+version = '0.69'
 group = 'de.bottlecaps.ebnf-convert'
 def buildTime = new Date()
-def rrVersion = '2.2'
+def rrVersion = '2.3'
 
 def generatedSrc = "$buildDir/generated-src/main"
 
@@ -112,7 +112,7 @@ public class ConvertVersion
 compileJava {
     dependsOn generateSrc
     options.release = 11
-	options.encoding = 'UTF-8'
+    options.encoding = 'UTF-8'
 }
 
 java {
