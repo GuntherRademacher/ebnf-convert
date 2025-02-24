@@ -41,7 +41,7 @@ import de.bottlecaps.xml.XQueryProcessor.Result;
 
 public class Convert
 {
-  enum ParserImplementation
+  public enum ParserImplementation
   {
     JAVA,
     XQUERY,
