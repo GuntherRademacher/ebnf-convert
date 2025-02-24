@@ -34,7 +34,7 @@ that is running on the original website, <https://www.bottlecaps.de/ebnf-convert
 The `.war` file is a Java "executable war", i.e. it can also be started
 standalone from command line:
 
-```bash
+```
 Usage: java -jar ebnf-convert.war [-xml|-f FACTORING|-r KIND|-noinline|-noepsilon|-v]... GRAMMAR
 
   -xml             create output grammar in XML, rather than EBNF

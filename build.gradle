@@ -13,10 +13,10 @@ plugins {
 defaultTasks 'build'
 build.dependsOn 'distZip'
 
-version = '0.68-basex'
+version = '0.69-basex'
 group = 'de.bottlecaps.ebnf-convert'
 def buildTime = new Date()
-def rrVersion = '2.2'
+def rrVersion = '2.3'
 
 def generatedSrc = "$buildDir/generated-src/main"
 
@@ -49,7 +49,7 @@ dependencies {
     compileOnly 'org.apache.tomcat:tomcat-servlet-api:8.5.100'
     compileOnly "de.bottlecaps.rr:rr-lib:$rrVersion"
 
-    implementation 'org.basex:basex:11.6'
+    implementation 'org.basex:basex:11.7'
     implementation 'net.sf.saxon:Saxon-HE:12.5'
     implementation 'org.xmlresolver:xmlresolver:5.2.2'
     implementation 'commons-fileupload:commons-fileupload:1.5'
@@ -114,7 +114,7 @@ public class ConvertVersion
 compileJava {
     dependsOn generateSrc
     options.release = 11
-	options.encoding = 'UTF-8'
+    options.encoding = 'UTF-8'
 }
 
 java {
