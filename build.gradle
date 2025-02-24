@@ -13,7 +13,7 @@ plugins {
 defaultTasks 'build'
 build.dependsOn 'distZip'
 
-version = '0.69-basex'
+version = '0.70-basex'
 group = 'de.bottlecaps.ebnf-convert'
 def buildTime = new Date()
 def rrVersion = '2.3'
