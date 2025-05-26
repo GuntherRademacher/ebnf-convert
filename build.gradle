@@ -15,8 +15,10 @@ build.dependsOn 'distZip'
 
 version = '0.71-SNAPSHOT'
 group = 'de.bottlecaps.ebnf-convert'
+
+def project_name = "$project.name"
 def buildTime = new Date()
-def rrVersion = '2.3'
+def rrVersion = '2.5'
 
 def generatedSrc = "$buildDir/generated-src/main"
 
@@ -48,10 +50,10 @@ dependencies {
     compileOnly 'org.apache.tomcat:tomcat-servlet-api:8.5.100'
     compileOnly "de.bottlecaps.rr:rr-lib:$rrVersion"
 
-    implementation 'net.sf.saxon:Saxon-HE:12.5'
-    implementation 'org.xmlresolver:xmlresolver:5.2.2'
+    implementation 'net.sf.saxon:Saxon-HE:12.7'
+    implementation 'org.xmlresolver:xmlresolver:5.3.3'
     implementation 'commons-fileupload:commons-fileupload:1.5'
-    implementation 'commons-io:commons-io:2.18.0'
+    implementation 'commons-io:commons-io:2.19.0'
 }
 
 configurations.rrLib {
@@ -100,7 +102,7 @@ task generateSrc {
 
 public class ConvertVersion
 {
-  public static final String PROJECT_NAME = "$project.name";
+  public static final String PROJECT_NAME = "$project_name";
   public static final String VERSION = "$version";
   public static final String DATE = "${new java.text.SimpleDateFormat("MMM dd, yyyy", Locale.US).format(buildTime)}";
 }
@@ -128,7 +130,7 @@ task generateLicense {
         def licenseTxt = new File("$buildDir", 'LICENSE.TXT')
         licenseTxt.parentFile.exists() || licenseTxt.parentFile.mkdirs()
         licenseTxt.withWriter {
-            it << $/${project.name} - Grammar Converter
+            it << $/${project_name} - Grammar Converter
 
 Copyright 2011-$year Gunther Rademacher <grd@gmx.net>
 
@@ -146,7 +148,7 @@ permissions and limitations under the License.
 
 For third-party license information see THIRD-PARTY-NOTICES.txt.
 
-Thank you for choosing ${project.name} - Grammar Converter.
+Thank you for choosing ${project_name} - Grammar Converter.
 /$
         }
     }

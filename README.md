@@ -59,6 +59,13 @@ gradlew
 
 Some platforms may have packages available, find out about that on [Repology](https://repology.org/project/ebnf-convert/versions).
 
+## ebnf-convert on Maven Central
+
+ebnf-convert is available on Maven Central with groupId `de.bottlecaps.ebnf-convert` and artifactIds
+
+ -  [`ebnf-convert-webapp`][ebnf-convert-webapp] for `ebnf-convert.war`,
+ -  [`ebnf-convert-lib`][ebnf-convert-lib] for `ebnf-convert.jar`, which can be added to other projects as a dependency.
+
 ## Thanks
 
 This project makes use of
@@ -81,3 +88,5 @@ The official website for ebnf-convert is <https://www.bottlecaps.de/ebnf-convert
 [GRADLE-LICENSE-REPORT]: https://github.com/jk1/Gradle-License-Report
 [REx]: https://www.bottlecaps.de/rex
 [RR]: https://github.com/GuntherRademacher/rr
+[ebnf-convert-webapp]: https://central.sonatype.com/artifact/de.bottlecaps.ebnf-convert/ebnf-convert-webapp
+[ebnf-convert-lib]: https://central.sonatype.com/artifact/de.bottlecaps.ebnf-convert/ebnf-convert-lib
