@@ -60,7 +60,7 @@ declare function x:rewrite($alternatives as element(concatenation)+) as element(
         else if ($primary/num-val) then
           x:num-val($primary/num-val)
         else if ($primary/prose-val) then
-          trace(<!-- prose -->, "todo:")
+          element g:string{$primary/prose-val}
         else
           error(xs:QName("x:rewrite"), string-join(("unsupported item:", $primary/*/local-name()), " "))
       return

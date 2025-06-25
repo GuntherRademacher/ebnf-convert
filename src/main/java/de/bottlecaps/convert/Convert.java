@@ -52,6 +52,11 @@ public class Convert
 
   public static void main(String args[]) throws Exception
   {
+    String maxElementDepth = "jdk.xml.maxElementDepth";
+    if (System.getProperty(maxElementDepth) == null) {
+      System.setProperty(maxElementDepth, "10000");
+    }
+
     int exitCode = 0;
 
     try
