@@ -13,12 +13,12 @@ plugins {
 defaultTasks 'build'
 build.dependsOn 'distZip'
 
-version = '0.71-basex'
+version = '0.73-basex-SNAPSHOT'
 group = 'de.bottlecaps.ebnf-convert'
 
 def project_name = "$project.name"
 def buildTime = new Date()
-def rrVersion = '2.5'
+def rrVersion = '2.6-basex-SNAPSHOT'
 
 def generatedSrc = "$buildDir/generated-src/main"
 
@@ -36,7 +36,7 @@ sourceSets {
 repositories {
     mavenLocal()
     mavenCentral()
-    maven {url 'https://files.basex.org/maven/'}
+    maven {url = 'https://files.basex.org/maven/'}
 }
 
 configurations {
@@ -51,7 +51,7 @@ dependencies {
     compileOnly 'org.apache.tomcat:tomcat-servlet-api:8.5.100'
     compileOnly "de.bottlecaps.rr:rr-lib:$rrVersion"
 
-    implementation 'org.basex:basex:11.9'
+    implementation 'org.basex:basex:12.0'
     implementation 'net.sf.saxon:Saxon-HE:12.7'
     implementation 'org.xmlresolver:xmlresolver:5.3.3'
     implementation 'commons-fileupload:commons-fileupload:1.5'
@@ -115,7 +115,7 @@ public class ConvertVersion
 
 compileJava {
     dependsOn generateSrc
-    options.release = 11
+    options.release = 17
     options.encoding = 'UTF-8'
 }
 
@@ -226,13 +226,10 @@ void configureMetadata(MavenPublication mavenPublication) {
 publishing {
     repositories {
         maven {
-            def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            name = 'local'
+            def releaseRepo = layout.buildDirectory.dir('repo/releases')
+            def snapshotRepo = layout.buildDirectory.dir('repo/snapshots')
             url = isReleaseVersion ? releaseRepo : snapshotRepo
-            credentials {
-                username = project.hasProperty('ossrhUsername') ? ossrhUsername : "Unknown user"
-                password = project.hasProperty('ossrhPassword') ? ossrhPassword : "Unknown password"
-            }
         }
     }
 
@@ -255,6 +252,16 @@ signing {
     sign publishing.publications.jar
     sign publishing.publications.war
 }
+
 tasks.withType(Sign) {
     onlyIf { isReleaseVersion }
 }
+
+tasks.register('createBundle', Zip) {
+    dependsOn 'publishAllPublicationsToLocalRepository'
+    from publishing.repositories.local.url
+    archiveFileName = "${project.name}-${project.version}-bundle.zip"
+    destinationDirectory = layout.buildDirectory.dir('bundles')
+}
+
+publish.finalizedBy createBundle
