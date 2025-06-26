@@ -13,12 +13,12 @@ plugins {
 defaultTasks 'build'
 build.dependsOn 'distZip'
 
-version = '0.72'
+version = '0.73-SNAPSHOT'
 group = 'de.bottlecaps.ebnf-convert'
 
 def project_name = "$project.name"
 def buildTime = new Date()
-def rrVersion = '2.5'
+def rrVersion = '2.6-SNAPSHOT'
 
 def generatedSrc = "$buildDir/generated-src/main"
 
