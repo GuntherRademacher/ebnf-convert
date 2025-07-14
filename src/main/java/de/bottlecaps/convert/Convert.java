@@ -48,6 +48,13 @@ public class Convert
     XSLT
   };
 
+  public enum OutputMethod
+  {
+    ebnf,
+    xml,
+    json
+  };
+
   public static final String CONVERT_URL = "https://www.bottlecaps.de/" + ConvertVersion.PROJECT_NAME;
 
   public static void main(String args[]) throws Exception
@@ -64,7 +71,7 @@ public class Convert
       ParserImplementation parserImplementation = ParserImplementation.JAVA;
       String notation = GRAMMAR_AUTO;
       boolean distZip = false;
-      boolean toXML = false;
+      OutputMethod outputMethod = OutputMethod.ebnf;
       boolean verbose = false;
       boolean inline = true;
       boolean keep = true;
@@ -83,7 +90,11 @@ public class Convert
         }
         else if (arg.equals("-xml"))
         {
-          toXML = true;
+          outputMethod = OutputMethod.xml;
+        }
+        else if (arg.equals("-json"))
+        {
+          outputMethod = OutputMethod.json;
         }
         else if (arg.equals("-xquery"))
         {
@@ -173,7 +184,7 @@ public class Convert
       }
       else
       {
-        String ebnfGrammar = convert(notation, read(inputFile), localTzOffset(), toXML, recursionRemoval, factoring, inline, keep, parserImplementation, noTimestamp, verbose);
+        String ebnfGrammar = convert(notation, read(inputFile), localTzOffset(), outputMethod, recursionRemoval, factoring, inline, keep, parserImplementation, noTimestamp, verbose);
         System.out.print(ebnfGrammar);
       }
     }
@@ -283,7 +294,7 @@ public class Convert
   public static String convert(String notation,
                                String grammar,
                                int tzOffset,
-                               boolean toXML,
+                               OutputMethod outputMethod,
                                String recursionRemoval,
                                String factoring,
                                boolean inline,
@@ -458,8 +469,9 @@ public class Convert
       .append("';\n");
     }
     Map<String, String> outputOptions;
-    if (toXML)
+    switch (outputMethod)
     {
+    case xml:
       outputOptions = Map.of(
           "method", "xml",
           "indent", "yes");
@@ -473,18 +485,44 @@ public class Convert
             ? ""
             : ("  comment {concat(\" converted on \", e:timestamp(" + tzOffset + "), \" by " + successfullyParsedNotation + "-to-w3c " + copyright + " \")},\n")
         ) +
-        "  \"&#xA;\"," +
-        "  " + transform +
+        "  \"&#xA;\"," + "\n" +
+        "  " + transform + "\n" +
         "}");
-    }
-    else
-    {
-      outputOptions = Collections.singletonMap("method", "text");
-      String namespace = "de/bottlecaps/railroad/xq/ast-to-ebnf.xq";
-      query.append("import module namespace b='")
-        .append(namespace)
+      break;
+    case json:
+      outputOptions = Map.of(
+          "method", "json",
+          "indent", "yes");
+      String namespaceJ = "de/bottlecaps/convert/xq/xml-to-json.xq";
+      query.append("import module namespace j='")
+        .append(namespaceJ)
         .append("' at '")
-        .append(moduleURL(namespace))
+        .append(moduleURL(namespaceJ))
+        .append("';\n")
+        .append(
+          "declare namespace g=\"http://www.w3.org/2001/03/XPath/grammar\";\n" +
+          "declare variable $parse-tree external;\n" +
+          "j:xml-to-json\n" +
+          "(\n" +
+          "  document\n" +
+          "  {\n" +
+          (
+            noTimestamp
+              ? ""
+              : ("    comment {concat(\" converted on \", e:timestamp(" + tzOffset + "), \" by " + successfullyParsedNotation + "-to-w3c " + copyright + " \")},\n")
+          ) +
+          "    \"&#xA;\",\n" +
+          "    " + transform + "\n" +
+          "  }\n" +
+          ")");
+      break;
+    default:
+      outputOptions = Collections.singletonMap("method", "text");
+      String namespaceE = "de/bottlecaps/railroad/xq/ast-to-ebnf.xq";
+      query.append("import module namespace b='")
+        .append(namespaceE)
+        .append("' at '")
+        .append(moduleURL(namespaceE))
         .append("';\n")
         .append(
           "declare namespace g=\"http://www.w3.org/2001/03/XPath/grammar\";\n" +
