@@ -1,5 +1,5 @@
 (:~
- : Utilities used while converting foreign parse trees to W3C format.
+ : Generic XML to JSON converter.
  :)
 module namespace j="de/bottlecaps/convert/xq/xml-to-json.xq";
 
