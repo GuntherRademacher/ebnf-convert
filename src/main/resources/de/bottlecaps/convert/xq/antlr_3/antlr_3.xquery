@@ -1,6 +1,6 @@
 xquery version "1.0" encoding "UTF-8";
 
-(: This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net> :)
+(: This file was generated on Sat Oct 25, 2025 17:36 (UTC+02) by REx v6.2-SNAPSHOT which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net> :)
 (: REx command line: -q -backtrack -tree -a none -xquery -name de/bottlecaps/convert/xq/antlr_3/antlr_3.xquery ../../../../../../../main/java/de/bottlecaps/convert/antlr_3/antlr_3.ebnf :)
 
 (:~
@@ -6301,7 +6301,7 @@ declare function p:memoize($state as item()+,
     {
       $errors[@e = max($errors/xs:integer(@e))][last()]/@*,
       $memo/value,
-      element value {attribute key {$e0 * 8 + $dpi}, $v}
+      <value key='{$e0 * 8 + $dpi}'>{$v}</value>
     },
   subsequence($state, $p:memo + 1)
 };
