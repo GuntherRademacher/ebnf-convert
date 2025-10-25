@@ -15,19 +15,19 @@ Grammar               ::= ProcessingInstruction*
                           EOF
 ProcessingInstruction ::= '<?' NCName (S+ ProcessingInstructionContents)? '?>'
                           /* ws: explicit */
-Production            ::= DocComment? NCName '?'? '::=' ( Alternatives | Link ) Option?
+Production            ::= DocComment? ( NCName | '.' ) '?'? '::=' ( Alternatives | Link ) Option?
 Alternatives          ::= Alternative
                           ( ( '|' Alternative )+
                           | ( '/' Alternative )+
                           )?
-Alternative           ::= CompositeExpression ('&' Item)?
+Alternative           ::= CompositeExpression ( '&' CompositeExpression )?
 CompositeExpression   ::= ( Item ( '-' Item
                                  | '**' Item
                                  | '++' Item
                                  | Item*
                                  )
                           )?
-Item                  ::= Primary ( '?' | '*' | '+' )*
+Item                  ::= Primary ( '?' | '*' | '+' )?
 Primary               ::= NameOrString
                         | ProcessingInstruction
                         | CharCode
