@@ -93,6 +93,7 @@ to epsilon only.">
               <select name="target">
                 <option TARGET-EBNF value="ebnf">EBNF</option>
                 <option TARGET-XML value="xml">XML</option>
+                <option TARGET-JSON value="json">JSON</option>
               </select>
             </td>
           </tr>

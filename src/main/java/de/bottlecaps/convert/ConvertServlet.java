@@ -24,6 +24,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 
 import de.bottlecaps.convert.Convert.Error;
+import de.bottlecaps.convert.Convert.OutputMethod;
 import de.bottlecaps.railroad.core.Download;
 import de.bottlecaps.webapp.servlet.ServletRequest;
 
@@ -80,6 +81,7 @@ public class ConvertServlet extends HttpServlet
                      .replaceAll("YEAR", ConvertVersion.DATE.replaceFirst("[^,]+, ", ""))
                      .replaceAll("TARGET-EBNF", "ebnf".equals(parameters.get("target")) ? "selected=\"selected\"" : "")
                      .replaceAll("TARGET-XML", "xml".equals(parameters.get("target")) ? "selected=\"selected\"" : "")
+                     .replaceAll("TARGET-JSON", "json".equals(parameters.get("target")) ? "selected=\"selected\"" : "")
                      .replaceAll("FACTORING", parameters.get("factoring") == null ? "" : "checked=\"on\"")
                      .replaceAll("RECURSION", parameters.get("recursion") == null ? "" : "checked=\"on\"")
                      .replaceAll("INLINE", parameters.get("inline") == null ? "" : "checked=\"on\"")
@@ -214,24 +216,31 @@ public class ConvertServlet extends HttpServlet
     String fragment = null;
     try
     {
-      boolean xml = "xml".equals(parameters.get(TARGET));
+      OutputMethod outputMethod = OutputMethod.valueOf(parameters.get(TARGET));
       String factoring = parameters.get("factoring") == null ? "none" : "full-left";
       boolean inline = parameters.get("inline") != null;
       boolean keep = parameters.get("keep") != null;
       String recursionRemoval = parameters.get("recursion") == null ? "none" : "full";
 
-      ebnfGrammar = Convert.convert(null, parameters.get(GRAMMAR), tzOffset, xml, recursionRemoval, factoring, inline, keep, Convert.ParserImplementation.JAVA, false, false);
+      ebnfGrammar = Convert.convert(null, parameters.get(GRAMMAR), tzOffset, outputMethod, recursionRemoval, factoring, inline, keep, Convert.ParserImplementation.JAVA, false, false);
 
-      if (xml)
+      switch (outputMethod)
       {
+      case xml:
         fragment =
           "<h4>W3C-style&#160;grammar:</h4>\n" +
           "<textarea name=\"text\">" +
           escapeXmlContent(ebnfGrammar) +
           "</textarea>\n";
-      }
-      else
-      {
+        break;
+      case json:
+        fragment =
+          "<h4>JSON&#160;grammar:</h4>\n" +
+          "<textarea name=\"text\">" +
+          escapeXmlContent(ebnfGrammar) +
+          "</textarea>\n";
+        break;
+      default:
         int commentEnd = ebnfGrammar.indexOf("*/");
         String name = "";
         if (commentEnd >= 0)
