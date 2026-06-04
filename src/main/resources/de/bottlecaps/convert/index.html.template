@@ -44,7 +44,7 @@
       <a href="https://javacc.github.io/javacc/documentation/grammar.html">JavaCC</a>,
       <a href="https://github.com/zaach/jison">Jison</a>,
       <a href="https://github.com/pegjs/pegjs/tree/master/docs/grammar">PEG.js</a>,
-      <a href="https://eclipse.org/Xtext/documentation/301_grammarlanguage.html">Xtext</a>.
+      <a href="https://eclipse.dev/Xtext/documentation/301_grammarlanguage.html">Xtext</a>.
 
       This is work in progress.
       Converters for individual notations are in different states of development,

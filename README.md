@@ -17,7 +17,7 @@ Input grammars are accepted in these notations:
 - [JavaCC](https://javacc.github.io/javacc/documentation/grammar.html)
 - [Jison](https://github.com/zaach/jison)
 - [PEG.js](https://github.com/pegjs/pegjs/tree/master/docs/grammar)
-- [Xtext](https://eclipse.org/Xtext/documentation/301_grammarlanguage.html)
+- [Xtext](https://eclipse.dev/Xtext/documentation/301_grammarlanguage.html)
 
 Besides converting these grammar notations, ebnf-convert can also perform some grammar transformation,
 e.g. factorization and elimination of direct recursion. To some extent this transforms BNF to EBNF, 
@@ -48,7 +48,7 @@ Usage: java -jar ebnf-convert.war [-xml|-f FACTORING|-r KIND|-noinline|-noepsilo
 ```
 
 ## Building ebnf-convert
-For building ebnf-convert, JDK 11 (or higher) must be available. In the
+For building ebnf-convert, JDK 17 (or higher) must be available. In the
 project folder, run this command to build the distribution `.zip` file in the `build/distributions` folder:
 
 ```bash
@@ -75,15 +75,15 @@ This project makes use of
 
 ## License
 
-Copyright (c) 2011-2025 Gunther Rademacher. ebnf-convert is provided under the [Apache 2 License][ASL].
+Copyright (c) 2011-2026 Gunther Rademacher. ebnf-convert is provided under the [Apache 2 License][ASL].
 
 ## Links
 
 The official website for ebnf-convert is <https://www.bottlecaps.de/ebnf-convert>.
 
-[ASL]: http://www.apache.org/licenses/LICENSE-2.0
-[W3C-EBNF]: http://www.w3.org/TR/2010/REC-xquery-20101214/#EBNFNotation
-[SAXON]: http://www.saxonica.com/products/products.xml
+[ASL]: https://www.apache.org/licenses/LICENSE-2.0
+[W3C-EBNF]: https://www.w3.org/TR/2010/REC-xquery-20101214/#EBNFNotation
+[SAXON]: https://www.saxonica.com/products/products.xml
 [GRADLE]: https://gradle.org/
 [GRADLE-LICENSE-REPORT]: https://github.com/jk1/Gradle-License-Report
 [REx]: https://www.bottlecaps.de/rex
