@@ -5,7 +5,7 @@
 plugins {
     id 'java'
     id 'war'
-    id 'com.github.jk1.dependency-license-report' version '2.9'
+    id 'com.github.jk1.dependency-license-report' version '3.1.2'
     id 'maven-publish'
     id 'signing'
 }
@@ -13,12 +13,12 @@ plugins {
 defaultTasks 'build'
 build.dependsOn 'distZip'
 
-version = '0.73-basex'
+version = '0.74-basex-SNAPSHOT'
 group = 'de.bottlecaps.ebnf-convert'
 
 def project_name = "$project.name"
 def buildTime = new Date()
-def rrVersion = '2.6'
+def rrVersion = '2.7-SNAPSHOT'
 
 def generatedSrc = "$buildDir/generated-src/main"
 
@@ -36,7 +36,6 @@ sourceSets {
 repositories {
     mavenLocal()
     mavenCentral()
-    maven {url = 'https://files.basex.org/maven/'}
 }
 
 configurations {
@@ -51,11 +50,11 @@ dependencies {
     compileOnly 'org.apache.tomcat:tomcat-servlet-api:8.5.100'
     compileOnly "de.bottlecaps.rr:rr-lib:$rrVersion"
 
-    implementation 'org.basex:basex:12.2-SNAPSHOT'
+    implementation 'org.basex:basex:12.4'
     implementation 'net.sf.saxon:Saxon-HE:12.9'
     implementation 'org.xmlresolver:xmlresolver:5.3.3'
     implementation 'commons-fileupload:commons-fileupload:1.6.0'
-    implementation 'commons-io:commons-io:2.21.0'
+    implementation 'commons-io:commons-io:2.22.0'
 }
 
 configurations.rrLib {
@@ -140,7 +139,7 @@ Licensed under the Apache 2.0 License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-        http://www.apache.org/licenses/LICENSE-2.0
+        https://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
