@@ -1,0 +1,22 @@
+/* converted on Wed Jul 15, 2026, 18:45 (UTC+03) by antlr_3-to-w3c v0.73 which is Copyright (c) 2011-2026 by Gunther Rademacher <grd@gmx.net> */
+
+form     ::= cmp ion?
+cmp      ::= term num?
+           | cmp cmp
+term     ::= elem
+           | '(' cmp ')'
+elem     ::= 'H'
+           | 'He'
+           | 'Li'
+           | 'Be'
+           | 'B'
+           | 'C'
+ion      ::= ionNum? ( '+' | '-' )
+ionNum   ::= '2'
+           | '3'
+           | '4'
+num      ::= '1'
+           | ionNum
+
+<?TOKENS?>
+
