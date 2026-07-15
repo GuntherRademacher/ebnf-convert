@@ -1,0 +1,7 @@
+/* Ambiguous Expression Grammar */
+expr ::= expr "+" expr 
+       | expr "*" expr 
+       | "(" expr ")" 
+       | id
+
+id   ::= [a-zA-Z_][a-zA-Z0-9_]*

@@ -1,0 +1,7 @@
+/* Unambiguous Dangling Else Grammar */
+stmt      ::= matched | unmatched
+matched   ::= "if" expr "then" matched "else" matched | other_stmt
+unmatched ::= "if" expr "then" stmt | "if" expr "then" matched "else" unmatched
+
+expr       ::= [a-zA-Z0-9]+
+other_stmt ::= "assignment" | "print"

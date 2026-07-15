@@ -1,0 +1,6 @@
+/* Toy Program and Assignment Grammar */
+program ::= "begin" stmt_list "end"
+stmt_list ::= stmt | stmt ";" stmt_list
+stmt      ::= var "=" expr
+var       ::= "A" | "B" | "C"
+expr      ::= var "+" var | var "-" var | var

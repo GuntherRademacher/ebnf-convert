@@ -1,0 +1,10 @@
+/* converted on Wed Jul 15, 2026, 13:55 (UTC+03) by w3c-to-w3c v0.73 which is Copyright (c) 2011-2025 by Gunther Rademacher <grd@gmx.net> */
+
+stmt     ::= matched
+           | 'if' expr 'then' ( matched 'else' 'if' expr 'then' )* stmt
+matched  ::= 'if' expr 'then' matched 'else' matched
+           | other_stmt
+expr     ::= [a-zA-Z0-9]+
+other_stmt
+         ::= 'assignment'
+           | 'print'

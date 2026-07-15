@@ -1,0 +1,8 @@
+/* converted on Wed Jul 15, 2026, 14:05 (UTC+03) by w3c-to-w3c v0.73 which is Copyright (c) 2011-2025 by Gunther Rademacher <grd@gmx.net> */
+
+program  ::= 'begin' stmt ( ';' stmt )* 'end'
+stmt     ::= var '=' expr
+var      ::= 'A'
+           | 'B'
+           | 'C'
+expr     ::= var ( ( '+' | '-' ) var )?

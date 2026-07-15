@@ -1,0 +1,6 @@
+/* converted on Wed Jul 15, 2026, 13:49 (UTC+03) by w3c-to-w3c v0.73 which is Copyright (c) 2011-2025 by Gunther Rademacher <grd@gmx.net> */
+
+ident_list
+         ::= identifier ( ',' identifier )*
+identifier
+         ::= [a-zA-Z_] [a-zA-Z0-9_]*
