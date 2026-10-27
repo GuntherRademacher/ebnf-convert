@@ -5,7 +5,7 @@
 plugins {
     id 'java'
     id 'war'
-    id 'com.github.jk1.dependency-license-report' version '3.1.2'
+    id 'com.github.jk1.dependency-license-report' version '3.1.4'
     id 'maven-publish'
     id 'signing'
 }
@@ -50,8 +50,8 @@ dependencies {
     compileOnly 'org.apache.tomcat:tomcat-servlet-api:8.5.100'
     compileOnly "de.bottlecaps.rr:rr-lib:$rrVersion"
 
-    implementation 'net.sf.saxon:Saxon-HE:13.0'
-    implementation 'org.xmlresolver:xmlresolver:6.0.23'
+    implementation 'net.sf.saxon:Saxon-HE:13.1'
+    implementation 'org.xmlresolver:xmlresolver:6.1.0'
     implementation 'commons-fileupload:commons-fileupload:1.6.0'
     implementation 'commons-io:commons-io:2.22.0'
 }
