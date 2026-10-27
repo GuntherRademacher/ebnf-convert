@@ -185,7 +185,8 @@ public class Convert
       else
       {
         String ebnfGrammar = convert(notation, read(inputFile), localTzOffset(), outputMethod, recursionRemoval, factoring, inline, keep, parserImplementation, noTimestamp, verbose);
-        System.out.print(ebnfGrammar);
+        System.out.write(ebnfGrammar.getBytes(StandardCharsets.UTF_8));
+        System.out.flush();
       }
     }
     catch (Exception e)

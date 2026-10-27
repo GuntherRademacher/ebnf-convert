@@ -47,6 +47,9 @@ Usage: java -jar ebnf-convert.war [-xml|-f FACTORING|-r KIND|-noinline|-noepsilo
   GRAMMAR          path of foreign grammar
 ```
 
+Command-line grammar output is always encoded as UTF-8, independently of the JVM's
+standard output encoding. Input files are decoded using the JVM's `file.encoding` property.
+
 ## Building ebnf-convert
 For building ebnf-convert, JDK 17 (or higher) must be available. In the
 project folder, run this command to build the distribution `.zip` file in the `build/distributions` folder:
