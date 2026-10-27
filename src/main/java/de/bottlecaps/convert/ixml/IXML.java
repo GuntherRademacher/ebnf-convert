@@ -1,9 +1,8 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Fri Oct 2, 2026 21:53 (UTC+02) by REx v6.3-SNAPSHOT which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.LRParser -name de.bottlecaps.convert.ixml.IXML -glr 1 ixml.ebnf
 
 package de.bottlecaps.convert.ixml;
 
-import java.io.Writer;
 import java.util.PriorityQueue;
 
 public class IXML implements de.bottlecaps.convert.LRParser
