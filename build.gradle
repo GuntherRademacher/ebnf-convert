@@ -51,7 +51,7 @@ dependencies {
     compileOnly "de.bottlecaps.rr:rr-lib:$rrVersion"
 
     implementation 'net.sf.saxon:Saxon-HE:13.1'
-    implementation 'org.xmlresolver:xmlresolver:6.1.0'
+    implementation 'org.xmlresolver:xmlresolver:6.1.1'
     implementation 'commons-fileupload:commons-fileupload:1.6.0'
     implementation 'commons-io:commons-io:2.22.0'
 }
