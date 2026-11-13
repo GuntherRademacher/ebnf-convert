@@ -18,7 +18,7 @@ group = 'de.bottlecaps.ebnf-convert'
 
 def project_name = "$project.name"
 def buildTime = new Date()
-def rrVersion = '2.7-SNAPSHOT'
+def rrVersion = '2.6'
 
 def generatedSrc = "$buildDir/generated-src/main"
 
@@ -34,7 +34,6 @@ sourceSets {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
