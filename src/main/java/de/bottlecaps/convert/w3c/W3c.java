@@ -1,9 +1,10 @@
-// This file was generated on Thu Oct 16, 2025 12:52 (UTC+02) by REx v6.2-SNAPSHOT which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:40 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.w3c.W3c w3c.ebnf
 
 package de.bottlecaps.convert.w3c;
 
 
+@SuppressWarnings("all")
 public class W3c implements de.bottlecaps.convert.Parser
 {
   public W3c(CharSequence string, EventHandler t)
@@ -54,6 +55,21 @@ public class W3c implements de.bottlecaps.convert.Parser
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
   }
 
+  private W3c()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
+  }
+
   public static String[] getExpectedTokenSet(ParseException e)
   {
     String[] expected;
@@ -95,7 +111,7 @@ public class W3c implements de.bottlecaps.convert.Parser
 
   public void parse_Grammar()
   {
-    eventHandler.startNonterminal("Grammar", e0);
+    eventHandler.startNonterminal(0, e0);
     for (;;)
     {
       lookahead1W(19);              // Whitespace | NCName | DocComment | '.' | '<?'
@@ -176,12 +192,12 @@ public class W3c implements de.bottlecaps.convert.Parser
       }
     }
     consume(16);                    // EOF
-    eventHandler.endNonterminal("Grammar", e0);
+    eventHandler.endNonterminal(0, e0);
   }
 
   private void parse_ProcessingInstruction()
   {
-    eventHandler.startNonterminal("ProcessingInstruction", e0);
+    eventHandler.startNonterminal(1, e0);
     consume(31);                    // '<?'
     lookahead1(0);                  // NCName
     consume(3);                     // NCName
@@ -201,12 +217,12 @@ public class W3c implements de.bottlecaps.convert.Parser
     }
     lookahead1(2);                  // '?>'
     consume(37);                    // '?>'
-    eventHandler.endNonterminal("ProcessingInstruction", e0);
+    eventHandler.endNonterminal(1, e0);
   }
 
   private void parse_Production()
   {
-    eventHandler.startNonterminal("Production", e0);
+    eventHandler.startNonterminal(2, e0);
     if (l1 == 15)                   // DocComment
     {
       consume(15);                  // DocComment
@@ -248,12 +264,12 @@ public class W3c implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Option();
     }
-    eventHandler.endNonterminal("Production", e0);
+    eventHandler.endNonterminal(2, e0);
   }
 
   private void parse_Alternatives()
   {
-    eventHandler.startNonterminal("Alternatives", e0);
+    eventHandler.startNonterminal(3, e0);
     parse_Alternative();
     lookahead1W(33);                // Whitespace | NCName | StringLiteral | WsExplicit | WsDefinition | DocComment |
                                     // EOF | EquivalenceLookAhead | '.' | '/' | '<?ENCORE?>' | '<?TOKENS?>' | '|'
@@ -297,12 +313,12 @@ public class W3c implements de.bottlecaps.convert.Parser
         }
       }
     }
-    eventHandler.endNonterminal("Alternatives", e0);
+    eventHandler.endNonterminal(3, e0);
   }
 
   private void parse_Alternative()
   {
-    eventHandler.startNonterminal("Alternative", e0);
+    eventHandler.startNonterminal(4, e0);
     parse_CompositeExpression();
     lookahead1W(35);                // Whitespace | NCName | StringLiteral | WsExplicit | WsDefinition | DocComment |
                                     // EOF | EquivalenceLookAhead | '&' | '.' | '/' | '<?ENCORE?>' | '<?TOKENS?>' | '|'
@@ -315,12 +331,12 @@ public class W3c implements de.bottlecaps.convert.Parser
       whitespace();
       parse_CompositeExpression();
     }
-    eventHandler.endNonterminal("Alternative", e0);
+    eventHandler.endNonterminal(4, e0);
   }
 
   private void parse_CompositeExpression()
   {
-    eventHandler.startNonterminal("CompositeExpression", e0);
+    eventHandler.startNonterminal(5, e0);
     switch (l1)
     {
     case 3:                         // NCName
@@ -519,12 +535,12 @@ public class W3c implements de.bottlecaps.convert.Parser
         }
       }
     }
-    eventHandler.endNonterminal("CompositeExpression", e0);
+    eventHandler.endNonterminal(5, e0);
   }
 
   private void parse_Item()
   {
-    eventHandler.startNonterminal("Item", e0);
+    eventHandler.startNonterminal(6, e0);
     parse_Primary();
     lookahead1W(47);                // Whitespace | NCName | StringLiteral | CharCode | WsExplicit | WsDefinition |
                                     // DocComment | EOF | EquivalenceLookAhead | '$' | '&' | '(' | ')' | '*' | '**' |
@@ -546,12 +562,12 @@ public class W3c implements de.bottlecaps.convert.Parser
         consume(24);                // '+'
       }
     }
-    eventHandler.endNonterminal("Item", e0);
+    eventHandler.endNonterminal(6, e0);
   }
 
   private void parse_Primary()
   {
-    eventHandler.startNonterminal("Primary", e0);
+    eventHandler.startNonterminal(7, e0);
     switch (l1)
     {
     case 3:                         // NCName
@@ -581,12 +597,12 @@ public class W3c implements de.bottlecaps.convert.Parser
     default:
       parse_CharClass();
     }
-    eventHandler.endNonterminal("Primary", e0);
+    eventHandler.endNonterminal(7, e0);
   }
 
   private void parse_Choice()
   {
-    eventHandler.startNonterminal("Choice", e0);
+    eventHandler.startNonterminal(8, e0);
     parse_CompositeExpression();
     lookahead1W(17);                // Whitespace | ')' | '/' | '|'
     if (l1 != 21)                   // ')'
@@ -624,12 +640,12 @@ public class W3c implements de.bottlecaps.convert.Parser
         }
       }
     }
-    eventHandler.endNonterminal("Choice", e0);
+    eventHandler.endNonterminal(8, e0);
   }
 
   private void parse_NameOrString()
   {
-    eventHandler.startNonterminal("NameOrString", e0);
+    eventHandler.startNonterminal(9, e0);
     switch (l1)
     {
     case 3:                         // NCName
@@ -654,12 +670,12 @@ public class W3c implements de.bottlecaps.convert.Parser
         consume(4);                 // Context
       }
     }
-    eventHandler.endNonterminal("NameOrString", e0);
+    eventHandler.endNonterminal(9, e0);
   }
 
   private void parse_CharClass()
   {
-    eventHandler.startNonterminal("CharClass", e0);
+    eventHandler.startNonterminal(10, e0);
     switch (l1)
     {
     case 38:                        // '['
@@ -692,23 +708,23 @@ public class W3c implements de.bottlecaps.convert.Parser
       }
     }
     consume(41);                    // ']'
-    eventHandler.endNonterminal("CharClass", e0);
+    eventHandler.endNonterminal(10, e0);
   }
 
   private void parse_Link()
   {
-    eventHandler.startNonterminal("Link", e0);
+    eventHandler.startNonterminal(11, e0);
     consume(10);                    // UrlIntroducer
     lookahead1(1);                  // URL
     consume(11);                    // URL
     lookahead1(3);                  // ']'
     consume(41);                    // ']'
-    eventHandler.endNonterminal("Link", e0);
+    eventHandler.endNonterminal(11, e0);
   }
 
   private void parse_Option()
   {
-    eventHandler.startNonterminal("Option", e0);
+    eventHandler.startNonterminal(12, e0);
     switch (l1)
     {
     case 12:                        // WsExplicit
@@ -717,12 +733,12 @@ public class W3c implements de.bottlecaps.convert.Parser
     default:
       consume(13);                  // WsDefinition
     }
-    eventHandler.endNonterminal("Option", e0);
+    eventHandler.endNonterminal(12, e0);
   }
 
   private void parse_Preference()
   {
-    eventHandler.startNonterminal("Preference", e0);
+    eventHandler.startNonterminal(13, e0);
     parse_NameOrString();
     lookahead1W(16);                // Whitespace | '<<' | '>>'
     switch (l1)
@@ -787,12 +803,12 @@ public class W3c implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("Preference", e0);
+    eventHandler.endNonterminal(13, e0);
   }
 
   private void parse_Delimiter()
   {
-    eventHandler.startNonterminal("Delimiter", e0);
+    eventHandler.startNonterminal(14, e0);
     consume(3);                     // NCName
     lookahead1W(6);                 // Whitespace | '\\'
     consume(40);                    // '\\'
@@ -850,12 +866,12 @@ public class W3c implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("Delimiter", e0);
+    eventHandler.endNonterminal(14, e0);
   }
 
   private void parse_Equivalence()
   {
-    eventHandler.startNonterminal("Equivalence", e0);
+    eventHandler.startNonterminal(15, e0);
     consume(17);                    // EquivalenceLookAhead
     lookahead1W(11);                // Whitespace | StringLiteral | '['
     whitespace();
@@ -865,12 +881,12 @@ public class W3c implements de.bottlecaps.convert.Parser
     lookahead1W(11);                // Whitespace | StringLiteral | '['
     whitespace();
     parse_EquivalenceCharRange();
-    eventHandler.endNonterminal("Equivalence", e0);
+    eventHandler.endNonterminal(15, e0);
   }
 
   private void parse_EquivalenceCharRange()
   {
-    eventHandler.startNonterminal("EquivalenceCharRange", e0);
+    eventHandler.startNonterminal(16, e0);
     switch (l1)
     {
     case 5:                         // StringLiteral
@@ -896,7 +912,7 @@ public class W3c implements de.bottlecaps.convert.Parser
       lookahead1(3);                // ']'
       consume(41);                  // ']'
     }
-    eventHandler.endNonterminal("EquivalenceCharRange", e0);
+    eventHandler.endNonterminal(16, e0);
   }
 
   private void consume(int t)
@@ -904,7 +920,7 @@ public class W3c implements de.bottlecaps.convert.Parser
     if (l1 == t)
     {
       whitespace();
-      eventHandler.terminal(TOKEN[l1], b1, e1);
+      eventHandler.terminal(l1, b1, e1);
       b0 = b1; e0 = e1; l1 = l2; if (l1 != 0) {
       b1 = b2; e1 = e2; l2 = l3; if (l2 != 0) {
       b2 = b3; e2 = e3; l3 = 0; }}
@@ -1072,7 +1088,7 @@ public class W3c implements de.bottlecaps.convert.Parser
         {
           int c1 = end < size ? input.charAt(end) : 0;
           ++end;
-          if (c1 >= 0xd800 && c1 < 0xdc000)
+          if (c1 >= 0xd800 && c1 < 0xdc00)
           {
             ++end;
           }
@@ -1411,7 +1427,7 @@ public class W3c implements de.bottlecaps.convert.Parser
     /* 292 */ 0
   };
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "Whitespace",
@@ -1456,6 +1472,27 @@ public class W3c implements de.bottlecaps.convert.Parser
     "'\\\\'",
     "']'",
     "'|'"
+  };
+
+  public static final String[] NONTERMINAL =
+  {
+    "Grammar",
+    "ProcessingInstruction",
+    "Production",
+    "Alternatives",
+    "Alternative",
+    "CompositeExpression",
+    "Item",
+    "Primary",
+    "Choice",
+    "NameOrString",
+    "CharClass",
+    "Link",
+    "Option",
+    "Preference",
+    "Delimiter",
+    "Equivalence",
+    "EquivalenceCharRange"
   };
 }
 

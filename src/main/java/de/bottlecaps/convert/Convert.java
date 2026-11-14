@@ -389,7 +389,7 @@ public class Convert
           if (parsers[i] instanceof Parser)
           {
             Parser parser = (Parser) parsers[i];
-            parser.initialize(grammar, new Parser.XmlSerializer(writer, false));
+            parser.initialize(grammar, new Parser.XmlSerializer(writer, false, parser));
             try
             {
               parser.parse();
@@ -416,7 +416,7 @@ public class Convert
                 throw pe;
               continue;
             }
-            treeBuilder.serialize(new LRParser.XmlSerializer(writer, false));
+            treeBuilder.serialize(new LRParser.XmlSerializer(writer, false, parser));
           }
           writer.flush();
           parseTree = defaultXQueryProcessor().parseXml(writer.toString());
@@ -630,11 +630,11 @@ public class Convert
   private static final class IgnoringEventHandler implements Parser.EventHandler, LRParser.BottomUpEventHandler
   {
     @Override public void reset(CharSequence string) {}
-    @Override public void startNonterminal(String name, int begin) {}
-    @Override public void endNonterminal(String name, int end) {}
-    @Override public void terminal(String name, int begin, int end) {}
+    @Override public void startNonterminal(int id, int begin) {}
+    @Override public void endNonterminal(int id, int end) {}
+    @Override public void terminal(int id, int begin, int end) {}
     @Override public void whitespace(int begin, int end) {}
-    @Override public void nonterminal(String name, int begin, int end, int count) {}
+    @Override public void nonterminal(int id, int begin, int end, int count) {}
   }
 
   public static void usage(PrintStream out, final String file) {
@@ -662,7 +662,7 @@ public class Convert
     {
       out.println();
       out.println(file + " is an executable war file. It can be run with \"java -jar\" as shown");
-      out.println("above, but it can also be deployed in servlet containers like Tomcat or Jetty.");
+      out.println("above, but it can also be deployed in Jakarta EE 11 servlet containers like Tomcat 11 or Jetty 12.");
     }
   }
 

@@ -1,9 +1,10 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:40 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.pegjs.Pegjs pegjs.ebnf
 
 package de.bottlecaps.convert.pegjs;
 
 
+@SuppressWarnings("all")
 public class Pegjs implements de.bottlecaps.convert.Parser
 {
   public Pegjs(CharSequence string, EventHandler t)
@@ -54,6 +55,21 @@ public class Pegjs implements de.bottlecaps.convert.Parser
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
   }
 
+  private Pegjs()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
+  }
+
   public static String[] getExpectedTokenSet(ParseException e)
   {
     String[] expected;
@@ -95,7 +111,7 @@ public class Pegjs implements de.bottlecaps.convert.Parser
 
   public void parse_Grammar()
   {
-    eventHandler.startNonterminal("Grammar", e0);
+    eventHandler.startNonterminal(0, e0);
     lookahead1W(7);                 // IdentifierName | WhiteSpace | Comment | '{'
     if (l1 == 28)                   // '{'
     {
@@ -114,19 +130,19 @@ public class Pegjs implements de.bottlecaps.convert.Parser
       }
     }
     consume(1);                     // EOF
-    eventHandler.endNonterminal("Grammar", e0);
+    eventHandler.endNonterminal(0, e0);
   }
 
   private void parse_Initializer()
   {
-    eventHandler.startNonterminal("Initializer", e0);
+    eventHandler.startNonterminal(1, e0);
     parse_JavaScriptCode();
-    eventHandler.endNonterminal("Initializer", e0);
+    eventHandler.endNonterminal(1, e0);
   }
 
   private void parse_JavaScriptCode()
   {
-    eventHandler.startNonterminal("JavaScriptCode", e0);
+    eventHandler.startNonterminal(2, e0);
     consume(28);                    // '{'
     for (;;)
     {
@@ -145,12 +161,12 @@ public class Pegjs implements de.bottlecaps.convert.Parser
       }
     }
     consume(29);                    // '}'
-    eventHandler.endNonterminal("JavaScriptCode", e0);
+    eventHandler.endNonterminal(2, e0);
   }
 
   private void parse_Rule()
   {
-    eventHandler.startNonterminal("Rule", e0);
+    eventHandler.startNonterminal(3, e0);
     parse_Name();
     lookahead1W(10);                // StringLiteral | WhiteSpace | Comment | '<-' | '='
     if (l1 == 4)                    // StringLiteral
@@ -175,26 +191,26 @@ public class Pegjs implements de.bottlecaps.convert.Parser
     {
       consume(18);                  // ';'
     }
-    eventHandler.endNonterminal("Rule", e0);
+    eventHandler.endNonterminal(3, e0);
   }
 
   private void parse_Name()
   {
-    eventHandler.startNonterminal("Name", e0);
+    eventHandler.startNonterminal(4, e0);
     consume(3);                     // IdentifierName
-    eventHandler.endNonterminal("Name", e0);
+    eventHandler.endNonterminal(4, e0);
   }
 
   private void parse_HumanReadableName()
   {
-    eventHandler.startNonterminal("HumanReadableName", e0);
+    eventHandler.startNonterminal(5, e0);
     consume(4);                     // StringLiteral
-    eventHandler.endNonterminal("HumanReadableName", e0);
+    eventHandler.endNonterminal(5, e0);
   }
 
   private void parse_ParsingExpression()
   {
-    eventHandler.startNonterminal("ParsingExpression", e0);
+    eventHandler.startNonterminal(6, e0);
     parse_Alternative();
     for (;;)
     {
@@ -209,12 +225,12 @@ public class Pegjs implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Alternative();
     }
-    eventHandler.endNonterminal("ParsingExpression", e0);
+    eventHandler.endNonterminal(6, e0);
   }
 
   private void parse_Alternative()
   {
-    eventHandler.startNonterminal("Alternative", e0);
+    eventHandler.startNonterminal(7, e0);
     for (;;)
     {
       lookahead1W(16);              // EOF | IdentifierName | StringLiteral | WhiteSpace | Comment | '!' | '&' | '(' |
@@ -283,19 +299,19 @@ public class Pegjs implements de.bottlecaps.convert.Parser
       whitespace();
       parse_JavaScriptCode();
     }
-    eventHandler.endNonterminal("Alternative", e0);
+    eventHandler.endNonterminal(7, e0);
   }
 
   private void parse_Label()
   {
-    eventHandler.startNonterminal("Label", e0);
+    eventHandler.startNonterminal(8, e0);
     consume(3);                     // IdentifierName
-    eventHandler.endNonterminal("Label", e0);
+    eventHandler.endNonterminal(8, e0);
   }
 
   private void parse_Predicate()
   {
-    eventHandler.startNonterminal("Predicate", e0);
+    eventHandler.startNonterminal(9, e0);
     switch (l1)
     {
     case 10:                        // '&'
@@ -316,12 +332,12 @@ public class Pegjs implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Expression();
     }
-    eventHandler.endNonterminal("Predicate", e0);
+    eventHandler.endNonterminal(9, e0);
   }
 
   private void parse_Expression()
   {
-    eventHandler.startNonterminal("Expression", e0);
+    eventHandler.startNonterminal(10, e0);
     parse_Primary();
     lookahead1W(17);                // EOF | IdentifierName | StringLiteral | WhiteSpace | Comment | '!' | '&' | '(' |
                                     // ')' | '*' | '+' | '.' | '/' | ';' | '<' | '>' | '?' | '[' | '{'
@@ -341,12 +357,12 @@ public class Pegjs implements de.bottlecaps.convert.Parser
         consume(23);                // '?'
       }
     }
-    eventHandler.endNonterminal("Expression", e0);
+    eventHandler.endNonterminal(10, e0);
   }
 
   private void parse_Primary()
   {
-    eventHandler.startNonterminal("Primary", e0);
+    eventHandler.startNonterminal(11, e0);
     switch (l1)
     {
     case 4:                         // StringLiteral
@@ -375,12 +391,12 @@ public class Pegjs implements de.bottlecaps.convert.Parser
     default:
       consume(22);                  // '>'
     }
-    eventHandler.endNonterminal("Primary", e0);
+    eventHandler.endNonterminal(11, e0);
   }
 
   private void parse_CharacterSet()
   {
-    eventHandler.startNonterminal("CharacterSet", e0);
+    eventHandler.startNonterminal(12, e0);
     consume(24);                    // '['
     lookahead1(1);                  // Character | '^'
     if (l1 == 27)                   // '^'
@@ -404,12 +420,12 @@ public class Pegjs implements de.bottlecaps.convert.Parser
     default:
       consume(26);                  // ']i'
     }
-    eventHandler.endNonterminal("CharacterSet", e0);
+    eventHandler.endNonterminal(12, e0);
   }
 
   private void parse_CharacterRange()
   {
-    eventHandler.startNonterminal("CharacterRange", e0);
+    eventHandler.startNonterminal(13, e0);
     lookahead1(0);                  // Character
     consume(5);                     // Character
     lookahead1(8);                  // Character | Minus | ']' | ']i'
@@ -419,7 +435,7 @@ public class Pegjs implements de.bottlecaps.convert.Parser
       lookahead1(0);                // Character
       consume(5);                   // Character
     }
-    eventHandler.endNonterminal("CharacterRange", e0);
+    eventHandler.endNonterminal(13, e0);
   }
 
   private void consume(int t)
@@ -427,7 +443,7 @@ public class Pegjs implements de.bottlecaps.convert.Parser
     if (l1 == t)
     {
       whitespace();
-      eventHandler.terminal(TOKEN[l1], b1, e1);
+      eventHandler.terminal(l1, b1, e1);
       b0 = b1; e0 = e1; l1 = l2; if (l1 != 0) {
       b1 = b2; e1 = e2; l2 = l3; if (l2 != 0) {
       b2 = b3; e2 = e3; l3 = 0; }}
@@ -776,7 +792,7 @@ public class Pegjs implements de.bottlecaps.convert.Parser
     /* 46 */ 16, 16, 16, 16
   };
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "EOF",
@@ -808,6 +824,25 @@ public class Pegjs implements de.bottlecaps.convert.Parser
     "'^'",
     "'{'",
     "'}'"
+  };
+
+  public static final String[] NONTERMINAL =
+  {
+    "Grammar",
+    "Initializer",
+    "JavaScriptCode",
+    "Rule",
+    "Name",
+    "HumanReadableName",
+    "ParsingExpression",
+    "Alternative",
+    "Label",
+    "Predicate",
+    "Expression",
+    "Primary",
+    "CharacterSet",
+    "CharacterRange",
+    "_"
   };
 }
 

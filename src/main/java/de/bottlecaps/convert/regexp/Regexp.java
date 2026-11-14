@@ -1,9 +1,10 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:40 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.regexp.Regexp regexp.ebnf
 
 package de.bottlecaps.convert.regexp;
 
 
+@SuppressWarnings("all")
 public class Regexp implements de.bottlecaps.convert.Parser
 {
   public Regexp(CharSequence string, EventHandler t)
@@ -52,6 +53,21 @@ public class Regexp implements de.bottlecaps.convert.Parser
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
   }
 
+  private Regexp()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
+  }
+
   public static String[] getExpectedTokenSet(ParseException e)
   {
     String[] expected;
@@ -93,15 +109,15 @@ public class Regexp implements de.bottlecaps.convert.Parser
 
   public void parse_regexp()
   {
-    eventHandler.startNonterminal("regexp", e0);
+    eventHandler.startNonterminal(0, e0);
     parse_alternatives();
     consume(4);                     // EOF
-    eventHandler.endNonterminal("regexp", e0);
+    eventHandler.endNonterminal(0, e0);
   }
 
   private void parse_alternatives()
   {
-    eventHandler.startNonterminal("alternatives", e0);
+    eventHandler.startNonterminal(1, e0);
     parse_sequence();
     for (;;)
     {
@@ -112,12 +128,12 @@ public class Regexp implements de.bottlecaps.convert.Parser
       consume(19);                  // '|'
       parse_sequence();
     }
-    eventHandler.endNonterminal("alternatives", e0);
+    eventHandler.endNonterminal(1, e0);
   }
 
   private void parse_sequence()
   {
-    eventHandler.startNonterminal("sequence", e0);
+    eventHandler.startNonterminal(2, e0);
     for (;;)
     {
       parse_item();
@@ -130,12 +146,12 @@ public class Regexp implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("sequence", e0);
+    eventHandler.endNonterminal(2, e0);
   }
 
   private void parse_item()
   {
-    eventHandler.startNonterminal("item", e0);
+    eventHandler.startNonterminal(3, e0);
     parse_primary();
     lookahead1(6);                  // escaped-character | plain-character | EOF | '(' | '(?:' | '(?=' | ')' | '*' |
                                     // '*?' | '+' | '+?' | '.' | '?' | '[' | '|'
@@ -147,12 +163,12 @@ public class Regexp implements de.bottlecaps.convert.Parser
     {
       parse_occurrence();
     }
-    eventHandler.endNonterminal("item", e0);
+    eventHandler.endNonterminal(3, e0);
   }
 
   private void parse_primary()
   {
-    eventHandler.startNonterminal("primary", e0);
+    eventHandler.startNonterminal(4, e0);
     lookahead1(4);                  // escaped-character | plain-character | '(' | '(?:' | '(?=' | '.' | '['
     switch (l1)
     {
@@ -180,12 +196,12 @@ public class Regexp implements de.bottlecaps.convert.Parser
     default:
       parse_character();
     }
-    eventHandler.endNonterminal("primary", e0);
+    eventHandler.endNonterminal(4, e0);
   }
 
   private void parse_character()
   {
-    eventHandler.startNonterminal("character", e0);
+    eventHandler.startNonterminal(5, e0);
     switch (l1)
     {
     case 1:                         // escaped-character
@@ -194,12 +210,12 @@ public class Regexp implements de.bottlecaps.convert.Parser
     default:
       consume(2);                   // plain-character
     }
-    eventHandler.endNonterminal("character", e0);
+    eventHandler.endNonterminal(5, e0);
   }
 
   private void parse_charset()
   {
-    eventHandler.startNonterminal("charset", e0);
+    eventHandler.startNonterminal(6, e0);
     consume(16);                    // '['
     lookahead1(2);                  // range-character | '^'
     if (l1 == 18)                   // '^'
@@ -216,12 +232,12 @@ public class Regexp implements de.bottlecaps.convert.Parser
       }
     }
     consume(17);                    // ']'
-    eventHandler.endNonterminal("charset", e0);
+    eventHandler.endNonterminal(6, e0);
   }
 
   private void parse_range()
   {
-    eventHandler.startNonterminal("range", e0);
+    eventHandler.startNonterminal(7, e0);
     lookahead1(0);                  // range-character
     consume(3);                     // range-character
     lookahead1(3);                  // range-character | '-' | ']'
@@ -231,12 +247,12 @@ public class Regexp implements de.bottlecaps.convert.Parser
       lookahead1(0);                // range-character
       consume(3);                   // range-character
     }
-    eventHandler.endNonterminal("range", e0);
+    eventHandler.endNonterminal(7, e0);
   }
 
   private void parse_occurrence()
   {
-    eventHandler.startNonterminal("occurrence", e0);
+    eventHandler.startNonterminal(8, e0);
     switch (l1)
     {
     case 15:                        // '?'
@@ -254,14 +270,14 @@ public class Regexp implements de.bottlecaps.convert.Parser
     default:
       consume(12);                  // '+?'
     }
-    eventHandler.endNonterminal("occurrence", e0);
+    eventHandler.endNonterminal(8, e0);
   }
 
   private void consume(int t)
   {
     if (l1 == t)
     {
-      eventHandler.terminal(TOKEN[l1], b1, e1);
+      eventHandler.terminal(l1, b1, e1);
       b0 = b1; e0 = e1; l1 = 0;
     }
     else
@@ -370,7 +386,7 @@ public class Regexp implements de.bottlecaps.convert.Parser
         {
           int c1 = end < size ? input.charAt(end) : 0;
           ++end;
-          if (c1 >= 0xd800 && c1 < 0xdc000)
+          if (c1 >= 0xd800 && c1 < 0xdc00)
           {
             ++end;
           }
@@ -470,7 +486,7 @@ public class Regexp implements de.bottlecaps.convert.Parser
     /*  0 */ 8, 131080, 262152, 139272, 82150, 606710, 647158, 8, 8192, 192, 2, 1024, 4096, 8192, 192
   };
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "escaped-character",
@@ -492,6 +508,19 @@ public class Regexp implements de.bottlecaps.convert.Parser
     "']'",
     "'^'",
     "'|'"
+  };
+
+  public static final String[] NONTERMINAL =
+  {
+    "regexp",
+    "alternatives",
+    "sequence",
+    "item",
+    "primary",
+    "character",
+    "charset",
+    "range",
+    "occurrence"
   };
 }
 

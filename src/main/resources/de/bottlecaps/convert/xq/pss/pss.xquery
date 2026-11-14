@@ -1,6 +1,6 @@
 xquery version "1.0" encoding "UTF-8";
 
-(: This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net> :)
+(: This file was generated on Sat Nov 14, 2026 08:41 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net> :)
 (: REx command line: -q -tree -a none -xquery -name de/bottlecaps/convert/xq/pss/pss.xquery ../../../../../../../main/java/de/bottlecaps/convert/pss/pss.ebnf :)
 
 (:~

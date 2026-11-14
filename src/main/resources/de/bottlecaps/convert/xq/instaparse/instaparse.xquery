@@ -1,6 +1,6 @@
 xquery version "1.0" encoding "UTF-8";
 
-(: This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net> :)
+(: This file was generated on Sat Nov 14, 2026 08:40 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net> :)
 (: REx command line: -q -lalr 4 -tree -a none -xquery -name de/bottlecaps/convert/xq/instaparse/instaparse.xquery ../../../../../../../main/java/de/bottlecaps/convert/instaparse/instaparse.ebnf :)
 
 (:~
@@ -979,7 +979,17 @@ declare function p:matchW($input as xs:string,
       let $state := p:predict($input, $state, 5)
       let $e0 := $state[$p:e0]
       let $state := p:parse($input, -1, 5, $state[$p:lk], -1, $e0, $e0, $e0, (1, -1, 0), $state)
-      return p:matchW($input, $state[$p:e0], $token-set)
+      return
+        if ($state[$p:error]) then
+          let $error := $state[$p:error]
+          return
+            (
+              - xs:integer($error/@s),
+              xs:integer($error/@b),
+              xs:integer($error/@e)
+            )
+        else
+          p:matchW($input, $state[$p:e0], $token-set)
     else
       $match
 };

@@ -1,9 +1,10 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:39 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.abnf.Abnf abnf.ebnf
 
 package de.bottlecaps.convert.abnf;
 
 
+@SuppressWarnings("all")
 public class Abnf implements de.bottlecaps.convert.Parser
 {
   public Abnf(CharSequence string, EventHandler t)
@@ -53,6 +54,21 @@ public class Abnf implements de.bottlecaps.convert.Parser
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
   }
 
+  private Abnf()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
+  }
+
   public static String[] getExpectedTokenSet(ParseException e)
   {
     String[] expected;
@@ -94,7 +110,7 @@ public class Abnf implements de.bottlecaps.convert.Parser
 
   public void parse_rulelist()
   {
-    eventHandler.startNonterminal("rulelist", e0);
+    eventHandler.startNonterminal(0, e0);
     for (;;)
     {
       lookahead1W(4);               // whitespace | rulename
@@ -106,12 +122,12 @@ public class Abnf implements de.bottlecaps.convert.Parser
       }
     }
     consume(8);                     // EOF
-    eventHandler.endNonterminal("rulelist", e0);
+    eventHandler.endNonterminal(0, e0);
   }
 
   private void parse_rule()
   {
-    eventHandler.startNonterminal("rule", e0);
+    eventHandler.startNonterminal(1, e0);
     consume(2);                     // rulename
     lookahead1W(7);                 // whitespace | '::=' | '=' | '=/'
     whitespace();
@@ -120,12 +136,12 @@ public class Abnf implements de.bottlecaps.convert.Parser
                                     // '(' | '*' | '['
     whitespace();
     parse_elements();
-    eventHandler.endNonterminal("rule", e0);
+    eventHandler.endNonterminal(1, e0);
   }
 
   private void parse_defined_as()
   {
-    eventHandler.startNonterminal("defined-as", e0);
+    eventHandler.startNonterminal(2, e0);
     switch (l1)
     {
     case 19:                        // '='
@@ -137,19 +153,19 @@ public class Abnf implements de.bottlecaps.convert.Parser
     default:
       consume(18);                  // '::='
     }
-    eventHandler.endNonterminal("defined-as", e0);
+    eventHandler.endNonterminal(2, e0);
   }
 
   private void parse_elements()
   {
-    eventHandler.startNonterminal("elements", e0);
+    eventHandler.startNonterminal(3, e0);
     parse_alternation();
-    eventHandler.endNonterminal("elements", e0);
+    eventHandler.endNonterminal(3, e0);
   }
 
   private void parse_alternation()
   {
-    eventHandler.startNonterminal("alternation", e0);
+    eventHandler.startNonterminal(4, e0);
     parse_concatenation();
     for (;;)
     {
@@ -171,12 +187,12 @@ public class Abnf implements de.bottlecaps.convert.Parser
       whitespace();
       parse_concatenation();
     }
-    eventHandler.endNonterminal("alternation", e0);
+    eventHandler.endNonterminal(4, e0);
   }
 
   private void parse_concatenation()
   {
-    eventHandler.startNonterminal("concatenation", e0);
+    eventHandler.startNonterminal(5, e0);
     for (;;)
     {
       whitespace();
@@ -204,24 +220,24 @@ public class Abnf implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("concatenation", e0);
+    eventHandler.endNonterminal(5, e0);
   }
 
   private void parse_repetition()
   {
-    eventHandler.startNonterminal("repetition", e0);
+    eventHandler.startNonterminal(6, e0);
     if (l1 == 3                     // integer
      || l1 == 14)                   // '*'
     {
       parse_repeat();
     }
     parse_element();
-    eventHandler.endNonterminal("repetition", e0);
+    eventHandler.endNonterminal(6, e0);
   }
 
   private void parse_repeat()
   {
-    eventHandler.startNonterminal("repeat", e0);
+    eventHandler.startNonterminal(7, e0);
     switch (l1)
     {
     case 3:                         // integer
@@ -251,12 +267,12 @@ public class Abnf implements de.bottlecaps.convert.Parser
     default:
       consume(3);                   // integer
     }
-    eventHandler.endNonterminal("repeat", e0);
+    eventHandler.endNonterminal(7, e0);
   }
 
   private void parse_element()
   {
-    eventHandler.startNonterminal("element", e0);
+    eventHandler.startNonterminal(8, e0);
     lookahead1W(8);                 // whitespace | rulename | quoted-string | prose-val | '%' | '%i' | '%s' | '(' | '['
     switch (l1)
     {
@@ -278,36 +294,36 @@ public class Abnf implements de.bottlecaps.convert.Parser
     default:
       parse_char_val();
     }
-    eventHandler.endNonterminal("element", e0);
+    eventHandler.endNonterminal(8, e0);
   }
 
   private void parse_group()
   {
-    eventHandler.startNonterminal("group", e0);
+    eventHandler.startNonterminal(9, e0);
     consume(12);                    // '('
     lookahead1W(11);                // whitespace | rulename | integer | quoted-string | prose-val | '%' | '%i' | '%s' |
                                     // '(' | '*' | '['
     whitespace();
     parse_alternation();
     consume(13);                    // ')'
-    eventHandler.endNonterminal("group", e0);
+    eventHandler.endNonterminal(9, e0);
   }
 
   private void parse_option()
   {
-    eventHandler.startNonterminal("option", e0);
+    eventHandler.startNonterminal(10, e0);
     consume(21);                    // '['
     lookahead1W(11);                // whitespace | rulename | integer | quoted-string | prose-val | '%' | '%i' | '%s' |
                                     // '(' | '*' | '['
     whitespace();
     parse_alternation();
     consume(22);                    // ']'
-    eventHandler.endNonterminal("option", e0);
+    eventHandler.endNonterminal(10, e0);
   }
 
   private void parse_char_val()
   {
-    eventHandler.startNonterminal("char-val", e0);
+    eventHandler.startNonterminal(11, e0);
     switch (l1)
     {
     case 11:                        // '%s'
@@ -316,33 +332,33 @@ public class Abnf implements de.bottlecaps.convert.Parser
     default:
       parse_case_insensitive_string();
     }
-    eventHandler.endNonterminal("char-val", e0);
+    eventHandler.endNonterminal(11, e0);
   }
 
   private void parse_case_insensitive_string()
   {
-    eventHandler.startNonterminal("case-insensitive-string", e0);
+    eventHandler.startNonterminal(12, e0);
     if (l1 == 10)                   // '%i'
     {
       consume(10);                  // '%i'
     }
     lookahead1W(5);                 // whitespace | quoted-string
     consume(4);                     // quoted-string
-    eventHandler.endNonterminal("case-insensitive-string", e0);
+    eventHandler.endNonterminal(12, e0);
   }
 
   private void parse_case_sensitive_string()
   {
-    eventHandler.startNonterminal("case-sensitive-string", e0);
+    eventHandler.startNonterminal(13, e0);
     consume(11);                    // '%s'
     lookahead1W(5);                 // whitespace | quoted-string
     consume(4);                     // quoted-string
-    eventHandler.endNonterminal("case-sensitive-string", e0);
+    eventHandler.endNonterminal(13, e0);
   }
 
   private void parse_num_val()
   {
-    eventHandler.startNonterminal("num-val", e0);
+    eventHandler.startNonterminal(14, e0);
     consume(9);                     // '%'
     lookahead1(6);                  // 'b' | 'd' | 'x'
     switch (l1)
@@ -356,12 +372,12 @@ public class Abnf implements de.bottlecaps.convert.Parser
     default:
       parse_hex_val();
     }
-    eventHandler.endNonterminal("num-val", e0);
+    eventHandler.endNonterminal(14, e0);
   }
 
   private void parse_bin_val()
   {
-    eventHandler.startNonterminal("bin-val", e0);
+    eventHandler.startNonterminal(15, e0);
     consume(23);                    // 'b'
     lookahead1(1);                  // bits
     consume(5);                     // bits
@@ -392,12 +408,12 @@ public class Abnf implements de.bottlecaps.convert.Parser
         consume(5);                 // bits
       }
     }
-    eventHandler.endNonterminal("bin-val", e0);
+    eventHandler.endNonterminal(15, e0);
   }
 
   private void parse_dec_val()
   {
-    eventHandler.startNonterminal("dec-val", e0);
+    eventHandler.startNonterminal(16, e0);
     consume(24);                    // 'd'
     lookahead1(0);                  // integer
     consume(3);                     // integer
@@ -428,12 +444,12 @@ public class Abnf implements de.bottlecaps.convert.Parser
         consume(3);                 // integer
       }
     }
-    eventHandler.endNonterminal("dec-val", e0);
+    eventHandler.endNonterminal(16, e0);
   }
 
   private void parse_hex_val()
   {
-    eventHandler.startNonterminal("hex-val", e0);
+    eventHandler.startNonterminal(17, e0);
     consume(25);                    // 'x'
     lookahead1(2);                  // hexdigs
     consume(6);                     // hexdigs
@@ -464,7 +480,7 @@ public class Abnf implements de.bottlecaps.convert.Parser
         consume(6);                 // hexdigs
       }
     }
-    eventHandler.endNonterminal("hex-val", e0);
+    eventHandler.endNonterminal(17, e0);
   }
 
   private void consume(int t)
@@ -472,7 +488,7 @@ public class Abnf implements de.bottlecaps.convert.Parser
     if (l1 == t)
     {
       whitespace();
-      eventHandler.terminal(TOKEN[l1], b1, e1);
+      eventHandler.terminal(l1, b1, e1);
       b0 = b1; e0 = e1; l1 = l2; if (l1 != 0) {
       b1 = b2; e1 = e2; l2 = 0; }
     }
@@ -681,7 +697,7 @@ public class Abnf implements de.bottlecaps.convert.Parser
     /* 14 */ 73662366, 75399070, 2, 2, 2, 2, 4, 16, 262144, 1048576, 3072, 128, 2, 2, 262144
   };
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "whitespace",
@@ -710,6 +726,28 @@ public class Abnf implements de.bottlecaps.convert.Parser
     "'d'",
     "'x'",
     "'|'"
+  };
+
+  public static final String[] NONTERMINAL =
+  {
+    "rulelist",
+    "rule",
+    "defined-as",
+    "elements",
+    "alternation",
+    "concatenation",
+    "repetition",
+    "repeat",
+    "element",
+    "group",
+    "option",
+    "char-val",
+    "case-insensitive-string",
+    "case-sensitive-string",
+    "num-val",
+    "bin-val",
+    "dec-val",
+    "hex-val"
   };
 }
 

@@ -13,12 +13,12 @@ plugins {
 defaultTasks 'build'
 build.dependsOn 'distZip'
 
-version = '0.74-SNAPSHOT'
+version = '0.74'
 group = 'de.bottlecaps.ebnf-convert'
 
 def project_name = "$project.name"
 def buildTime = new Date()
-def rrVersion = '2.6'
+def rrVersion = '2.7'
 
 def generatedSrc = "$buildDir/generated-src/main"
 
@@ -46,12 +46,11 @@ dependencies {
     rrLib "de.bottlecaps.rr:rr-lib:$rrVersion"
     rrWebapp "de.bottlecaps.rr:rr-webapp:$rrVersion"
 
-    compileOnly 'org.apache.tomcat:tomcat-servlet-api:8.5.100'
+    compileOnly 'org.apache.tomcat:tomcat-servlet-api:11.0.27'
     compileOnly "de.bottlecaps.rr:rr-lib:$rrVersion"
 
     implementation 'net.sf.saxon:Saxon-HE:13.1'
     implementation 'org.xmlresolver:xmlresolver:6.1.1'
-    implementation 'commons-fileupload:commons-fileupload:1.6.0'
     implementation 'commons-io:commons-io:2.22.0'
 }
 

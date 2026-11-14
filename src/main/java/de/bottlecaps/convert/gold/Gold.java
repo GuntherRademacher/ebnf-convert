@@ -1,9 +1,10 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:39 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -backtrack -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.gold.Gold gold.ebnf
 
 package de.bottlecaps.convert.gold;
 
 
+@SuppressWarnings("all")
 public class Gold implements de.bottlecaps.convert.Parser
 {
   public Gold(CharSequence string, EventHandler t)
@@ -56,6 +57,21 @@ public class Gold implements de.bottlecaps.convert.Parser
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
   }
 
+  private Gold()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
+  }
+
   public static String[] getExpectedTokenSet(ParseException e)
   {
     String[] expected;
@@ -97,7 +113,7 @@ public class Gold implements de.bottlecaps.convert.Parser
 
   public void parse_Grammar()
   {
-    eventHandler.startNonterminal("Grammar", e0);
+    eventHandler.startNonterminal(0, e0);
     lookahead1W(8);                 // ParameterName | Nonterminal | Terminal | SetName | Whitespace_Ch | NewLine |
                                     // Comment
     whitespace();
@@ -105,12 +121,12 @@ public class Gold implements de.bottlecaps.convert.Parser
     whitespace();
     parse_Content();
     consume(9);                     // EOF
-    eventHandler.endNonterminal("Grammar", e0);
+    eventHandler.endNonterminal(0, e0);
   }
 
   private void parse_Content()
   {
-    eventHandler.startNonterminal("Content", e0);
+    eventHandler.startNonterminal(1, e0);
     for (;;)
     {
       whitespace();
@@ -120,12 +136,12 @@ public class Gold implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("Content", e0);
+    eventHandler.endNonterminal(1, e0);
   }
 
   private void parse_Definition()
   {
-    eventHandler.startNonterminal("Definition", e0);
+    eventHandler.startNonterminal(2, e0);
     switch (l1)
     {
     case 1:                         // ParameterName
@@ -140,12 +156,12 @@ public class Gold implements de.bottlecaps.convert.Parser
     default:
       parse_Rule_Decl();
     }
-    eventHandler.endNonterminal("Definition", e0);
+    eventHandler.endNonterminal(2, e0);
   }
 
   private void parse_nl_opt()
   {
-    eventHandler.startNonterminal("nl_opt", e0);
+    eventHandler.startNonterminal(3, e0);
     for (;;)
     {
       lookahead1W(14);              // ParameterName | Nonterminal | Terminal | SetName | Whitespace_Ch | NewLine |
@@ -156,7 +172,7 @@ public class Gold implements de.bottlecaps.convert.Parser
       }
       consume(7);                   // NewLine
     }
-    eventHandler.endNonterminal("nl_opt", e0);
+    eventHandler.endNonterminal(3, e0);
   }
 
   private void try_nl_opt()
@@ -175,7 +191,7 @@ public class Gold implements de.bottlecaps.convert.Parser
 
   private void parse_nl()
   {
-    eventHandler.startNonterminal("nl", e0);
+    eventHandler.startNonterminal(4, e0);
     for (;;)
     {
       consume(7);                   // NewLine
@@ -186,12 +202,12 @@ public class Gold implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("nl", e0);
+    eventHandler.endNonterminal(4, e0);
   }
 
   private void parse_Parameter()
   {
-    eventHandler.startNonterminal("Parameter", e0);
+    eventHandler.startNonterminal(5, e0);
     consume(1);                     // ParameterName
     lookahead1W(2);                 // Whitespace_Ch | NewLine | Comment | '='
     whitespace();
@@ -203,12 +219,12 @@ public class Gold implements de.bottlecaps.convert.Parser
     parse_Parameter_Body();
     whitespace();
     parse_nl();
-    eventHandler.endNonterminal("Parameter", e0);
+    eventHandler.endNonterminal(5, e0);
   }
 
   private void parse_Parameter_Body()
   {
-    eventHandler.startNonterminal("Parameter_Body", e0);
+    eventHandler.startNonterminal(6, e0);
     parse_Parameter_Items();
     for (;;)
     {
@@ -272,12 +288,12 @@ public class Gold implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Parameter_Items();
     }
-    eventHandler.endNonterminal("Parameter_Body", e0);
+    eventHandler.endNonterminal(6, e0);
   }
 
   private void parse_Parameter_Items()
   {
-    eventHandler.startNonterminal("Parameter_Items", e0);
+    eventHandler.startNonterminal(7, e0);
     for (;;)
     {
       whitespace();
@@ -290,7 +306,7 @@ public class Gold implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("Parameter_Items", e0);
+    eventHandler.endNonterminal(7, e0);
   }
 
   private void try_Parameter_Items()
@@ -310,7 +326,7 @@ public class Gold implements de.bottlecaps.convert.Parser
 
   private void parse_Parameter_Item()
   {
-    eventHandler.startNonterminal("Parameter_Item", e0);
+    eventHandler.startNonterminal(8, e0);
     switch (l1)
     {
     case 1:                         // ParameterName
@@ -328,7 +344,7 @@ public class Gold implements de.bottlecaps.convert.Parser
     default:
       consume(2);                   // Nonterminal
     }
-    eventHandler.endNonterminal("Parameter_Item", e0);
+    eventHandler.endNonterminal(8, e0);
   }
 
   private void try_Parameter_Item()
@@ -354,7 +370,7 @@ public class Gold implements de.bottlecaps.convert.Parser
 
   private void parse_Set_Decl()
   {
-    eventHandler.startNonterminal("Set_Decl", e0);
+    eventHandler.startNonterminal(9, e0);
     consume(5);                     // SetName
     lookahead1W(2);                 // Whitespace_Ch | NewLine | Comment | '='
     whitespace();
@@ -365,12 +381,12 @@ public class Gold implements de.bottlecaps.convert.Parser
     parse_Set_Exp();
     whitespace();
     parse_nl();
-    eventHandler.endNonterminal("Set_Decl", e0);
+    eventHandler.endNonterminal(9, e0);
   }
 
   private void parse_Set_Exp()
   {
-    eventHandler.startNonterminal("Set_Exp", e0);
+    eventHandler.startNonterminal(10, e0);
     parse_Set_Item();
     for (;;)
     {
@@ -450,12 +466,12 @@ public class Gold implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Set_Item();
     }
-    eventHandler.endNonterminal("Set_Exp", e0);
+    eventHandler.endNonterminal(10, e0);
   }
 
   private void parse_Set_Item()
   {
-    eventHandler.startNonterminal("Set_Item", e0);
+    eventHandler.startNonterminal(11, e0);
     switch (l1)
     {
     case 4:                         // SetLiteral
@@ -464,7 +480,7 @@ public class Gold implements de.bottlecaps.convert.Parser
     default:
       consume(5);                   // SetName
     }
-    eventHandler.endNonterminal("Set_Item", e0);
+    eventHandler.endNonterminal(11, e0);
   }
 
   private void try_Set_Item()
@@ -481,7 +497,7 @@ public class Gold implements de.bottlecaps.convert.Parser
 
   private void parse_Terminal_Decl()
   {
-    eventHandler.startNonterminal("Terminal_Decl", e0);
+    eventHandler.startNonterminal(12, e0);
     parse_Terminal_Name();
     whitespace();
     parse_nl_opt();
@@ -491,12 +507,12 @@ public class Gold implements de.bottlecaps.convert.Parser
     parse_Reg_Exp();
     whitespace();
     parse_nl();
-    eventHandler.endNonterminal("Terminal_Decl", e0);
+    eventHandler.endNonterminal(12, e0);
   }
 
   private void parse_Terminal_Name()
   {
-    eventHandler.startNonterminal("Terminal_Name", e0);
+    eventHandler.startNonterminal(13, e0);
     for (;;)
     {
       consume(3);                   // Terminal
@@ -506,12 +522,12 @@ public class Gold implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("Terminal_Name", e0);
+    eventHandler.endNonterminal(13, e0);
   }
 
   private void parse_Reg_Exp()
   {
-    eventHandler.startNonterminal("Reg_Exp", e0);
+    eventHandler.startNonterminal(14, e0);
     parse_Reg_Exp_Seq();
     for (;;)
     {
@@ -573,12 +589,12 @@ public class Gold implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Reg_Exp_Seq();
     }
-    eventHandler.endNonterminal("Reg_Exp", e0);
+    eventHandler.endNonterminal(14, e0);
   }
 
   private void parse_Reg_Exp_Seq()
   {
-    eventHandler.startNonterminal("Reg_Exp_Seq", e0);
+    eventHandler.startNonterminal(15, e0);
     for (;;)
     {
       whitespace();
@@ -592,7 +608,7 @@ public class Gold implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("Reg_Exp_Seq", e0);
+    eventHandler.endNonterminal(15, e0);
   }
 
   private void try_Reg_Exp_Seq()
@@ -613,7 +629,7 @@ public class Gold implements de.bottlecaps.convert.Parser
 
   private void parse_Reg_Exp_Item()
   {
-    eventHandler.startNonterminal("Reg_Exp_Item", e0);
+    eventHandler.startNonterminal(16, e0);
     switch (l1)
     {
     case 4:                         // SetLiteral
@@ -648,7 +664,7 @@ public class Gold implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Kleene_Opt();
     }
-    eventHandler.endNonterminal("Reg_Exp_Item", e0);
+    eventHandler.endNonterminal(16, e0);
   }
 
   private void try_Reg_Exp_Item()
@@ -686,7 +702,7 @@ public class Gold implements de.bottlecaps.convert.Parser
 
   private void parse_Reg_Exp_2()
   {
-    eventHandler.startNonterminal("Reg_Exp_2", e0);
+    eventHandler.startNonterminal(17, e0);
     parse_Reg_Exp_Seq();
     for (;;)
     {
@@ -699,7 +715,7 @@ public class Gold implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Reg_Exp_Seq();
     }
-    eventHandler.endNonterminal("Reg_Exp_2", e0);
+    eventHandler.endNonterminal(17, e0);
   }
 
   private void try_Reg_Exp_2()
@@ -719,7 +735,7 @@ public class Gold implements de.bottlecaps.convert.Parser
 
   private void parse_Kleene_Opt()
   {
-    eventHandler.startNonterminal("Kleene_Opt", e0);
+    eventHandler.startNonterminal(18, e0);
     switch (l1)
     {
     case 13:                        // '+'
@@ -734,7 +750,7 @@ public class Gold implements de.bottlecaps.convert.Parser
     default:
       break;
     }
-    eventHandler.endNonterminal("Kleene_Opt", e0);
+    eventHandler.endNonterminal(18, e0);
   }
 
   private void try_Kleene_Opt()
@@ -757,7 +773,7 @@ public class Gold implements de.bottlecaps.convert.Parser
 
   private void parse_Rule_Decl()
   {
-    eventHandler.startNonterminal("Rule_Decl", e0);
+    eventHandler.startNonterminal(19, e0);
     consume(2);                     // Nonterminal
     lookahead1W(1);                 // Whitespace_Ch | NewLine | Comment | '::='
     whitespace();
@@ -768,12 +784,12 @@ public class Gold implements de.bottlecaps.convert.Parser
     parse_Handles();
     whitespace();
     parse_nl();
-    eventHandler.endNonterminal("Rule_Decl", e0);
+    eventHandler.endNonterminal(19, e0);
   }
 
   private void parse_Handles()
   {
-    eventHandler.startNonterminal("Handles", e0);
+    eventHandler.startNonterminal(20, e0);
     parse_Handle();
     for (;;)
     {
@@ -835,12 +851,12 @@ public class Gold implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Handle();
     }
-    eventHandler.endNonterminal("Handles", e0);
+    eventHandler.endNonterminal(20, e0);
   }
 
   private void parse_Handle()
   {
-    eventHandler.startNonterminal("Handle", e0);
+    eventHandler.startNonterminal(21, e0);
     for (;;)
     {
       lookahead1W(5);               // Nonterminal | Terminal | Whitespace_Ch | NewLine | Comment | '|'
@@ -852,7 +868,7 @@ public class Gold implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Symbol();
     }
-    eventHandler.endNonterminal("Handle", e0);
+    eventHandler.endNonterminal(21, e0);
   }
 
   private void try_Handle()
@@ -871,7 +887,7 @@ public class Gold implements de.bottlecaps.convert.Parser
 
   private void parse_Symbol()
   {
-    eventHandler.startNonterminal("Symbol", e0);
+    eventHandler.startNonterminal(22, e0);
     switch (l1)
     {
     case 3:                         // Terminal
@@ -880,7 +896,7 @@ public class Gold implements de.bottlecaps.convert.Parser
     default:
       consume(2);                   // Nonterminal
     }
-    eventHandler.endNonterminal("Symbol", e0);
+    eventHandler.endNonterminal(22, e0);
   }
 
   private void try_Symbol()
@@ -900,7 +916,7 @@ public class Gold implements de.bottlecaps.convert.Parser
     if (l1 == t)
     {
       whitespace();
-      eventHandler.terminal(TOKEN[l1], b1, e1);
+      eventHandler.terminal(l1, b1, e1);
       b0 = b1; e0 = e1; l1 = l2; if (l1 != 0) {
       b1 = b2; e1 = e2; l2 = l3; if (l2 != 0) {
       b2 = b3; e2 = e3; l3 = 0; }}
@@ -1177,7 +1193,7 @@ public class Gold implements de.bottlecaps.convert.Parser
     /* 15 */ 409080, 64, 256, 16, 32, 128, 32768, 8, 8, 4, 2, 256, 256, 16, 16, 32, 32768, 4, 2, 256, 256
   };
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "ParameterName",
@@ -1198,6 +1214,34 @@ public class Gold implements de.bottlecaps.convert.Parser
     "'='",
     "'?'",
     "'|'"
+  };
+
+  public static final String[] NONTERMINAL =
+  {
+    "Grammar",
+    "Content",
+    "Definition",
+    "nl_opt",
+    "nl",
+    "Parameter",
+    "Parameter_Body",
+    "Parameter_Items",
+    "Parameter_Item",
+    "Set_Decl",
+    "Set_Exp",
+    "Set_Item",
+    "Terminal_Decl",
+    "Terminal_Name",
+    "Reg_Exp",
+    "Reg_Exp_Seq",
+    "Reg_Exp_Item",
+    "Reg_Exp_2",
+    "Kleene_Opt",
+    "Rule_Decl",
+    "Handles",
+    "Handle",
+    "Symbol",
+    "_"
   };
 }
 

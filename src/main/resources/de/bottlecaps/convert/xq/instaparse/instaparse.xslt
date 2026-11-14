@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net> -->
+<!-- This file was generated on Sat Nov 14, 2026 08:41 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net> -->
 <!-- REx command line: -q -lalr 4 -tree -a none -xslt -name de/bottlecaps/convert/xq/instaparse/instaparse.xslt ../../../../../../../main/java/de/bottlecaps/convert/instaparse/instaparse.ebnf -->
 
 <xsl:stylesheet version="2.0"
@@ -1051,7 +1051,19 @@
         <xsl:variable name="state" select="p:predict($input, $state, 5)"/>
         <xsl:variable name="e0" select="$state[$p:e0]"/>
         <xsl:variable name="state" select="p:parse($input, -1, 5, $state[$p:lk], -1, $e0, $e0, $e0, (1, -1, 0), $state)"/>
-        <xsl:sequence select="p:matchW($input, $state[$p:e0], $token-set)"/>
+        <xsl:choose>
+          <xsl:when test="$state[$p:error]">
+            <xsl:variable name="error" as="element(error)" select="$state[$p:error]"/>
+            <xsl:sequence select="
+              - xs:integer($error/@s),
+              xs:integer($error/@b),
+              xs:integer($error/@e)
+            "/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:sequence select="p:matchW($input, $state[$p:e0], $token-set)"/>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:when>
       <xsl:otherwise>
         <xsl:sequence select="$match"/>

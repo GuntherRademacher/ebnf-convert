@@ -1,9 +1,10 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:40 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -backtrack -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.javacc.Javacc javacc.ebnf
 
 package de.bottlecaps.convert.javacc;
 
 
+@SuppressWarnings("all")
 public class Javacc implements de.bottlecaps.convert.Parser
 {
   public Javacc(CharSequence string, EventHandler t)
@@ -56,6 +57,21 @@ public class Javacc implements de.bottlecaps.convert.Parser
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
   }
 
+  private Javacc()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
+  }
+
   public static String[] getExpectedTokenSet(ParseException e)
   {
     String[] expected;
@@ -97,7 +113,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   public void parse_javacc_input()
   {
-    eventHandler.startNonterminal("javacc_input", e0);
+    eventHandler.startNonterminal(0, e0);
     lookahead1W(49);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | 'PARSER_BEGIN' | 'options'
     whitespace();
     parse_javacc_options();
@@ -142,12 +158,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
       }
     }
     consume(3);                     // EOF
-    eventHandler.endNonterminal("javacc_input", e0);
+    eventHandler.endNonterminal(0, e0);
   }
 
   private void parse_javacc_options()
   {
-    eventHandler.startNonterminal("javacc_options", e0);
+    eventHandler.startNonterminal(1, e0);
     if (l1 == 93)                   // 'options'
     {
       consume(93);                  // 'options'
@@ -166,12 +182,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
       }
       consume(118);                 // '}'
     }
-    eventHandler.endNonterminal("javacc_options", e0);
+    eventHandler.endNonterminal(1, e0);
   }
 
   private void parse_option_binding()
   {
-    eventHandler.startNonterminal("option_binding", e0);
+    eventHandler.startNonterminal(2, e0);
     switch (l1)
     {
     case 1:                         // IDENTIFIER
@@ -206,12 +222,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
     }
     lookahead1W(8);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ';'
     consume(34);                    // ';'
-    eventHandler.endNonterminal("option_binding", e0);
+    eventHandler.endNonterminal(2, e0);
   }
 
   private void parse_production()
   {
-    eventHandler.startNonterminal("production", e0);
+    eventHandler.startNonterminal(3, e0);
     switch (l1)
     {
     case 49:                        // 'JAVACODE'
@@ -230,12 +246,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_bnf_production();
     }
-    eventHandler.endNonterminal("production", e0);
+    eventHandler.endNonterminal(3, e0);
   }
 
   private void parse_javacode_production()
   {
-    eventHandler.startNonterminal("javacode_production", e0);
+    eventHandler.startNonterminal(4, e0);
     consume(49);                    // 'JAVACODE'
     lookahead1W(100);               // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | 'boolean' |
                                     // 'byte' | 'char' | 'double' | 'float' | 'int' | 'long' | 'private' | 'protected' |
@@ -277,12 +293,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
     }
     whitespace();
     parse_Block();
-    eventHandler.endNonterminal("javacode_production", e0);
+    eventHandler.endNonterminal(4, e0);
   }
 
   private void parse_bnf_production()
   {
-    eventHandler.startNonterminal("bnf_production", e0);
+    eventHandler.startNonterminal(5, e0);
     parse_AccessModifier();
     lookahead1W(93);                // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | 'boolean' |
                                     // 'byte' | 'char' | 'double' | 'float' | 'int' | 'long' | 'short' | 'void'
@@ -333,12 +349,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
     whitespace();
     parse_expansion_choices();
     consume(118);                   // '}'
-    eventHandler.endNonterminal("bnf_production", e0);
+    eventHandler.endNonterminal(5, e0);
   }
 
   private void parse_AccessModifier()
   {
-    eventHandler.startNonterminal("AccessModifier", e0);
+    eventHandler.startNonterminal(6, e0);
     if (l1 == 95                    // 'private'
      || l1 == 96                    // 'protected'
      || l1 == 97)                   // 'public'
@@ -355,12 +371,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
         consume(95);                // 'private'
       }
     }
-    eventHandler.endNonterminal("AccessModifier", e0);
+    eventHandler.endNonterminal(6, e0);
   }
 
   private void parse_regular_expr_production()
   {
-    eventHandler.startNonterminal("regular_expr_production", e0);
+    eventHandler.startNonterminal(7, e0);
     if (l1 == 35)                   // '<'
     {
       switch (l1)
@@ -431,24 +447,24 @@ public class Javacc implements de.bottlecaps.convert.Parser
       parse_regexpr_spec();
     }
     consume(118);                   // '}'
-    eventHandler.endNonterminal("regular_expr_production", e0);
+    eventHandler.endNonterminal(7, e0);
   }
 
   private void parse_token_manager_decls()
   {
-    eventHandler.startNonterminal("token_manager_decls", e0);
+    eventHandler.startNonterminal(8, e0);
     consume(57);                    // 'TOKEN_MGR_DECLS'
     lookahead1W(7);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ':'
     consume(33);                    // ':'
     lookahead1W(23);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '{'
     whitespace();
     parse_ClassOrInterfaceBody();
-    eventHandler.endNonterminal("token_manager_decls", e0);
+    eventHandler.endNonterminal(8, e0);
   }
 
   private void parse_regexpr_kind()
   {
-    eventHandler.startNonterminal("regexpr_kind", e0);
+    eventHandler.startNonterminal(9, e0);
     switch (l1)
     {
     case 56:                        // 'TOKEN'
@@ -463,12 +479,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       consume(51);                  // 'MORE'
     }
-    eventHandler.endNonterminal("regexpr_kind", e0);
+    eventHandler.endNonterminal(9, e0);
   }
 
   private void parse_regexpr_spec()
   {
-    eventHandler.startNonterminal("regexpr_spec", e0);
+    eventHandler.startNonterminal(10, e0);
     parse_regular_expression();
     lookahead1W(73);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ':' | '{' | '|' | '}'
     if (l1 == 114)                  // '{'
@@ -483,12 +499,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
       lookahead1W(0);               // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT
       consume(1);                   // IDENTIFIER
     }
-    eventHandler.endNonterminal("regexpr_spec", e0);
+    eventHandler.endNonterminal(10, e0);
   }
 
   private void parse_expansion_choices()
   {
-    eventHandler.startNonterminal("expansion_choices", e0);
+    eventHandler.startNonterminal(11, e0);
     parse_expansion();
     for (;;)
     {
@@ -507,7 +523,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_expansion();
     }
-    eventHandler.endNonterminal("expansion_choices", e0);
+    eventHandler.endNonterminal(11, e0);
   }
 
   private void try_expansion_choices()
@@ -533,7 +549,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_expansion()
   {
-    eventHandler.startNonterminal("expansion", e0);
+    eventHandler.startNonterminal(12, e0);
     switch (l1)
     {
     case 50:                        // 'LOOKAHEAD'
@@ -1399,7 +1415,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("expansion", e0);
+    eventHandler.endNonterminal(12, e0);
   }
 
   private void try_expansion()
@@ -2280,7 +2296,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_local_lookahead()
   {
-    eventHandler.startNonterminal("local_lookahead", e0);
+    eventHandler.startNonterminal(13, e0);
     switch (l1)
     {
     case 4:                         // INTEGER_LITERAL
@@ -3406,7 +3422,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       }
       consume(118);                 // '}'
     }
-    eventHandler.endNonterminal("local_lookahead", e0);
+    eventHandler.endNonterminal(13, e0);
   }
 
   private void try_local_lookahead()
@@ -4537,7 +4553,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_expansion_unit()
   {
-    eventHandler.startNonterminal("expansion_unit", e0);
+    eventHandler.startNonterminal(14, e0);
     switch (l1)
     {
     case 18:                        // '('
@@ -5530,7 +5546,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
         }
       }
     }
-    eventHandler.endNonterminal("expansion_unit", e0);
+    eventHandler.endNonterminal(14, e0);
   }
 
   private void try_expansion_unit()
@@ -6524,7 +6540,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_regular_expression()
   {
-    eventHandler.startNonterminal("regular_expression", e0);
+    eventHandler.startNonterminal(15, e0);
     switch (l1)
     {
     case 35:                        // '<'
@@ -6583,7 +6599,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       parse_complex_regular_expression_choices();
       consume(41);                  // '>'
     }
-    eventHandler.endNonterminal("regular_expression", e0);
+    eventHandler.endNonterminal(15, e0);
   }
 
   private void try_regular_expression()
@@ -6647,7 +6663,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_complex_regular_expression_choices()
   {
-    eventHandler.startNonterminal("complex_regular_expression_choices", e0);
+    eventHandler.startNonterminal(16, e0);
     parse_complex_regular_expression();
     for (;;)
     {
@@ -6661,7 +6677,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_complex_regular_expression();
     }
-    eventHandler.endNonterminal("complex_regular_expression_choices", e0);
+    eventHandler.endNonterminal(16, e0);
   }
 
   private void try_complex_regular_expression_choices()
@@ -6682,7 +6698,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_complex_regular_expression()
   {
-    eventHandler.startNonterminal("complex_regular_expression", e0);
+    eventHandler.startNonterminal(17, e0);
     for (;;)
     {
       whitespace();
@@ -6696,7 +6712,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("complex_regular_expression", e0);
+    eventHandler.endNonterminal(17, e0);
   }
 
   private void try_complex_regular_expression()
@@ -6717,7 +6733,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_complex_regular_expression_unit()
   {
-    eventHandler.startNonterminal("complex_regular_expression_unit", e0);
+    eventHandler.startNonterminal(18, e0);
     switch (l1)
     {
     case 7:                         // STRING_LITERAL
@@ -6780,7 +6796,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_character_list();
     }
-    eventHandler.endNonterminal("complex_regular_expression_unit", e0);
+    eventHandler.endNonterminal(18, e0);
   }
 
   private void try_complex_regular_expression_unit()
@@ -6847,7 +6863,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_character_list()
   {
-    eventHandler.startNonterminal("character_list", e0);
+    eventHandler.startNonterminal(19, e0);
     if (l1 == 119)                  // '~'
     {
       consume(119);                 // '~'
@@ -6873,7 +6889,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       }
     }
     consume(59);                    // ']'
-    eventHandler.endNonterminal("character_list", e0);
+    eventHandler.endNonterminal(19, e0);
   }
 
   private void try_character_list()
@@ -6905,7 +6921,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_character_descriptor()
   {
-    eventHandler.startNonterminal("character_descriptor", e0);
+    eventHandler.startNonterminal(20, e0);
     parse_StringLiteral();
     lookahead1W(59);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ',' | '-' | ']'
     if (l1 == 26)                   // '-'
@@ -6915,7 +6931,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_StringLiteral();
     }
-    eventHandler.endNonterminal("character_descriptor", e0);
+    eventHandler.endNonterminal(20, e0);
   }
 
   private void try_character_descriptor()
@@ -6932,9 +6948,9 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_identifier()
   {
-    eventHandler.startNonterminal("identifier", e0);
+    eventHandler.startNonterminal(21, e0);
     consume(1);                     // IDENTIFIER
-    eventHandler.endNonterminal("identifier", e0);
+    eventHandler.endNonterminal(21, e0);
   }
 
   private void try_identifier()
@@ -6944,7 +6960,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_JavaIdentifier()
   {
-    eventHandler.startNonterminal("JavaIdentifier", e0);
+    eventHandler.startNonterminal(22, e0);
     switch (l1)
     {
     case 1:                         // IDENTIFIER
@@ -6983,7 +6999,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       consume(47);                  // 'EOF'
     }
-    eventHandler.endNonterminal("JavaIdentifier", e0);
+    eventHandler.endNonterminal(22, e0);
   }
 
   private void try_JavaIdentifier()
@@ -7030,7 +7046,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_CompilationUnit()
   {
-    eventHandler.startNonterminal("CompilationUnit", e0);
+    eventHandler.startNonterminal(23, e0);
     switch (l1)
     {
     case 46:                        // '@'
@@ -8016,12 +8032,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_TypeDeclaration();
     }
-    eventHandler.endNonterminal("CompilationUnit", e0);
+    eventHandler.endNonterminal(23, e0);
   }
 
   private void parse_PackageDeclaration()
   {
-    eventHandler.startNonterminal("PackageDeclaration", e0);
+    eventHandler.startNonterminal(24, e0);
     parse_Modifiers();
     consume(94);                    // 'package'
     lookahead1W(94);                // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | 'EOF' |
@@ -8030,7 +8046,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     whitespace();
     parse_Name();
     consume(34);                    // ';'
-    eventHandler.endNonterminal("PackageDeclaration", e0);
+    eventHandler.endNonterminal(24, e0);
   }
 
   private void try_PackageDeclaration()
@@ -8046,7 +8062,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ImportDeclaration()
   {
-    eventHandler.startNonterminal("ImportDeclaration", e0);
+    eventHandler.startNonterminal(25, e0);
     consume(85);                    // 'import'
     lookahead1W(99);                // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | 'EOF' |
                                     // 'IGNORE_CASE' | 'JAVACODE' | 'LOOKAHEAD' | 'MORE' | 'PARSER_BEGIN' |
@@ -8068,12 +8084,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
     }
     lookahead1W(8);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ';'
     consume(34);                    // ';'
-    eventHandler.endNonterminal("ImportDeclaration", e0);
+    eventHandler.endNonterminal(25, e0);
   }
 
   private void parse_Modifiers()
   {
-    eventHandler.startNonterminal("Modifiers", e0);
+    eventHandler.startNonterminal(26, e0);
     for (;;)
     {
       lookahead1W(124);             // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '<' | '@' |
@@ -8151,7 +8167,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
         parse_Annotation();
       }
     }
-    eventHandler.endNonterminal("Modifiers", e0);
+    eventHandler.endNonterminal(26, e0);
   }
 
   private void try_Modifiers()
@@ -8236,7 +8252,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_TypeDeclaration()
   {
-    eventHandler.startNonterminal("TypeDeclaration", e0);
+    eventHandler.startNonterminal(27, e0);
     switch (l1)
     {
     case 34:                        // ';'
@@ -8259,12 +8275,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
         parse_ClassOrInterfaceDeclaration();
       }
     }
-    eventHandler.endNonterminal("TypeDeclaration", e0);
+    eventHandler.endNonterminal(27, e0);
   }
 
   private void parse_ClassOrInterfaceDeclaration()
   {
-    eventHandler.startNonterminal("ClassOrInterfaceDeclaration", e0);
+    eventHandler.startNonterminal(28, e0);
     switch (l1)
     {
     case 70:                        // 'class'
@@ -8295,7 +8311,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     }
     whitespace();
     parse_ClassOrInterfaceBody();
-    eventHandler.endNonterminal("ClassOrInterfaceDeclaration", e0);
+    eventHandler.endNonterminal(28, e0);
   }
 
   private void try_ClassOrInterfaceDeclaration()
@@ -8330,7 +8346,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ExtendsList()
   {
-    eventHandler.startNonterminal("ExtendsList", e0);
+    eventHandler.startNonterminal(29, e0);
     consume(77);                    // 'extends'
     lookahead1W(0);                 // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT
     whitespace();
@@ -8346,7 +8362,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ClassOrInterfaceType();
     }
-    eventHandler.endNonterminal("ExtendsList", e0);
+    eventHandler.endNonterminal(29, e0);
   }
 
   private void try_ExtendsList()
@@ -8368,7 +8384,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ImplementsList()
   {
-    eventHandler.startNonterminal("ImplementsList", e0);
+    eventHandler.startNonterminal(30, e0);
     consume(84);                    // 'implements'
     lookahead1W(0);                 // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT
     whitespace();
@@ -8384,7 +8400,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ClassOrInterfaceType();
     }
-    eventHandler.endNonterminal("ImplementsList", e0);
+    eventHandler.endNonterminal(30, e0);
   }
 
   private void try_ImplementsList()
@@ -8406,7 +8422,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_EnumDeclaration()
   {
-    eventHandler.startNonterminal("EnumDeclaration", e0);
+    eventHandler.startNonterminal(31, e0);
     consume(76);                    // 'enum'
     lookahead1W(0);                 // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT
     consume(1);                     // IDENTIFIER
@@ -8418,7 +8434,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     }
     whitespace();
     parse_EnumBody();
-    eventHandler.endNonterminal("EnumDeclaration", e0);
+    eventHandler.endNonterminal(31, e0);
   }
 
   private void try_EnumDeclaration()
@@ -8436,7 +8452,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_EnumBody()
   {
-    eventHandler.startNonterminal("EnumBody", e0);
+    eventHandler.startNonterminal(32, e0);
     consume(114);                   // '{'
     lookahead1W(102);               // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ',' | ';' | '@' |
                                     // 'abstract' | 'final' | 'native' | 'private' | 'protected' | 'public' | 'static' |
@@ -8499,7 +8515,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       }
     }
     consume(118);                   // '}'
-    eventHandler.endNonterminal("EnumBody", e0);
+    eventHandler.endNonterminal(32, e0);
   }
 
   private void try_EnumBody()
@@ -8567,7 +8583,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_EnumConstant()
   {
-    eventHandler.startNonterminal("EnumConstant", e0);
+    eventHandler.startNonterminal(33, e0);
     parse_Modifiers();
     consume(1);                     // IDENTIFIER
     lookahead1W(82);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '(' | ',' | ';' | '{' | '}'
@@ -8582,7 +8598,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ClassOrInterfaceBody();
     }
-    eventHandler.endNonterminal("EnumConstant", e0);
+    eventHandler.endNonterminal(33, e0);
   }
 
   private void try_EnumConstant()
@@ -8603,7 +8619,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_TypeParameters()
   {
-    eventHandler.startNonterminal("TypeParameters", e0);
+    eventHandler.startNonterminal(34, e0);
     consume(35);                    // '<'
     lookahead1W(0);                 // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT
     whitespace();
@@ -8620,7 +8636,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       parse_TypeParameter();
     }
     consume(41);                    // '>'
-    eventHandler.endNonterminal("TypeParameters", e0);
+    eventHandler.endNonterminal(34, e0);
   }
 
   private void try_TypeParameters()
@@ -8643,7 +8659,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_TypeParameter()
   {
-    eventHandler.startNonterminal("TypeParameter", e0);
+    eventHandler.startNonterminal(35, e0);
     consume(1);                     // IDENTIFIER
     lookahead1W(61);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ',' | '>' | 'extends'
     if (l1 == 77)                   // 'extends'
@@ -8651,7 +8667,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_TypeBound();
     }
-    eventHandler.endNonterminal("TypeParameter", e0);
+    eventHandler.endNonterminal(35, e0);
   }
 
   private void try_TypeParameter()
@@ -8666,7 +8682,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_TypeBound()
   {
-    eventHandler.startNonterminal("TypeBound", e0);
+    eventHandler.startNonterminal(36, e0);
     consume(77);                    // 'extends'
     lookahead1W(0);                 // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT
     whitespace();
@@ -8682,7 +8698,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ClassOrInterfaceType();
     }
-    eventHandler.endNonterminal("TypeBound", e0);
+    eventHandler.endNonterminal(36, e0);
   }
 
   private void try_TypeBound()
@@ -8704,7 +8720,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ClassOrInterfaceBody()
   {
-    eventHandler.startNonterminal("ClassOrInterfaceBody", e0);
+    eventHandler.startNonterminal(37, e0);
     consume(114);                   // '{'
     for (;;)
     {
@@ -8721,7 +8737,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       parse_ClassOrInterfaceBodyDeclaration();
     }
     consume(118);                   // '}'
-    eventHandler.endNonterminal("ClassOrInterfaceBody", e0);
+    eventHandler.endNonterminal(37, e0);
   }
 
   private void try_ClassOrInterfaceBody()
@@ -8745,7 +8761,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ClassOrInterfaceBodyDeclaration()
   {
-    eventHandler.startNonterminal("ClassOrInterfaceBodyDeclaration", e0);
+    eventHandler.startNonterminal(38, e0);
     switch (l1)
     {
     case 100:                       // 'static'
@@ -8930,7 +8946,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
         parse_FieldDeclaration();
       }
     }
-    eventHandler.endNonterminal("ClassOrInterfaceBodyDeclaration", e0);
+    eventHandler.endNonterminal(38, e0);
   }
 
   private void try_ClassOrInterfaceBodyDeclaration()
@@ -9122,7 +9138,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_FieldDeclaration()
   {
-    eventHandler.startNonterminal("FieldDeclaration", e0);
+    eventHandler.startNonterminal(39, e0);
     parse_Type();
     lookahead1W(0);                 // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT
     whitespace();
@@ -9140,7 +9156,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       parse_VariableDeclarator();
     }
     consume(34);                    // ';'
-    eventHandler.endNonterminal("FieldDeclaration", e0);
+    eventHandler.endNonterminal(39, e0);
   }
 
   private void try_FieldDeclaration()
@@ -9164,7 +9180,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_VariableDeclarator()
   {
-    eventHandler.startNonterminal("VariableDeclarator", e0);
+    eventHandler.startNonterminal(40, e0);
     parse_VariableDeclaratorId();
     if (l1 == 39)                   // '='
     {
@@ -9179,7 +9195,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_VariableInitializer();
     }
-    eventHandler.endNonterminal("VariableDeclarator", e0);
+    eventHandler.endNonterminal(40, e0);
   }
 
   private void try_VariableDeclarator()
@@ -9201,7 +9217,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_VariableDeclaratorId()
   {
-    eventHandler.startNonterminal("VariableDeclaratorId", e0);
+    eventHandler.startNonterminal(41, e0);
     consume(1);                     // IDENTIFIER
     for (;;)
     {
@@ -9214,7 +9230,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       lookahead1W(16);              // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ']'
       consume(59);                  // ']'
     }
-    eventHandler.endNonterminal("VariableDeclaratorId", e0);
+    eventHandler.endNonterminal(41, e0);
   }
 
   private void try_VariableDeclaratorId()
@@ -9235,7 +9251,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_VariableInitializer()
   {
-    eventHandler.startNonterminal("VariableInitializer", e0);
+    eventHandler.startNonterminal(42, e0);
     switch (l1)
     {
     case 114:                       // '{'
@@ -9244,7 +9260,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_Expression();
     }
-    eventHandler.endNonterminal("VariableInitializer", e0);
+    eventHandler.endNonterminal(42, e0);
   }
 
   private void try_VariableInitializer()
@@ -9261,7 +9277,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ArrayInitializer()
   {
-    eventHandler.startNonterminal("ArrayInitializer", e0);
+    eventHandler.startNonterminal(43, e0);
     consume(114);                   // '{'
     lookahead1W(154);               // IDENTIFIER | SKIP | INTEGER_LITERAL | FLOATING_POINT_LITERAL |
                                     // CHARACTER_LITERAL | STRING_LITERAL | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT |
@@ -9315,7 +9331,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     }
     lookahead1W(24);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '}'
     consume(118);                   // '}'
-    eventHandler.endNonterminal("ArrayInitializer", e0);
+    eventHandler.endNonterminal(43, e0);
   }
 
   private void try_ArrayInitializer()
@@ -9375,7 +9391,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_MethodDeclaration()
   {
-    eventHandler.startNonterminal("MethodDeclaration", e0);
+    eventHandler.startNonterminal(44, e0);
     if (l1 == 35)                   // '<'
     {
       whitespace();
@@ -9406,7 +9422,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       consume(34);                  // ';'
     }
-    eventHandler.endNonterminal("MethodDeclaration", e0);
+    eventHandler.endNonterminal(44, e0);
   }
 
   private void try_MethodDeclaration()
@@ -9440,7 +9456,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_MethodDeclarator()
   {
-    eventHandler.startNonterminal("MethodDeclarator", e0);
+    eventHandler.startNonterminal(45, e0);
     consume(1);                     // IDENTIFIER
     lookahead1W(3);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '('
     whitespace();
@@ -9456,7 +9472,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       lookahead1W(16);              // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ']'
       consume(59);                  // ']'
     }
-    eventHandler.endNonterminal("MethodDeclarator", e0);
+    eventHandler.endNonterminal(45, e0);
   }
 
   private void try_MethodDeclarator()
@@ -9479,7 +9495,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_FormalParameters()
   {
-    eventHandler.startNonterminal("FormalParameters", e0);
+    eventHandler.startNonterminal(46, e0);
     consume(18);                    // '('
     lookahead1W(120);               // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ')' | '@' |
                                     // 'abstract' | 'boolean' | 'byte' | 'char' | 'double' | 'final' | 'float' | 'int' |
@@ -9505,7 +9521,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       }
     }
     consume(19);                    // ')'
-    eventHandler.endNonterminal("FormalParameters", e0);
+    eventHandler.endNonterminal(46, e0);
   }
 
   private void try_FormalParameters()
@@ -9537,7 +9553,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_FormalParameter()
   {
-    eventHandler.startNonterminal("FormalParameter", e0);
+    eventHandler.startNonterminal(47, e0);
     parse_Modifiers();
     whitespace();
     parse_Type();
@@ -9549,7 +9565,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     lookahead1W(0);                 // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT
     whitespace();
     parse_VariableDeclaratorId();
-    eventHandler.endNonterminal("FormalParameter", e0);
+    eventHandler.endNonterminal(47, e0);
   }
 
   private void try_FormalParameter()
@@ -9567,7 +9583,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ConstructorDeclaration()
   {
-    eventHandler.startNonterminal("ConstructorDeclaration", e0);
+    eventHandler.startNonterminal(48, e0);
     if (l1 == 35)                   // '<'
     {
       whitespace();
@@ -10349,7 +10365,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       parse_BlockStatement();
     }
     consume(118);                   // '}'
-    eventHandler.endNonterminal("ConstructorDeclaration", e0);
+    eventHandler.endNonterminal(48, e0);
   }
 
   private void try_ConstructorDeclaration()
@@ -11134,7 +11150,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ExplicitConstructorInvocation()
   {
-    eventHandler.startNonterminal("ExplicitConstructorInvocation", e0);
+    eventHandler.startNonterminal(49, e0);
     switch (l1)
     {
     case 105:                       // 'this'
@@ -11249,7 +11265,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       lookahead1W(8);               // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ';'
       consume(34);                  // ';'
     }
-    eventHandler.endNonterminal("ExplicitConstructorInvocation", e0);
+    eventHandler.endNonterminal(49, e0);
   }
 
   private void try_ExplicitConstructorInvocation()
@@ -11372,7 +11388,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_Initializer()
   {
-    eventHandler.startNonterminal("Initializer", e0);
+    eventHandler.startNonterminal(50, e0);
     if (l1 == 100)                  // 'static'
     {
       consume(100);                 // 'static'
@@ -11380,7 +11396,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     lookahead1W(23);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '{'
     whitespace();
     parse_Block();
-    eventHandler.endNonterminal("Initializer", e0);
+    eventHandler.endNonterminal(50, e0);
   }
 
   private void try_Initializer()
@@ -11395,7 +11411,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_Type()
   {
-    eventHandler.startNonterminal("Type", e0);
+    eventHandler.startNonterminal(51, e0);
     switch (l1)
     {
     case 64:                        // 'boolean'
@@ -11430,7 +11446,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_PrimitiveType();
     }
-    eventHandler.endNonterminal("Type", e0);
+    eventHandler.endNonterminal(51, e0);
   }
 
   private void try_Type()
@@ -11473,7 +11489,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ReferenceType()
   {
-    eventHandler.startNonterminal("ReferenceType", e0);
+    eventHandler.startNonterminal(52, e0);
     switch (l1)
     {
     case 1:                         // IDENTIFIER
@@ -11511,7 +11527,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
         }
       }
     }
-    eventHandler.endNonterminal("ReferenceType", e0);
+    eventHandler.endNonterminal(52, e0);
   }
 
   private void try_ReferenceType()
@@ -11557,7 +11573,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ClassOrInterfaceType()
   {
-    eventHandler.startNonterminal("ClassOrInterfaceType", e0);
+    eventHandler.startNonterminal(53, e0);
     consume(1);                     // IDENTIFIER
     lookahead1W(134);               // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '!=' | '%=' |
                                     // '&' | '&&' | '&=' | '(' | ')' | '*=' | '+=' | ',' | '-=' | '.' | '...' | '/=' |
@@ -11737,7 +11753,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
         parse_TypeArguments();
       }
     }
-    eventHandler.endNonterminal("ClassOrInterfaceType", e0);
+    eventHandler.endNonterminal(53, e0);
   }
 
   private void try_ClassOrInterfaceType()
@@ -11923,7 +11939,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_TypeArguments()
   {
-    eventHandler.startNonterminal("TypeArguments", e0);
+    eventHandler.startNonterminal(54, e0);
     consume(35);                    // '<'
     lookahead1W(92);                // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '?' | 'boolean' |
                                     // 'byte' | 'char' | 'double' | 'float' | 'int' | 'long' | 'short'
@@ -11942,7 +11958,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       parse_TypeArgument();
     }
     consume(41);                    // '>'
-    eventHandler.endNonterminal("TypeArguments", e0);
+    eventHandler.endNonterminal(54, e0);
   }
 
   private void try_TypeArguments()
@@ -11967,7 +11983,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_TypeArgument()
   {
-    eventHandler.startNonterminal("TypeArgument", e0);
+    eventHandler.startNonterminal(55, e0);
     switch (l1)
     {
     case 45:                        // '?'
@@ -11983,7 +11999,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_ReferenceType();
     }
-    eventHandler.endNonterminal("TypeArgument", e0);
+    eventHandler.endNonterminal(55, e0);
   }
 
   private void try_TypeArgument()
@@ -12006,7 +12022,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_WildcardBounds()
   {
-    eventHandler.startNonterminal("WildcardBounds", e0);
+    eventHandler.startNonterminal(56, e0);
     switch (l1)
     {
     case 77:                        // 'extends'
@@ -12023,7 +12039,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ReferenceType();
     }
-    eventHandler.endNonterminal("WildcardBounds", e0);
+    eventHandler.endNonterminal(56, e0);
   }
 
   private void try_WildcardBounds()
@@ -12046,7 +12062,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_PrimitiveType()
   {
-    eventHandler.startNonterminal("PrimitiveType", e0);
+    eventHandler.startNonterminal(57, e0);
     switch (l1)
     {
     case 64:                        // 'boolean'
@@ -12073,7 +12089,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       consume(74);                  // 'double'
     }
-    eventHandler.endNonterminal("PrimitiveType", e0);
+    eventHandler.endNonterminal(57, e0);
   }
 
   private void try_PrimitiveType()
@@ -12108,7 +12124,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ResultType()
   {
-    eventHandler.startNonterminal("ResultType", e0);
+    eventHandler.startNonterminal(58, e0);
     switch (l1)
     {
     case 111:                       // 'void'
@@ -12117,7 +12133,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_Type();
     }
-    eventHandler.endNonterminal("ResultType", e0);
+    eventHandler.endNonterminal(58, e0);
   }
 
   private void try_ResultType()
@@ -12134,7 +12150,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_Name()
   {
-    eventHandler.startNonterminal("Name", e0);
+    eventHandler.startNonterminal(59, e0);
     parse_JavaIdentifier();
     for (;;)
     {
@@ -12291,7 +12307,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_JavaIdentifier();
     }
-    eventHandler.endNonterminal("Name", e0);
+    eventHandler.endNonterminal(59, e0);
   }
 
   private void try_Name()
@@ -12456,7 +12472,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_NameList()
   {
-    eventHandler.startNonterminal("NameList", e0);
+    eventHandler.startNonterminal(60, e0);
     parse_Name();
     for (;;)
     {
@@ -12471,7 +12487,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Name();
     }
-    eventHandler.endNonterminal("NameList", e0);
+    eventHandler.endNonterminal(60, e0);
   }
 
   private void try_NameList()
@@ -12493,7 +12509,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_Expression()
   {
-    eventHandler.startNonterminal("Expression", e0);
+    eventHandler.startNonterminal(61, e0);
     parse_ConditionalExpression();
     switch (l1)
     {
@@ -13059,7 +13075,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Expression();
     }
-    eventHandler.endNonterminal("Expression", e0);
+    eventHandler.endNonterminal(61, e0);
   }
 
   private void try_Expression()
@@ -13631,7 +13647,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_AssignmentOperator()
   {
-    eventHandler.startNonterminal("AssignmentOperator", e0);
+    eventHandler.startNonterminal(62, e0);
     switch (l1)
     {
     case 39:                        // '='
@@ -13670,7 +13686,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       consume(116);                 // '|='
     }
-    eventHandler.endNonterminal("AssignmentOperator", e0);
+    eventHandler.endNonterminal(62, e0);
   }
 
   private void try_AssignmentOperator()
@@ -13717,7 +13733,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ConditionalExpression()
   {
-    eventHandler.startNonterminal("ConditionalExpression", e0);
+    eventHandler.startNonterminal(63, e0);
     parse_ConditionalOrExpression();
     if (l1 == 45)                   // '?'
     {
@@ -13742,7 +13758,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Expression();
     }
-    eventHandler.endNonterminal("ConditionalExpression", e0);
+    eventHandler.endNonterminal(63, e0);
   }
 
   private void try_ConditionalExpression()
@@ -13773,7 +13789,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ConditionalOrExpression()
   {
-    eventHandler.startNonterminal("ConditionalOrExpression", e0);
+    eventHandler.startNonterminal(64, e0);
     parse_ConditionalAndExpression();
     for (;;)
     {
@@ -13792,7 +13808,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ConditionalAndExpression();
     }
-    eventHandler.endNonterminal("ConditionalOrExpression", e0);
+    eventHandler.endNonterminal(64, e0);
   }
 
   private void try_ConditionalOrExpression()
@@ -13818,7 +13834,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ConditionalAndExpression()
   {
-    eventHandler.startNonterminal("ConditionalAndExpression", e0);
+    eventHandler.startNonterminal(65, e0);
     parse_InclusiveOrExpression();
     for (;;)
     {
@@ -13837,7 +13853,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_InclusiveOrExpression();
     }
-    eventHandler.endNonterminal("ConditionalAndExpression", e0);
+    eventHandler.endNonterminal(65, e0);
   }
 
   private void try_ConditionalAndExpression()
@@ -13863,7 +13879,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_InclusiveOrExpression()
   {
-    eventHandler.startNonterminal("InclusiveOrExpression", e0);
+    eventHandler.startNonterminal(66, e0);
     parse_ExclusiveOrExpression();
     for (;;)
     {
@@ -13882,7 +13898,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ExclusiveOrExpression();
     }
-    eventHandler.endNonterminal("InclusiveOrExpression", e0);
+    eventHandler.endNonterminal(66, e0);
   }
 
   private void try_InclusiveOrExpression()
@@ -13908,7 +13924,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ExclusiveOrExpression()
   {
-    eventHandler.startNonterminal("ExclusiveOrExpression", e0);
+    eventHandler.startNonterminal(67, e0);
     parse_AndExpression();
     for (;;)
     {
@@ -13927,7 +13943,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_AndExpression();
     }
-    eventHandler.endNonterminal("ExclusiveOrExpression", e0);
+    eventHandler.endNonterminal(67, e0);
   }
 
   private void try_ExclusiveOrExpression()
@@ -13953,7 +13969,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_AndExpression()
   {
-    eventHandler.startNonterminal("AndExpression", e0);
+    eventHandler.startNonterminal(68, e0);
     parse_EqualityExpression();
     for (;;)
     {
@@ -13972,7 +13988,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_EqualityExpression();
     }
-    eventHandler.endNonterminal("AndExpression", e0);
+    eventHandler.endNonterminal(68, e0);
   }
 
   private void try_AndExpression()
@@ -13998,7 +14014,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_EqualityExpression()
   {
-    eventHandler.startNonterminal("EqualityExpression", e0);
+    eventHandler.startNonterminal(69, e0);
     parse_InstanceOfExpression();
     for (;;)
     {
@@ -14028,7 +14044,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_InstanceOfExpression();
     }
-    eventHandler.endNonterminal("EqualityExpression", e0);
+    eventHandler.endNonterminal(69, e0);
   }
 
   private void try_EqualityExpression()
@@ -14065,7 +14081,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_InstanceOfExpression()
   {
-    eventHandler.startNonterminal("InstanceOfExpression", e0);
+    eventHandler.startNonterminal(70, e0);
     parse_RelationalExpression();
     if (l1 == 86)                   // 'instanceof'
     {
@@ -14075,7 +14091,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Type();
     }
-    eventHandler.endNonterminal("InstanceOfExpression", e0);
+    eventHandler.endNonterminal(70, e0);
   }
 
   private void try_InstanceOfExpression()
@@ -14092,7 +14108,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_RelationalExpression()
   {
-    eventHandler.startNonterminal("RelationalExpression", e0);
+    eventHandler.startNonterminal(71, e0);
     parse_ShiftExpression();
     for (;;)
     {
@@ -14127,7 +14143,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ShiftExpression();
     }
-    eventHandler.endNonterminal("RelationalExpression", e0);
+    eventHandler.endNonterminal(71, e0);
   }
 
   private void try_RelationalExpression()
@@ -14169,7 +14185,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ShiftExpression()
   {
-    eventHandler.startNonterminal("ShiftExpression", e0);
+    eventHandler.startNonterminal(72, e0);
     parse_AdditiveExpression();
     for (;;)
     {
@@ -14235,7 +14251,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_AdditiveExpression();
     }
-    eventHandler.endNonterminal("ShiftExpression", e0);
+    eventHandler.endNonterminal(72, e0);
   }
 
   private void try_ShiftExpression()
@@ -14306,7 +14322,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_AdditiveExpression()
   {
-    eventHandler.startNonterminal("AdditiveExpression", e0);
+    eventHandler.startNonterminal(73, e0);
     parse_MultiplicativeExpression();
     for (;;)
     {
@@ -14333,7 +14349,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_MultiplicativeExpression();
     }
-    eventHandler.endNonterminal("AdditiveExpression", e0);
+    eventHandler.endNonterminal(73, e0);
   }
 
   private void try_AdditiveExpression()
@@ -14367,7 +14383,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_MultiplicativeExpression()
   {
-    eventHandler.startNonterminal("MultiplicativeExpression", e0);
+    eventHandler.startNonterminal(74, e0);
     parse_UnaryExpression();
     for (;;)
     {
@@ -14402,7 +14418,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_UnaryExpression();
     }
-    eventHandler.endNonterminal("MultiplicativeExpression", e0);
+    eventHandler.endNonterminal(74, e0);
   }
 
   private void try_MultiplicativeExpression()
@@ -14444,7 +14460,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_UnaryExpression()
   {
-    eventHandler.startNonterminal("UnaryExpression", e0);
+    eventHandler.startNonterminal(75, e0);
     switch (l1)
     {
     case 22:                        // '+'
@@ -14476,7 +14492,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_UnaryExpressionNotPlusMinus();
     }
-    eventHandler.endNonterminal("UnaryExpression", e0);
+    eventHandler.endNonterminal(75, e0);
   }
 
   private void try_UnaryExpression()
@@ -14515,7 +14531,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_PreIncrementExpression()
   {
-    eventHandler.startNonterminal("PreIncrementExpression", e0);
+    eventHandler.startNonterminal(76, e0);
     consume(23);                    // '++'
     lookahead1W(129);               // IDENTIFIER | SKIP | INTEGER_LITERAL | FLOATING_POINT_LITERAL |
                                     // CHARACTER_LITERAL | STRING_LITERAL | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT |
@@ -14525,7 +14541,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
                                     // 'int' | 'long' | 'new' | 'null' | 'short' | 'super' | 'this' | 'true' | 'void'
     whitespace();
     parse_PrimaryExpression();
-    eventHandler.endNonterminal("PreIncrementExpression", e0);
+    eventHandler.endNonterminal(76, e0);
   }
 
   private void try_PreIncrementExpression()
@@ -14542,7 +14558,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_PreDecrementExpression()
   {
-    eventHandler.startNonterminal("PreDecrementExpression", e0);
+    eventHandler.startNonterminal(77, e0);
     consume(27);                    // '--'
     lookahead1W(129);               // IDENTIFIER | SKIP | INTEGER_LITERAL | FLOATING_POINT_LITERAL |
                                     // CHARACTER_LITERAL | STRING_LITERAL | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT |
@@ -14552,7 +14568,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
                                     // 'int' | 'long' | 'new' | 'null' | 'short' | 'super' | 'this' | 'true' | 'void'
     whitespace();
     parse_PrimaryExpression();
-    eventHandler.endNonterminal("PreDecrementExpression", e0);
+    eventHandler.endNonterminal(77, e0);
   }
 
   private void try_PreDecrementExpression()
@@ -14569,7 +14585,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_UnaryExpressionNotPlusMinus()
   {
-    eventHandler.startNonterminal("UnaryExpressionNotPlusMinus", e0);
+    eventHandler.startNonterminal(78, e0);
     switch (l1)
     {
     case 18:                        // '('
@@ -14675,7 +14691,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_PostfixExpression();
     }
-    eventHandler.endNonterminal("UnaryExpressionNotPlusMinus", e0);
+    eventHandler.endNonterminal(78, e0);
   }
 
   private void try_UnaryExpressionNotPlusMinus()
@@ -14791,7 +14807,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_PostfixExpression()
   {
-    eventHandler.startNonterminal("PostfixExpression", e0);
+    eventHandler.startNonterminal(79, e0);
     parse_PrimaryExpression();
     if (l1 == 23                    // '++'
      || l1 == 27)                   // '--'
@@ -14805,7 +14821,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
         consume(27);                // '--'
       }
     }
-    eventHandler.endNonterminal("PostfixExpression", e0);
+    eventHandler.endNonterminal(79, e0);
   }
 
   private void try_PostfixExpression()
@@ -14827,7 +14843,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_CastExpression()
   {
-    eventHandler.startNonterminal("CastExpression", e0);
+    eventHandler.startNonterminal(80, e0);
     switch (l1)
     {
     case 18:                        // '('
@@ -14926,7 +14942,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_UnaryExpressionNotPlusMinus();
     }
-    eventHandler.endNonterminal("CastExpression", e0);
+    eventHandler.endNonterminal(80, e0);
   }
 
   private void try_CastExpression()
@@ -15032,7 +15048,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_PrimaryExpression()
   {
-    eventHandler.startNonterminal("PrimaryExpression", e0);
+    eventHandler.startNonterminal(81, e0);
     parse_PrimaryPrefix();
     for (;;)
     {
@@ -15062,7 +15078,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_PrimarySuffix();
     }
-    eventHandler.endNonterminal("PrimaryExpression", e0);
+    eventHandler.endNonterminal(81, e0);
   }
 
   private void try_PrimaryExpression()
@@ -15099,14 +15115,14 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_MemberSelector()
   {
-    eventHandler.startNonterminal("MemberSelector", e0);
+    eventHandler.startNonterminal(82, e0);
     consume(29);                    // '.'
     lookahead1W(9);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '<'
     whitespace();
     parse_TypeArguments();
     lookahead1W(0);                 // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT
     consume(1);                     // IDENTIFIER
-    eventHandler.endNonterminal("MemberSelector", e0);
+    eventHandler.endNonterminal(82, e0);
   }
 
   private void try_MemberSelector()
@@ -15120,7 +15136,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_PrimaryPrefix()
   {
-    eventHandler.startNonterminal("PrimaryPrefix", e0);
+    eventHandler.startNonterminal(83, e0);
     switch (l1)
     {
     case 1:                         // IDENTIFIER
@@ -15257,7 +15273,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_Name();
     }
-    eventHandler.endNonterminal("PrimaryPrefix", e0);
+    eventHandler.endNonterminal(83, e0);
   }
 
   private void try_PrimaryPrefix()
@@ -15404,7 +15420,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_PrimarySuffix()
   {
-    eventHandler.startNonterminal("PrimarySuffix", e0);
+    eventHandler.startNonterminal(84, e0);
     switch (l1)
     {
     case 29:                        // '.'
@@ -15451,7 +15467,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_Arguments();
     }
-    eventHandler.endNonterminal("PrimarySuffix", e0);
+    eventHandler.endNonterminal(84, e0);
   }
 
   private void try_PrimarySuffix()
@@ -15504,7 +15520,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_Literal()
   {
-    eventHandler.startNonterminal("Literal", e0);
+    eventHandler.startNonterminal(85, e0);
     switch (l1)
     {
     case 4:                         // INTEGER_LITERAL
@@ -15525,7 +15541,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_BooleanLiteral();
     }
-    eventHandler.endNonterminal("Literal", e0);
+    eventHandler.endNonterminal(85, e0);
   }
 
   private void try_Literal()
@@ -15554,9 +15570,9 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_IntegerLiteral()
   {
-    eventHandler.startNonterminal("IntegerLiteral", e0);
+    eventHandler.startNonterminal(86, e0);
     consume(4);                     // INTEGER_LITERAL
-    eventHandler.endNonterminal("IntegerLiteral", e0);
+    eventHandler.endNonterminal(86, e0);
   }
 
   private void try_IntegerLiteral()
@@ -15566,7 +15582,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_BooleanLiteral()
   {
-    eventHandler.startNonterminal("BooleanLiteral", e0);
+    eventHandler.startNonterminal(87, e0);
     switch (l1)
     {
     case 109:                       // 'true'
@@ -15575,7 +15591,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       consume(78);                  // 'false'
     }
-    eventHandler.endNonterminal("BooleanLiteral", e0);
+    eventHandler.endNonterminal(87, e0);
   }
 
   private void try_BooleanLiteral()
@@ -15592,9 +15608,9 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_StringLiteral()
   {
-    eventHandler.startNonterminal("StringLiteral", e0);
+    eventHandler.startNonterminal(88, e0);
     consume(7);                     // STRING_LITERAL
-    eventHandler.endNonterminal("StringLiteral", e0);
+    eventHandler.endNonterminal(88, e0);
   }
 
   private void try_StringLiteral()
@@ -15604,9 +15620,9 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_NullLiteral()
   {
-    eventHandler.startNonterminal("NullLiteral", e0);
+    eventHandler.startNonterminal(89, e0);
     consume(92);                    // 'null'
-    eventHandler.endNonterminal("NullLiteral", e0);
+    eventHandler.endNonterminal(89, e0);
   }
 
   private void try_NullLiteral()
@@ -15616,7 +15632,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_Arguments()
   {
-    eventHandler.startNonterminal("Arguments", e0);
+    eventHandler.startNonterminal(90, e0);
     consume(18);                    // '('
     lookahead1W(142);               // IDENTIFIER | SKIP | INTEGER_LITERAL | FLOATING_POINT_LITERAL |
                                     // CHARACTER_LITERAL | STRING_LITERAL | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT |
@@ -15631,7 +15647,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       parse_ArgumentList();
     }
     consume(19);                    // ')'
-    eventHandler.endNonterminal("Arguments", e0);
+    eventHandler.endNonterminal(90, e0);
   }
 
   private void try_Arguments()
@@ -15653,7 +15669,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ArgumentList()
   {
-    eventHandler.startNonterminal("ArgumentList", e0);
+    eventHandler.startNonterminal(91, e0);
     parse_Expression();
     for (;;)
     {
@@ -15672,7 +15688,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Expression();
     }
-    eventHandler.endNonterminal("ArgumentList", e0);
+    eventHandler.endNonterminal(91, e0);
   }
 
   private void try_ArgumentList()
@@ -15698,7 +15714,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_AllocationExpression()
   {
-    eventHandler.startNonterminal("AllocationExpression", e0);
+    eventHandler.startNonterminal(92, e0);
     switch (l1)
     {
     case 91:                        // 'new'
@@ -15752,7 +15768,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ArrayDimsAndInits();
     }
-    eventHandler.endNonterminal("AllocationExpression", e0);
+    eventHandler.endNonterminal(92, e0);
   }
 
   private void try_AllocationExpression()
@@ -15807,7 +15823,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ArrayDimsAndInits()
   {
-    eventHandler.startNonterminal("ArrayDimsAndInits", e0);
+    eventHandler.startNonterminal(93, e0);
     switch (l1)
     {
     case 58:                        // '['
@@ -16050,7 +16066,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
         consume(59);                // ']'
       }
     }
-    eventHandler.endNonterminal("ArrayDimsAndInits", e0);
+    eventHandler.endNonterminal(93, e0);
   }
 
   private void try_ArrayDimsAndInits()
@@ -16310,7 +16326,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_Statement()
   {
-    eventHandler.startNonterminal("Statement", e0);
+    eventHandler.startNonterminal(94, e0);
     switch (l1)
     {
     case 1:                         // IDENTIFIER
@@ -16373,7 +16389,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       lookahead1W(8);               // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ';'
       consume(34);                  // ';'
     }
-    eventHandler.endNonterminal("Statement", e0);
+    eventHandler.endNonterminal(94, e0);
   }
 
   private void try_Statement()
@@ -16444,7 +16460,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_AssertStatement()
   {
-    eventHandler.startNonterminal("AssertStatement", e0);
+    eventHandler.startNonterminal(95, e0);
     consume(63);                    // 'assert'
     lookahead1W(139);               // IDENTIFIER | SKIP | INTEGER_LITERAL | FLOATING_POINT_LITERAL |
                                     // CHARACTER_LITERAL | STRING_LITERAL | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT |
@@ -16469,7 +16485,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       parse_Expression();
     }
     consume(34);                    // ';'
-    eventHandler.endNonterminal("AssertStatement", e0);
+    eventHandler.endNonterminal(95, e0);
   }
 
   private void try_AssertStatement()
@@ -16500,7 +16516,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_LabeledStatement()
   {
-    eventHandler.startNonterminal("LabeledStatement", e0);
+    eventHandler.startNonterminal(96, e0);
     consume(1);                     // IDENTIFIER
     lookahead1W(7);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ':'
     consume(33);                    // ':'
@@ -16514,7 +16530,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
                                     // 'synchronized' | 'this' | 'throw' | 'true' | 'try' | 'void' | 'while' | '{'
     whitespace();
     parse_Statement();
-    eventHandler.endNonterminal("LabeledStatement", e0);
+    eventHandler.endNonterminal(96, e0);
   }
 
   private void try_LabeledStatement()
@@ -16535,7 +16551,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_Block()
   {
-    eventHandler.startNonterminal("Block", e0);
+    eventHandler.startNonterminal(97, e0);
     consume(114);                   // '{'
     for (;;)
     {
@@ -16557,7 +16573,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       parse_BlockStatement();
     }
     consume(118);                   // '}'
-    eventHandler.endNonterminal("Block", e0);
+    eventHandler.endNonterminal(97, e0);
   }
 
   private void try_Block()
@@ -16586,7 +16602,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_BlockStatement()
   {
-    eventHandler.startNonterminal("BlockStatement", e0);
+    eventHandler.startNonterminal(98, e0);
     switch (l1)
     {
     case 1:                         // IDENTIFIER
@@ -16747,7 +16763,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_Statement();
     }
-    eventHandler.endNonterminal("BlockStatement", e0);
+    eventHandler.endNonterminal(98, e0);
   }
 
   private void try_BlockStatement()
@@ -16919,7 +16935,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_LocalVariableDeclaration()
   {
-    eventHandler.startNonterminal("LocalVariableDeclaration", e0);
+    eventHandler.startNonterminal(99, e0);
     parse_Modifiers();
     whitespace();
     parse_Type();
@@ -16938,7 +16954,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_VariableDeclarator();
     }
-    eventHandler.endNonterminal("LocalVariableDeclaration", e0);
+    eventHandler.endNonterminal(99, e0);
   }
 
   private void try_LocalVariableDeclaration()
@@ -16962,9 +16978,9 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_EmptyStatement()
   {
-    eventHandler.startNonterminal("EmptyStatement", e0);
+    eventHandler.startNonterminal(100, e0);
     consume(34);                    // ';'
-    eventHandler.endNonterminal("EmptyStatement", e0);
+    eventHandler.endNonterminal(100, e0);
   }
 
   private void try_EmptyStatement()
@@ -16974,7 +16990,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_StatementExpression()
   {
-    eventHandler.startNonterminal("StatementExpression", e0);
+    eventHandler.startNonterminal(101, e0);
     switch (l1)
     {
     case 23:                        // '++'
@@ -17012,7 +17028,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
         }
       }
     }
-    eventHandler.endNonterminal("StatementExpression", e0);
+    eventHandler.endNonterminal(101, e0);
   }
 
   private void try_StatementExpression()
@@ -17056,7 +17072,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_SwitchStatement()
   {
-    eventHandler.startNonterminal("SwitchStatement", e0);
+    eventHandler.startNonterminal(102, e0);
     consume(103);                   // 'switch'
     lookahead1W(3);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '('
     consume(18);                    // '('
@@ -17105,7 +17121,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       }
     }
     consume(118);                   // '}'
-    eventHandler.endNonterminal("SwitchStatement", e0);
+    eventHandler.endNonterminal(102, e0);
   }
 
   private void try_SwitchStatement()
@@ -17159,7 +17175,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_SwitchLabel()
   {
-    eventHandler.startNonterminal("SwitchLabel", e0);
+    eventHandler.startNonterminal(103, e0);
     switch (l1)
     {
     case 67:                        // 'case'
@@ -17180,7 +17196,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       lookahead1W(7);               // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ':'
       consume(33);                  // ':'
     }
-    eventHandler.endNonterminal("SwitchLabel", e0);
+    eventHandler.endNonterminal(103, e0);
   }
 
   private void try_SwitchLabel()
@@ -17208,7 +17224,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_IfStatement()
   {
-    eventHandler.startNonterminal("IfStatement", e0);
+    eventHandler.startNonterminal(104, e0);
     consume(83);                    // 'if'
     lookahead1W(3);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '('
     consume(18);                    // '('
@@ -17496,7 +17512,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Statement();
     }
-    eventHandler.endNonterminal("IfStatement", e0);
+    eventHandler.endNonterminal(104, e0);
   }
 
   private void try_IfStatement()
@@ -17789,7 +17805,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_WhileStatement()
   {
-    eventHandler.startNonterminal("WhileStatement", e0);
+    eventHandler.startNonterminal(105, e0);
     consume(113);                   // 'while'
     lookahead1W(3);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '('
     consume(18);                    // '('
@@ -17813,7 +17829,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
                                     // 'synchronized' | 'this' | 'throw' | 'true' | 'try' | 'void' | 'while' | '{'
     whitespace();
     parse_Statement();
-    eventHandler.endNonterminal("WhileStatement", e0);
+    eventHandler.endNonterminal(105, e0);
   }
 
   private void try_WhileStatement()
@@ -17843,7 +17859,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_DoStatement()
   {
-    eventHandler.startNonterminal("DoStatement", e0);
+    eventHandler.startNonterminal(106, e0);
     consume(73);                    // 'do'
     lookahead1W(167);               // IDENTIFIER | SKIP | INTEGER_LITERAL | FLOATING_POINT_LITERAL |
                                     // CHARACTER_LITERAL | STRING_LITERAL | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT |
@@ -17871,7 +17887,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     consume(19);                    // ')'
     lookahead1W(8);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ';'
     consume(34);                    // ';'
-    eventHandler.endNonterminal("DoStatement", e0);
+    eventHandler.endNonterminal(106, e0);
   }
 
   private void try_DoStatement()
@@ -17905,7 +17921,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ForStatement()
   {
-    eventHandler.startNonterminal("ForStatement", e0);
+    eventHandler.startNonterminal(107, e0);
     consume(82);                    // 'for'
     lookahead1W(3);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '('
     consume(18);                    // '('
@@ -18532,7 +18548,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
                                     // 'synchronized' | 'this' | 'throw' | 'true' | 'try' | 'void' | 'while' | '{'
     whitespace();
     parse_Statement();
-    eventHandler.endNonterminal("ForStatement", e0);
+    eventHandler.endNonterminal(107, e0);
   }
 
   private void try_ForStatement()
@@ -19163,7 +19179,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ForInit()
   {
-    eventHandler.startNonterminal("ForInit", e0);
+    eventHandler.startNonterminal(108, e0);
     switch (l1)
     {
     case 1:                         // IDENTIFIER
@@ -19292,7 +19308,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_StatementExpressionList();
     }
-    eventHandler.endNonterminal("ForInit", e0);
+    eventHandler.endNonterminal(108, e0);
   }
 
   private void try_ForInit()
@@ -19432,7 +19448,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_StatementExpressionList()
   {
-    eventHandler.startNonterminal("StatementExpressionList", e0);
+    eventHandler.startNonterminal(109, e0);
     parse_StatementExpression();
     for (;;)
     {
@@ -19451,7 +19467,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_StatementExpression();
     }
-    eventHandler.endNonterminal("StatementExpressionList", e0);
+    eventHandler.endNonterminal(109, e0);
   }
 
   private void try_StatementExpressionList()
@@ -19477,9 +19493,9 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ForUpdate()
   {
-    eventHandler.startNonterminal("ForUpdate", e0);
+    eventHandler.startNonterminal(110, e0);
     parse_StatementExpressionList();
-    eventHandler.endNonterminal("ForUpdate", e0);
+    eventHandler.endNonterminal(110, e0);
   }
 
   private void try_ForUpdate()
@@ -19489,7 +19505,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_BreakStatement()
   {
-    eventHandler.startNonterminal("BreakStatement", e0);
+    eventHandler.startNonterminal(111, e0);
     consume(65);                    // 'break'
     lookahead1W(28);                // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ';'
     if (l1 == 1)                    // IDENTIFIER
@@ -19498,7 +19514,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     }
     lookahead1W(8);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ';'
     consume(34);                    // ';'
-    eventHandler.endNonterminal("BreakStatement", e0);
+    eventHandler.endNonterminal(111, e0);
   }
 
   private void try_BreakStatement()
@@ -19515,7 +19531,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ContinueStatement()
   {
-    eventHandler.startNonterminal("ContinueStatement", e0);
+    eventHandler.startNonterminal(112, e0);
     consume(71);                    // 'continue'
     lookahead1W(28);                // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ';'
     if (l1 == 1)                    // IDENTIFIER
@@ -19524,7 +19540,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     }
     lookahead1W(8);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ';'
     consume(34);                    // ';'
-    eventHandler.endNonterminal("ContinueStatement", e0);
+    eventHandler.endNonterminal(112, e0);
   }
 
   private void try_ContinueStatement()
@@ -19541,7 +19557,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ReturnStatement()
   {
-    eventHandler.startNonterminal("ReturnStatement", e0);
+    eventHandler.startNonterminal(113, e0);
     consume(98);                    // 'return'
     lookahead1W(143);               // IDENTIFIER | SKIP | INTEGER_LITERAL | FLOATING_POINT_LITERAL |
                                     // CHARACTER_LITERAL | STRING_LITERAL | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT |
@@ -19556,7 +19572,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       parse_Expression();
     }
     consume(34);                    // ';'
-    eventHandler.endNonterminal("ReturnStatement", e0);
+    eventHandler.endNonterminal(113, e0);
   }
 
   private void try_ReturnStatement()
@@ -19578,7 +19594,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_ThrowStatement()
   {
-    eventHandler.startNonterminal("ThrowStatement", e0);
+    eventHandler.startNonterminal(114, e0);
     consume(106);                   // 'throw'
     lookahead1W(139);               // IDENTIFIER | SKIP | INTEGER_LITERAL | FLOATING_POINT_LITERAL |
                                     // CHARACTER_LITERAL | STRING_LITERAL | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT |
@@ -19590,7 +19606,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     whitespace();
     parse_Expression();
     consume(34);                    // ';'
-    eventHandler.endNonterminal("ThrowStatement", e0);
+    eventHandler.endNonterminal(114, e0);
   }
 
   private void try_ThrowStatement()
@@ -19609,7 +19625,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_SynchronizedStatement()
   {
-    eventHandler.startNonterminal("SynchronizedStatement", e0);
+    eventHandler.startNonterminal(115, e0);
     consume(104);                   // 'synchronized'
     lookahead1W(3);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '('
     consume(18);                    // '('
@@ -19626,7 +19642,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     lookahead1W(23);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '{'
     whitespace();
     parse_Block();
-    eventHandler.endNonterminal("SynchronizedStatement", e0);
+    eventHandler.endNonterminal(115, e0);
   }
 
   private void try_SynchronizedStatement()
@@ -19649,7 +19665,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_TryStatement()
   {
-    eventHandler.startNonterminal("TryStatement", e0);
+    eventHandler.startNonterminal(116, e0);
     consume(110);                   // 'try'
     lookahead1W(23);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '{'
     whitespace();
@@ -19692,7 +19708,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Block();
     }
-    eventHandler.endNonterminal("TryStatement", e0);
+    eventHandler.endNonterminal(116, e0);
   }
 
   private void try_TryStatement()
@@ -19739,13 +19755,13 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_RUNSIGNEDSHIFT()
   {
-    eventHandler.startNonterminal("RUNSIGNEDSHIFT", e0);
+    eventHandler.startNonterminal(117, e0);
     consume(41);                    // '>'
     lookahead1W(11);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '>'
     consume(41);                    // '>'
     lookahead1W(11);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '>'
     consume(41);                    // '>'
-    eventHandler.endNonterminal("RUNSIGNEDSHIFT", e0);
+    eventHandler.endNonterminal(117, e0);
   }
 
   private void try_RUNSIGNEDSHIFT()
@@ -19759,11 +19775,11 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_RSIGNEDSHIFT()
   {
-    eventHandler.startNonterminal("RSIGNEDSHIFT", e0);
+    eventHandler.startNonterminal(118, e0);
     consume(41);                    // '>'
     lookahead1W(11);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '>'
     consume(41);                    // '>'
-    eventHandler.endNonterminal("RSIGNEDSHIFT", e0);
+    eventHandler.endNonterminal(118, e0);
   }
 
   private void try_RSIGNEDSHIFT()
@@ -19775,7 +19791,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_Annotation()
   {
-    eventHandler.startNonterminal("Annotation", e0);
+    eventHandler.startNonterminal(119, e0);
     switch (l1)
     {
     case 46:                        // '@'
@@ -19878,7 +19894,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_MarkerAnnotation();
     }
-    eventHandler.endNonterminal("Annotation", e0);
+    eventHandler.endNonterminal(119, e0);
   }
 
   private void try_Annotation()
@@ -19993,7 +20009,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_NormalAnnotation()
   {
-    eventHandler.startNonterminal("NormalAnnotation", e0);
+    eventHandler.startNonterminal(120, e0);
     consume(46);                    // '@'
     lookahead1W(94);                // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | 'EOF' |
                                     // 'IGNORE_CASE' | 'JAVACODE' | 'LOOKAHEAD' | 'MORE' | 'PARSER_BEGIN' |
@@ -20008,7 +20024,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       parse_MemberValuePairs();
     }
     consume(19);                    // ')'
-    eventHandler.endNonterminal("NormalAnnotation", e0);
+    eventHandler.endNonterminal(120, e0);
   }
 
   private void try_NormalAnnotation()
@@ -20029,14 +20045,14 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_MarkerAnnotation()
   {
-    eventHandler.startNonterminal("MarkerAnnotation", e0);
+    eventHandler.startNonterminal(121, e0);
     consume(46);                    // '@'
     lookahead1W(94);                // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | 'EOF' |
                                     // 'IGNORE_CASE' | 'JAVACODE' | 'LOOKAHEAD' | 'MORE' | 'PARSER_BEGIN' |
                                     // 'PARSER_END' | 'SKIP' | 'SPECIAL_TOKEN' | 'TOKEN' | 'TOKEN_MGR_DECLS'
     whitespace();
     parse_Name();
-    eventHandler.endNonterminal("MarkerAnnotation", e0);
+    eventHandler.endNonterminal(121, e0);
   }
 
   private void try_MarkerAnnotation()
@@ -20050,7 +20066,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_SingleMemberAnnotation()
   {
-    eventHandler.startNonterminal("SingleMemberAnnotation", e0);
+    eventHandler.startNonterminal(122, e0);
     consume(46);                    // '@'
     lookahead1W(94);                // IDENTIFIER | SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | 'EOF' |
                                     // 'IGNORE_CASE' | 'JAVACODE' | 'LOOKAHEAD' | 'MORE' | 'PARSER_BEGIN' |
@@ -20069,7 +20085,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     parse_MemberValue();
     lookahead1W(4);                 // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | ')'
     consume(19);                    // ')'
-    eventHandler.endNonterminal("SingleMemberAnnotation", e0);
+    eventHandler.endNonterminal(122, e0);
   }
 
   private void try_SingleMemberAnnotation()
@@ -20094,7 +20110,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_MemberValuePairs()
   {
-    eventHandler.startNonterminal("MemberValuePairs", e0);
+    eventHandler.startNonterminal(123, e0);
     parse_MemberValuePair();
     for (;;)
     {
@@ -20108,7 +20124,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       whitespace();
       parse_MemberValuePair();
     }
-    eventHandler.endNonterminal("MemberValuePairs", e0);
+    eventHandler.endNonterminal(123, e0);
   }
 
   private void try_MemberValuePairs()
@@ -20129,7 +20145,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_MemberValuePair()
   {
-    eventHandler.startNonterminal("MemberValuePair", e0);
+    eventHandler.startNonterminal(124, e0);
     consume(1);                     // IDENTIFIER
     lookahead1W(10);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '='
     consume(39);                    // '='
@@ -20142,7 +20158,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
                                     // 'void' | '{' | '~'
     whitespace();
     parse_MemberValue();
-    eventHandler.endNonterminal("MemberValuePair", e0);
+    eventHandler.endNonterminal(124, e0);
   }
 
   private void try_MemberValuePair()
@@ -20162,7 +20178,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_MemberValue()
   {
-    eventHandler.startNonterminal("MemberValue", e0);
+    eventHandler.startNonterminal(125, e0);
     switch (l1)
     {
     case 46:                        // '@'
@@ -20174,7 +20190,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     default:
       parse_ConditionalExpression();
     }
-    eventHandler.endNonterminal("MemberValue", e0);
+    eventHandler.endNonterminal(125, e0);
   }
 
   private void try_MemberValue()
@@ -20194,7 +20210,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_MemberValueArrayInitializer()
   {
-    eventHandler.startNonterminal("MemberValueArrayInitializer", e0);
+    eventHandler.startNonterminal(126, e0);
     consume(114);                   // '{'
     lookahead1W(150);               // IDENTIFIER | SKIP | INTEGER_LITERAL | FLOATING_POINT_LITERAL |
                                     // CHARACTER_LITERAL | STRING_LITERAL | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT |
@@ -20244,7 +20260,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     }
     lookahead1W(24);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '}'
     consume(118);                   // '}'
-    eventHandler.endNonterminal("MemberValueArrayInitializer", e0);
+    eventHandler.endNonterminal(126, e0);
   }
 
   private void try_MemberValueArrayInitializer()
@@ -20300,7 +20316,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
 
   private void parse_AnnotationTypeDeclaration()
   {
-    eventHandler.startNonterminal("AnnotationTypeDeclaration", e0);
+    eventHandler.startNonterminal(127, e0);
     consume(46);                    // '@'
     lookahead1W(18);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | 'interface'
     consume(88);                    // 'interface'
@@ -20309,12 +20325,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
     lookahead1W(23);                // SKIP | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT | '{'
     whitespace();
     parse_AnnotationTypeBody();
-    eventHandler.endNonterminal("AnnotationTypeDeclaration", e0);
+    eventHandler.endNonterminal(127, e0);
   }
 
   private void parse_AnnotationTypeBody()
   {
-    eventHandler.startNonterminal("AnnotationTypeBody", e0);
+    eventHandler.startNonterminal(128, e0);
     consume(114);                   // '{'
     for (;;)
     {
@@ -20331,12 +20347,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
       parse_AnnotationTypeMemberDeclaration();
     }
     consume(118);                   // '}'
-    eventHandler.endNonterminal("AnnotationTypeBody", e0);
+    eventHandler.endNonterminal(128, e0);
   }
 
   private void parse_AnnotationTypeMemberDeclaration()
   {
-    eventHandler.startNonterminal("AnnotationTypeMemberDeclaration", e0);
+    eventHandler.startNonterminal(129, e0);
     switch (l1)
     {
     case 34:                        // ';'
@@ -20505,12 +20521,12 @@ public class Javacc implements de.bottlecaps.convert.Parser
         parse_FieldDeclaration();
       }
     }
-    eventHandler.endNonterminal("AnnotationTypeMemberDeclaration", e0);
+    eventHandler.endNonterminal(129, e0);
   }
 
   private void parse_DefaultValue()
   {
-    eventHandler.startNonterminal("DefaultValue", e0);
+    eventHandler.startNonterminal(130, e0);
     consume(72);                    // 'default'
     lookahead1W(150);               // IDENTIFIER | SKIP | INTEGER_LITERAL | FLOATING_POINT_LITERAL |
                                     // CHARACTER_LITERAL | STRING_LITERAL | SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT |
@@ -20521,7 +20537,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
                                     // 'void' | '{' | '~'
     whitespace();
     parse_MemberValue();
-    eventHandler.endNonterminal("DefaultValue", e0);
+    eventHandler.endNonterminal(130, e0);
   }
 
   private void try_DefaultValue()
@@ -20542,7 +20558,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
     if (l1 == t)
     {
       whitespace();
-      eventHandler.terminal(TOKEN[l1], b1, e1);
+      eventHandler.terminal(l1, b1, e1);
       b0 = b1; e0 = e1; l1 = l2; if (l1 != 0) {
       b1 = b2; e1 = e2; l2 = l3; if (l2 != 0) {
       b2 = b3; e2 = e3; l3 = 0; }}
@@ -20751,6 +20767,35 @@ public class Javacc implements de.bottlecaps.convert.Parser
     return expected.toArray(new String[]{});
   }
 
+  private static void decode(String[] chunks, int[] target)
+  {
+    int n = 0;
+    for (String chunk : chunks)
+    {
+      int value = 0;
+      boolean negative = false;
+      for (int i = 0, length = chunk.length(); i < length; ++i)
+      {
+        char c = chunk.charAt(i);
+        if (c >= '0' && c <= '9')
+        {
+          value = value * 10 + (c - '0');
+        }
+        else if (c == '-')
+        {
+          negative = true;
+        }
+        else if (c == ',')
+        {
+          target[n++] = negative ? - value : value;
+          value = 0;
+          negative = false;
+        }
+      }
+      target[n++] = negative ? - value : value;
+    }
+  }
+
   private static final int[] MAP0 = new int[128];
   static
   {
@@ -20762,8 +20807,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       /*  86 */ "52, 9, 53, 9, 9, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 9, 69, 70, 71, 72, 73",
       /* 112 */ "74, 9, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 128; ++i) {MAP0[i] = Integer.parseInt(s2[i]);}
+    decode(s1, MAP0);
   }
 
   private static final int[] MAP1 = new int[1725];
@@ -20860,8 +20904,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       /* 1678 */ "9, 9, 59, 9, 9, 9, 9, 59, 9, 59, 9, 9, 59, 59, 88, 88, 88, 88, 88, 59, 59, 88, 88, 59, 59, 88, 88",
       /* 1705 */ "88, 88, 88, 88, 88, 88, 59, 59, 59, 59, 9, 59, 88, 88, 59, 59, 9, 9, 59, 59"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 1725; ++i) {MAP1[i] = Integer.parseInt(s2[i]);}
+    decode(s1, MAP1);
   }
 
   private static final int[] MAP2 = new int[222];
@@ -20884,8 +20927,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       /* 189 */ "9, 59, 9, 59, 88, 59, 9, 59, 88, 59, 9, 59, 9, 59, 9, 59, 9, 59, 9, 59, 9, 59, 9, 59, 9, 59, 9, 59, 9",
       /* 218 */ "59, 88, 59, 59"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 222; ++i) {MAP2[i] = Integer.parseInt(s2[i]);}
+    decode(s1, MAP2);
   }
 
   private static final int[] INITIAL = new int[175];
@@ -20902,8 +20944,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       /* 142 */ "143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162",
       /* 162 */ "163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 175; ++i) {INITIAL[i] = Integer.parseInt(s2[i]);}
+    decode(s1, INITIAL);
   }
 
   private static final int[] TRANSITION = new int[16956];
@@ -21837,8 +21878,7 @@ public class Javacc implements de.bottlecaps.convert.Parser
       /* 16923 */ "122880, 0, 0, 0, 0, 0, 0, 0, 122880, 0, 0, 122880, 122880, 0, 0, 0, 4096, 0, 0, 0, 0, 0, 0, 0, 0, 0",
       /* 16949 */ "0, 0, 0, 0, 30720, 30720, 0"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 16956; ++i) {TRANSITION[i] = Integer.parseInt(s2[i]);}
+    decode(s1, TRANSITION);
   }
 
   private static final int[] EXPECTED = new int[1774];
@@ -21963,11 +22003,10 @@ public class Javacc implements de.bottlecaps.convert.Parser
       /* 1755 */ "134217728, -989818816, -2061463488, -987721664, -2105408475, 256, 256, 0, 0, 1048576, 8388608",
       /* 1766 */ "1048576, 0, 8388608, 65536, 262144, 0, 0, 576"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 1774; ++i) {EXPECTED[i] = Integer.parseInt(s2[i]);}
+    decode(s1, EXPECTED);
   }
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "IDENTIFIER",
@@ -22089,6 +22128,142 @@ public class Javacc implements de.bottlecaps.convert.Parser
     "'||'",
     "'}'",
     "'~'"
+  };
+
+  public static final String[] NONTERMINAL =
+  {
+    "javacc_input",
+    "javacc_options",
+    "option_binding",
+    "production",
+    "javacode_production",
+    "bnf_production",
+    "AccessModifier",
+    "regular_expr_production",
+    "token_manager_decls",
+    "regexpr_kind",
+    "regexpr_spec",
+    "expansion_choices",
+    "expansion",
+    "local_lookahead",
+    "expansion_unit",
+    "regular_expression",
+    "complex_regular_expression_choices",
+    "complex_regular_expression",
+    "complex_regular_expression_unit",
+    "character_list",
+    "character_descriptor",
+    "identifier",
+    "JavaIdentifier",
+    "CompilationUnit",
+    "PackageDeclaration",
+    "ImportDeclaration",
+    "Modifiers",
+    "TypeDeclaration",
+    "ClassOrInterfaceDeclaration",
+    "ExtendsList",
+    "ImplementsList",
+    "EnumDeclaration",
+    "EnumBody",
+    "EnumConstant",
+    "TypeParameters",
+    "TypeParameter",
+    "TypeBound",
+    "ClassOrInterfaceBody",
+    "ClassOrInterfaceBodyDeclaration",
+    "FieldDeclaration",
+    "VariableDeclarator",
+    "VariableDeclaratorId",
+    "VariableInitializer",
+    "ArrayInitializer",
+    "MethodDeclaration",
+    "MethodDeclarator",
+    "FormalParameters",
+    "FormalParameter",
+    "ConstructorDeclaration",
+    "ExplicitConstructorInvocation",
+    "Initializer",
+    "Type",
+    "ReferenceType",
+    "ClassOrInterfaceType",
+    "TypeArguments",
+    "TypeArgument",
+    "WildcardBounds",
+    "PrimitiveType",
+    "ResultType",
+    "Name",
+    "NameList",
+    "Expression",
+    "AssignmentOperator",
+    "ConditionalExpression",
+    "ConditionalOrExpression",
+    "ConditionalAndExpression",
+    "InclusiveOrExpression",
+    "ExclusiveOrExpression",
+    "AndExpression",
+    "EqualityExpression",
+    "InstanceOfExpression",
+    "RelationalExpression",
+    "ShiftExpression",
+    "AdditiveExpression",
+    "MultiplicativeExpression",
+    "UnaryExpression",
+    "PreIncrementExpression",
+    "PreDecrementExpression",
+    "UnaryExpressionNotPlusMinus",
+    "PostfixExpression",
+    "CastExpression",
+    "PrimaryExpression",
+    "MemberSelector",
+    "PrimaryPrefix",
+    "PrimarySuffix",
+    "Literal",
+    "IntegerLiteral",
+    "BooleanLiteral",
+    "StringLiteral",
+    "NullLiteral",
+    "Arguments",
+    "ArgumentList",
+    "AllocationExpression",
+    "ArrayDimsAndInits",
+    "Statement",
+    "AssertStatement",
+    "LabeledStatement",
+    "Block",
+    "BlockStatement",
+    "LocalVariableDeclaration",
+    "EmptyStatement",
+    "StatementExpression",
+    "SwitchStatement",
+    "SwitchLabel",
+    "IfStatement",
+    "WhileStatement",
+    "DoStatement",
+    "ForStatement",
+    "ForInit",
+    "StatementExpressionList",
+    "ForUpdate",
+    "BreakStatement",
+    "ContinueStatement",
+    "ReturnStatement",
+    "ThrowStatement",
+    "SynchronizedStatement",
+    "TryStatement",
+    "RUNSIGNEDSHIFT",
+    "RSIGNEDSHIFT",
+    "Annotation",
+    "NormalAnnotation",
+    "MarkerAnnotation",
+    "SingleMemberAnnotation",
+    "MemberValuePairs",
+    "MemberValuePair",
+    "MemberValue",
+    "MemberValueArrayInitializer",
+    "AnnotationTypeDeclaration",
+    "AnnotationTypeBody",
+    "AnnotationTypeMemberDeclaration",
+    "DefaultValue",
+    "_"
   };
 }
 

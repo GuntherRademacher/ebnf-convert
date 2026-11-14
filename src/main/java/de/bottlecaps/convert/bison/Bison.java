@@ -1,9 +1,10 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:39 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.bison.Bison bison.ebnf
 
 package de.bottlecaps.convert.bison;
 
 
+@SuppressWarnings("all")
 public class Bison implements de.bottlecaps.convert.Parser
 {
   public Bison(CharSequence string, EventHandler t)
@@ -54,6 +55,21 @@ public class Bison implements de.bottlecaps.convert.Parser
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
   }
 
+  private Bison()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
+  }
+
   public static String[] getExpectedTokenSet(ParseException e)
   {
     String[] expected;
@@ -95,7 +111,7 @@ public class Bison implements de.bottlecaps.convert.Parser
 
   public void parse_input()
   {
-    eventHandler.startNonterminal("input", e0);
+    eventHandler.startNonterminal(0, e0);
     for (;;)
     {
       lookahead1W(26);              // WHITESPACE | PROLOGUE | PERCENT_FLAG | '%%' | '%code' | '%default-prec' |
@@ -134,12 +150,12 @@ public class Bison implements de.bottlecaps.convert.Parser
     parse_epilogue_opt();
     lookahead1W(4);                 // WHITESPACE | EOF
     consume(14);                    // EOF
-    eventHandler.endNonterminal("input", e0);
+    eventHandler.endNonterminal(0, e0);
   }
 
   private void parse_prologue_declaration()
   {
-    eventHandler.startNonterminal("prologue_declaration", e0);
+    eventHandler.startNonterminal(1, e0);
     switch (l1)
     {
     case 10:                        // PROLOGUE
@@ -296,12 +312,12 @@ public class Bison implements de.bottlecaps.convert.Parser
     default:
       parse_grammar_declaration();
     }
-    eventHandler.endNonterminal("prologue_declaration", e0);
+    eventHandler.endNonterminal(1, e0);
   }
 
   private void parse_grammar_declaration()
   {
-    eventHandler.startNonterminal("grammar_declaration", e0);
+    eventHandler.startNonterminal(2, e0);
     switch (l1)
     {
     case 48:                        // '%start'
@@ -371,12 +387,12 @@ public class Bison implements de.bottlecaps.convert.Parser
     default:
       parse_symbol_declaration();
     }
-    eventHandler.endNonterminal("grammar_declaration", e0);
+    eventHandler.endNonterminal(2, e0);
   }
 
   private void parse_code_props_type()
   {
-    eventHandler.startNonterminal("code_props_type", e0);
+    eventHandler.startNonterminal(3, e0);
     switch (l1)
     {
     case 20:                        // '%destructor'
@@ -385,22 +401,22 @@ public class Bison implements de.bottlecaps.convert.Parser
     default:
       consume(44);                  // '%printer'
     }
-    eventHandler.endNonterminal("code_props_type", e0);
+    eventHandler.endNonterminal(3, e0);
   }
 
   private void parse_union_name()
   {
-    eventHandler.startNonterminal("union_name", e0);
+    eventHandler.startNonterminal(4, e0);
     if (l1 == 5)                    // ID
     {
       consume(5);                   // ID
     }
-    eventHandler.endNonterminal("union_name", e0);
+    eventHandler.endNonterminal(4, e0);
   }
 
   private void parse_symbol_declaration()
   {
-    eventHandler.startNonterminal("symbol_declaration", e0);
+    eventHandler.startNonterminal(5, e0);
     switch (l1)
     {
     case 38:                        // '%nterm'
@@ -463,12 +479,12 @@ public class Bison implements de.bottlecaps.convert.Parser
         parse_token_decl_for_prec_1();
       }
     }
-    eventHandler.endNonterminal("symbol_declaration", e0);
+    eventHandler.endNonterminal(5, e0);
   }
 
   private void parse_precedence_declarator()
   {
-    eventHandler.startNonterminal("precedence_declarator", e0);
+    eventHandler.startNonterminal(6, e0);
     switch (l1)
     {
     case 30:                        // '%left'
@@ -483,23 +499,23 @@ public class Bison implements de.bottlecaps.convert.Parser
     default:
       consume(43);                  // '%precedence'
     }
-    eventHandler.endNonterminal("precedence_declarator", e0);
+    eventHandler.endNonterminal(6, e0);
   }
 
   private void parse_tag_opt()
   {
-    eventHandler.startNonterminal("tag.opt", e0);
+    eventHandler.startNonterminal(7, e0);
     if (l1 == 57)                   // '<'
     {
       whitespace();
       parse_TAG();
     }
-    eventHandler.endNonterminal("tag.opt", e0);
+    eventHandler.endNonterminal(7, e0);
   }
 
   private void parse_generic_symlist_item()
   {
-    eventHandler.startNonterminal("generic_symlist_item", e0);
+    eventHandler.startNonterminal(8, e0);
     switch (l1)
     {
     case 2:                         // STRING
@@ -510,12 +526,12 @@ public class Bison implements de.bottlecaps.convert.Parser
     default:
       parse_tag();
     }
-    eventHandler.endNonterminal("generic_symlist_item", e0);
+    eventHandler.endNonterminal(8, e0);
   }
 
   private void parse_tag()
   {
-    eventHandler.startNonterminal("tag", e0);
+    eventHandler.startNonterminal(9, e0);
     switch (l1)
     {
     case 57:                        // '<'
@@ -527,19 +543,19 @@ public class Bison implements de.bottlecaps.convert.Parser
     default:
       consume(59);                  // '<>'
     }
-    eventHandler.endNonterminal("tag", e0);
+    eventHandler.endNonterminal(9, e0);
   }
 
   private void parse_nterm_decls()
   {
-    eventHandler.startNonterminal("nterm_decls", e0);
+    eventHandler.startNonterminal(10, e0);
     parse_token_decls();
-    eventHandler.endNonterminal("nterm_decls", e0);
+    eventHandler.endNonterminal(10, e0);
   }
 
   private void parse_token_decls()
   {
-    eventHandler.startNonterminal("token_decls", e0);
+    eventHandler.startNonterminal(11, e0);
     if (l1 == 57)                   // '<'
     {
       whitespace();
@@ -560,12 +576,12 @@ public class Bison implements de.bottlecaps.convert.Parser
       whitespace();
       parse_token_decl_1();
     }
-    eventHandler.endNonterminal("token_decls", e0);
+    eventHandler.endNonterminal(11, e0);
   }
 
   private void parse_token_decl_1()
   {
-    eventHandler.startNonterminal("token_decl.1", e0);
+    eventHandler.startNonterminal(12, e0);
     for (;;)
     {
       whitespace();
@@ -584,12 +600,12 @@ public class Bison implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("token_decl.1", e0);
+    eventHandler.endNonterminal(12, e0);
   }
 
   private void parse_token_decl()
   {
-    eventHandler.startNonterminal("token_decl", e0);
+    eventHandler.startNonterminal(13, e0);
     parse_id();
     lookahead1W(34);                // WHITESPACE | STRING | TSTRING | INT_LITERAL | ID | CHAR_LITERAL | PROLOGUE |
                                     // PERCENT_FLAG | '%%' | '%code' | '%default-prec' | '%define' | '%defines' |
@@ -611,22 +627,22 @@ public class Bison implements de.bottlecaps.convert.Parser
                                     // '%type' | '%union' | '%verbose' | '%yacc' | ';' | '<'
     whitespace();
     parse_alias();
-    eventHandler.endNonterminal("token_decl", e0);
+    eventHandler.endNonterminal(13, e0);
   }
 
   private void parse_int_opt()
   {
-    eventHandler.startNonterminal("int.opt", e0);
+    eventHandler.startNonterminal(14, e0);
     if (l1 == 4)                    // INT_LITERAL
     {
       consume(4);                   // INT_LITERAL
     }
-    eventHandler.endNonterminal("int.opt", e0);
+    eventHandler.endNonterminal(14, e0);
   }
 
   private void parse_alias()
   {
-    eventHandler.startNonterminal("alias", e0);
+    eventHandler.startNonterminal(15, e0);
     if (l1 == 2                     // STRING
      || l1 == 3)                    // TSTRING
     {
@@ -640,12 +656,12 @@ public class Bison implements de.bottlecaps.convert.Parser
         consume(3);                 // TSTRING
       }
     }
-    eventHandler.endNonterminal("alias", e0);
+    eventHandler.endNonterminal(15, e0);
   }
 
   private void parse_token_decl_for_prec_1()
   {
-    eventHandler.startNonterminal("token_decl_for_prec.1", e0);
+    eventHandler.startNonterminal(16, e0);
     for (;;)
     {
       whitespace();
@@ -665,12 +681,12 @@ public class Bison implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("token_decl_for_prec.1", e0);
+    eventHandler.endNonterminal(16, e0);
   }
 
   private void parse_token_decl_for_prec()
   {
-    eventHandler.startNonterminal("token_decl_for_prec", e0);
+    eventHandler.startNonterminal(17, e0);
     switch (l1)
     {
     case 2:                         // STRING
@@ -689,12 +705,12 @@ public class Bison implements de.bottlecaps.convert.Parser
       whitespace();
       parse_int_opt();
     }
-    eventHandler.endNonterminal("token_decl_for_prec", e0);
+    eventHandler.endNonterminal(17, e0);
   }
 
   private void parse_symbol_decl_1()
   {
-    eventHandler.startNonterminal("symbol_decl.1", e0);
+    eventHandler.startNonterminal(18, e0);
     for (;;)
     {
       whitespace();
@@ -714,12 +730,12 @@ public class Bison implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("symbol_decl.1", e0);
+    eventHandler.endNonterminal(18, e0);
   }
 
   private void parse_rules_or_grammar_declaration()
   {
-    eventHandler.startNonterminal("rules_or_grammar_declaration", e0);
+    eventHandler.startNonterminal(19, e0);
     switch (l1)
     {
     case 5:                         // ID
@@ -731,12 +747,12 @@ public class Bison implements de.bottlecaps.convert.Parser
       lookahead1W(6);               // WHITESPACE | ';'
       consume(56);                  // ';'
     }
-    eventHandler.endNonterminal("rules_or_grammar_declaration", e0);
+    eventHandler.endNonterminal(19, e0);
   }
 
   private void parse_rules()
   {
-    eventHandler.startNonterminal("rules", e0);
+    eventHandler.startNonterminal(20, e0);
     parse_id();
     lookahead1W(12);                // WHITESPACE | BRACKETED_ID | ':'
     whitespace();
@@ -777,12 +793,12 @@ public class Bison implements de.bottlecaps.convert.Parser
         consume(56);                // ';'
       }
     }
-    eventHandler.endNonterminal("rules", e0);
+    eventHandler.endNonterminal(20, e0);
   }
 
   private void parse_rhs()
   {
-    eventHandler.startNonterminal("rhs", e0);
+    eventHandler.startNonterminal(21, e0);
     for (;;)
     {
       lookahead1W(22);              // WHITESPACE | STRING | ID | CHAR_LITERAL | BRACED_PREDICATE | EOF | '%%' |
@@ -900,29 +916,29 @@ public class Bison implements de.bottlecaps.convert.Parser
         parse_named_ref_opt();
       }
     }
-    eventHandler.endNonterminal("rhs", e0);
+    eventHandler.endNonterminal(21, e0);
   }
 
   private void parse_named_ref_opt()
   {
-    eventHandler.startNonterminal("named_ref.opt", e0);
+    eventHandler.startNonterminal(22, e0);
     if (l1 == 9)                    // BRACKETED_ID
     {
       consume(9);                   // BRACKETED_ID
     }
-    eventHandler.endNonterminal("named_ref.opt", e0);
+    eventHandler.endNonterminal(22, e0);
   }
 
   private void parse_variable()
   {
-    eventHandler.startNonterminal("variable", e0);
+    eventHandler.startNonterminal(23, e0);
     consume(5);                     // ID
-    eventHandler.endNonterminal("variable", e0);
+    eventHandler.endNonterminal(23, e0);
   }
 
   private void parse_value()
   {
-    eventHandler.startNonterminal("value", e0);
+    eventHandler.startNonterminal(24, e0);
     if (l1 == 2                     // STRING
      || l1 == 5                     // ID
      || l1 == 62)                   // '{'
@@ -940,12 +956,12 @@ public class Bison implements de.bottlecaps.convert.Parser
         parse_BRACED_CODE();
       }
     }
-    eventHandler.endNonterminal("value", e0);
+    eventHandler.endNonterminal(24, e0);
   }
 
   private void parse_id()
   {
-    eventHandler.startNonterminal("id", e0);
+    eventHandler.startNonterminal(25, e0);
     switch (l1)
     {
     case 5:                         // ID
@@ -954,12 +970,12 @@ public class Bison implements de.bottlecaps.convert.Parser
     default:
       consume(6);                   // CHAR_LITERAL
     }
-    eventHandler.endNonterminal("id", e0);
+    eventHandler.endNonterminal(25, e0);
   }
 
   private void parse_symbol()
   {
-    eventHandler.startNonterminal("symbol", e0);
+    eventHandler.startNonterminal(26, e0);
     switch (l1)
     {
     case 2:                         // STRING
@@ -968,31 +984,31 @@ public class Bison implements de.bottlecaps.convert.Parser
     default:
       parse_id();
     }
-    eventHandler.endNonterminal("symbol", e0);
+    eventHandler.endNonterminal(26, e0);
   }
 
   private void parse_string_as_id()
   {
-    eventHandler.startNonterminal("string_as_id", e0);
+    eventHandler.startNonterminal(27, e0);
     consume(2);                     // STRING
-    eventHandler.endNonterminal("string_as_id", e0);
+    eventHandler.endNonterminal(27, e0);
   }
 
   private void parse_epilogue_opt()
   {
-    eventHandler.startNonterminal("epilogue.opt", e0);
+    eventHandler.startNonterminal(28, e0);
     if (l1 == 15)                   // '%%'
     {
       consume(15);                  // '%%'
       lookahead1W(3);               // WHITESPACE | EPILOGUE
       consume(7);                   // EPILOGUE
     }
-    eventHandler.endNonterminal("epilogue.opt", e0);
+    eventHandler.endNonterminal(28, e0);
   }
 
   private void parse_TAG()
   {
-    eventHandler.startNonterminal("TAG", e0);
+    eventHandler.startNonterminal(29, e0);
     consume(57);                    // '<'
     for (;;)
     {
@@ -1011,12 +1027,12 @@ public class Bison implements de.bottlecaps.convert.Parser
       }
     }
     consume(61);                    // '>'
-    eventHandler.endNonterminal("TAG", e0);
+    eventHandler.endNonterminal(29, e0);
   }
 
   private void parse_BRACED_CODE()
   {
-    eventHandler.startNonterminal("BRACED_CODE", e0);
+    eventHandler.startNonterminal(30, e0);
     consume(62);                    // '{'
     for (;;)
     {
@@ -1035,7 +1051,7 @@ public class Bison implements de.bottlecaps.convert.Parser
       }
     }
     consume(64);                    // '}'
-    eventHandler.endNonterminal("BRACED_CODE", e0);
+    eventHandler.endNonterminal(30, e0);
   }
 
   private void consume(int t)
@@ -1043,7 +1059,7 @@ public class Bison implements de.bottlecaps.convert.Parser
     if (l1 == t)
     {
       whitespace();
-      eventHandler.terminal(TOKEN[l1], b1, e1);
+      eventHandler.terminal(l1, b1, e1);
       b0 = b1; e0 = e1; l1 = l2; if (l1 != 0) {
       b1 = b2; e1 = e2; l2 = l3; if (l2 != 0) {
       b2 = b3; e2 = e3; l3 = 0; }}
@@ -1606,7 +1622,7 @@ public class Bison implements de.bottlecaps.convert.Parser
     /* 539 */ 131072, 1048576, 0, 0, 0, 8
   };
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "WHITESPACE",
@@ -1673,6 +1689,41 @@ public class Bison implements de.bottlecaps.convert.Parser
     "'{'",
     "'|'",
     "'}'"
+  };
+
+  public static final String[] NONTERMINAL =
+  {
+    "input",
+    "prologue_declaration",
+    "grammar_declaration",
+    "code_props_type",
+    "union_name",
+    "symbol_declaration",
+    "precedence_declarator",
+    "tag.opt",
+    "generic_symlist_item",
+    "tag",
+    "nterm_decls",
+    "token_decls",
+    "token_decl.1",
+    "token_decl",
+    "int.opt",
+    "alias",
+    "token_decl_for_prec.1",
+    "token_decl_for_prec",
+    "symbol_decl.1",
+    "rules_or_grammar_declaration",
+    "rules",
+    "rhs",
+    "named_ref.opt",
+    "variable",
+    "value",
+    "id",
+    "symbol",
+    "string_as_id",
+    "epilogue.opt",
+    "TAG",
+    "BRACED_CODE"
   };
 }
 

@@ -1,9 +1,10 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:40 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.pss.Pss pss.ebnf
 
 package de.bottlecaps.convert.pss;
 
 
+@SuppressWarnings("all")
 public class Pss implements de.bottlecaps.convert.Parser
 {
   public Pss(CharSequence string, EventHandler t)
@@ -53,6 +54,21 @@ public class Pss implements de.bottlecaps.convert.Parser
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
   }
 
+  private Pss()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
+  }
+
   public static String[] getExpectedTokenSet(ParseException e)
   {
     String[] expected;
@@ -94,7 +110,7 @@ public class Pss implements de.bottlecaps.convert.Parser
 
   public void parse_PSS_Grammar()
   {
-    eventHandler.startNonterminal("PSS-Grammar", e0);
+    eventHandler.startNonterminal(0, e0);
     for (;;)
     {
       lookahead1W(0);               // Whitespace | Nonterminal
@@ -107,12 +123,12 @@ public class Pss implements de.bottlecaps.convert.Parser
       }
     }
     consume(4);                     // EOF
-    eventHandler.endNonterminal("PSS-Grammar", e0);
+    eventHandler.endNonterminal(0, e0);
   }
 
   private void parse_Rule()
   {
-    eventHandler.startNonterminal("Rule", e0);
+    eventHandler.startNonterminal(1, e0);
     consume(2);                     // Nonterminal
     lookahead1W(2);                 // Whitespace | ':' | '::=' | '='
     switch (l1)
@@ -133,12 +149,12 @@ public class Pss implements de.bottlecaps.convert.Parser
     {
       consume(11);                  // ';'
     }
-    eventHandler.endNonterminal("Rule", e0);
+    eventHandler.endNonterminal(1, e0);
   }
 
   private void parse_Alternatives()
   {
-    eventHandler.startNonterminal("Alternatives", e0);
+    eventHandler.startNonterminal(2, e0);
     parse_Alternative();
     for (;;)
     {
@@ -153,12 +169,12 @@ public class Pss implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Alternative();
     }
-    eventHandler.endNonterminal("Alternatives", e0);
+    eventHandler.endNonterminal(2, e0);
   }
 
   private void parse_Alternative()
   {
-    eventHandler.startNonterminal("Alternative", e0);
+    eventHandler.startNonterminal(3, e0);
     switch (l1)
     {
     case 2:                         // Nonterminal
@@ -215,12 +231,12 @@ public class Pss implements de.bottlecaps.convert.Parser
         }
       }
     }
-    eventHandler.endNonterminal("Alternative", e0);
+    eventHandler.endNonterminal(3, e0);
   }
 
   private void parse_Item()
   {
-    eventHandler.startNonterminal("Item", e0);
+    eventHandler.startNonterminal(4, e0);
     switch (l1)
     {
     case 2:                         // Nonterminal
@@ -268,7 +284,7 @@ public class Pss implements de.bottlecaps.convert.Parser
         consume(13);                // '?'
       }
     }
-    eventHandler.endNonterminal("Item", e0);
+    eventHandler.endNonterminal(4, e0);
   }
 
   private void consume(int t)
@@ -276,7 +292,7 @@ public class Pss implements de.bottlecaps.convert.Parser
     if (l1 == t)
     {
       whitespace();
-      eventHandler.terminal(TOKEN[l1], b1, e1);
+      eventHandler.terminal(l1, b1, e1);
       b0 = b1; e0 = e1; l1 = l2; if (l1 != 0) {
       b1 = b2; e1 = e2; l2 = 0; }
     }
@@ -502,7 +518,7 @@ public class Pss implements de.bottlecaps.convert.Parser
     /* 18 */ 1024
   };
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "Whitespace",
@@ -524,6 +540,15 @@ public class Pss implements de.bottlecaps.convert.Parser
     "'|'",
     "'}'",
     "'ε'"
+  };
+
+  public static final String[] NONTERMINAL =
+  {
+    "PSS-Grammar",
+    "Rule",
+    "Alternatives",
+    "Alternative",
+    "Item"
   };
 }
 

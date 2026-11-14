@@ -1,9 +1,10 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:40 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.phythia.Phythia phythia.ebnf
 
 package de.bottlecaps.convert.phythia;
 
 
+@SuppressWarnings("all")
 public class Phythia implements de.bottlecaps.convert.Parser
 {
   public Phythia(CharSequence string, EventHandler t)
@@ -52,6 +53,21 @@ public class Phythia implements de.bottlecaps.convert.Parser
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
   }
 
+  private Phythia()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
+  }
+
   public static String[] getExpectedTokenSet(ParseException e)
   {
     String[] expected;
@@ -93,7 +109,7 @@ public class Phythia implements de.bottlecaps.convert.Parser
 
   public void parse_Grammar()
   {
-    eventHandler.startNonterminal("Grammar", e0);
+    eventHandler.startNonterminal(0, e0);
     lookahead1W(5);                 // Space | Comment | BeginOfGrammar | RULE
     if (l1 == 4)                    // BeginOfGrammar
     {
@@ -116,12 +132,12 @@ public class Phythia implements de.bottlecaps.convert.Parser
     }
     lookahead1W(2);                 // Space | Comment | EOF
     consume(11);                    // EOF
-    eventHandler.endNonterminal("Grammar", e0);
+    eventHandler.endNonterminal(0, e0);
   }
 
   private void parse_Production()
   {
-    eventHandler.startNonterminal("Production", e0);
+    eventHandler.startNonterminal(1, e0);
     consume(5);                     // RULE
     lookahead1W(3);                 // Space | Comment | Name
     consume(12);                    // Name
@@ -153,12 +169,12 @@ public class Phythia implements de.bottlecaps.convert.Parser
     {
       consume(19);                  // '.'
     }
-    eventHandler.endNonterminal("Production", e0);
+    eventHandler.endNonterminal(1, e0);
   }
 
   private void parse_Choice()
   {
-    eventHandler.startNonterminal("Choice", e0);
+    eventHandler.startNonterminal(2, e0);
     parse_Sequence();
     for (;;)
     {
@@ -172,12 +188,12 @@ public class Phythia implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Sequence();
     }
-    eventHandler.endNonterminal("Choice", e0);
+    eventHandler.endNonterminal(2, e0);
   }
 
   private void parse_Sequence()
   {
-    eventHandler.startNonterminal("Sequence", e0);
+    eventHandler.startNonterminal(3, e0);
     for (;;)
     {
       lookahead1W(17);              // Space | StringLiteral | Comment | Sem | Name | '(' | ')' | '*>' | '*}' | '+>' |
@@ -197,12 +213,12 @@ public class Phythia implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Item();
     }
-    eventHandler.endNonterminal("Sequence", e0);
+    eventHandler.endNonterminal(3, e0);
   }
 
   private void parse_Item()
   {
-    eventHandler.startNonterminal("Item", e0);
+    eventHandler.startNonterminal(4, e0);
     switch (l1)
     {
     case 12:                        // Name
@@ -272,7 +288,7 @@ public class Phythia implements de.bottlecaps.convert.Parser
     default:
       consume(8);                   // Sem
     }
-    eventHandler.endNonterminal("Item", e0);
+    eventHandler.endNonterminal(4, e0);
   }
 
   private void consume(int t)
@@ -280,7 +296,7 @@ public class Phythia implements de.bottlecaps.convert.Parser
     if (l1 == t)
     {
       whitespace();
-      eventHandler.terminal(TOKEN[l1], b1, e1);
+      eventHandler.terminal(l1, b1, e1);
       b0 = b1; e0 = e1; l1 = 0;
     }
     else
@@ -654,7 +670,7 @@ public class Phythia implements de.bottlecaps.convert.Parser
     /*  93 */ 4352, 1024, 1024, 1024, 1024, 256, 256, 256, 16, 512, 1024, 16, 512, 1024
   };
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "Space",
@@ -685,6 +701,16 @@ public class Phythia implements de.bottlecaps.convert.Parser
     "'{*'",
     "'{+'",
     "'|'"
+  };
+
+  public static final String[] NONTERMINAL =
+  {
+    "Grammar",
+    "Production",
+    "Choice",
+    "Sequence",
+    "Item",
+    "Whitespace"
   };
 }
 

@@ -1,10 +1,11 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:40 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -lalr 4 -tree -a none -java -interface de.bottlecaps.convert.LRParser -name de.bottlecaps.convert.instaparse.Instaparse instaparse.ebnf
 
 package de.bottlecaps.convert.instaparse;
 
 import java.util.Arrays;
 
+@SuppressWarnings("all")
 public class Instaparse implements de.bottlecaps.convert.LRParser
 {
   public Instaparse(CharSequence string, BottomUpEventHandler t)
@@ -54,6 +55,21 @@ public class Instaparse implements de.bottlecaps.convert.LRParser
   public static String getOffendingToken(ParseException e)
   {
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
+  }
+
+  private Instaparse()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
   }
 
   public static String[] getExpectedTokenSet(ParseException e)
@@ -113,6 +129,7 @@ public class Instaparse implements de.bottlecaps.convert.LRParser
     iStack[top] = lookback;
   }
 
+
   private int lookback(int x, int y)
   {
     int i = LOOKBACK[y];
@@ -146,7 +163,6 @@ public class Instaparse implements de.bottlecaps.convert.LRParser
     }
     return count;
   }
-
   private void parse(int target, int initialState, BottomUpEventHandler eventHandler)
   {
     int state = initialState;
@@ -204,7 +220,7 @@ public class Instaparse implements de.bottlecaps.convert.LRParser
         {
           if (eventHandler != null)
           {
-            eventHandler.terminal(TOKEN[l1], b1, e1);
+            eventHandler.terminal(l1, b1, e1);
           }
           es = e1;
           push(state, lookback, b1);
@@ -225,6 +241,10 @@ public class Instaparse implements de.bottlecaps.convert.LRParser
       else
       {
         nonterminalId = reduce;
+        if (l1 == 0)
+        {
+          b1 = e0;
+        }
         if (symbols > 0)
         {
           top -= symbols * 3;
@@ -244,7 +264,7 @@ public class Instaparse implements de.bottlecaps.convert.LRParser
         }
         if (eventHandler != null)
         {
-          eventHandler.nonterminal(NONTERMINAL[nonterminalId], bs, es, symbols);
+          eventHandler.nonterminal(nonterminalId, bs, es, symbols);
         }
         action = goTo(nonterminalId, state);
       }
@@ -684,7 +704,7 @@ public class Instaparse implements de.bottlecaps.convert.LRParser
     /* 153 */ 0, 24665, 0, 0, 3076, 0, 3078
   };
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "epsilon",
@@ -721,7 +741,7 @@ public class Instaparse implements de.bottlecaps.convert.LRParser
     "'<'"
   };
 
-  private static final String[] NONTERMINAL =
+  public static final String[] NONTERMINAL =
   {
     "rules",
     "comment",

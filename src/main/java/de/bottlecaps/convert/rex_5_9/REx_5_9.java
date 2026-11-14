@@ -1,9 +1,10 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:40 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.rex_5_9.REx_5_9 rex_5_9.ebnf
 
 package de.bottlecaps.convert.rex_5_9;
 
 
+@SuppressWarnings("all")
 public class REx_5_9 implements de.bottlecaps.convert.Parser
 {
   public REx_5_9(CharSequence string, EventHandler t)
@@ -54,6 +55,21 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
   }
 
+  private REx_5_9()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
+  }
+
   public static String[] getExpectedTokenSet(ParseException e)
   {
     String[] expected;
@@ -95,7 +111,7 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
 
   public void parse_Grammar()
   {
-    eventHandler.startNonterminal("Grammar", e0);
+    eventHandler.startNonterminal(0, e0);
     lookahead1W(39);                // Name^Token | Number | StringLiteral | S | BeginOfGrammar | '<?' | 'rule'
     switch (l1)
     {
@@ -118,12 +134,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       parse_W3CGrammar();
       consume(23);                  // EOF
     }
-    eventHandler.endNonterminal("Grammar", e0);
+    eventHandler.endNonterminal(0, e0);
   }
 
   private void parse_PhythiaGrammar()
   {
-    eventHandler.startNonterminal("PhythiaGrammar", e0);
+    eventHandler.startNonterminal(1, e0);
     if (l1 == 19)                   // BeginOfGrammar
     {
       consume(19);                  // BeginOfGrammar
@@ -143,12 +159,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
     {
       consume(22);                  // EndOfGrammar
     }
-    eventHandler.endNonterminal("PhythiaGrammar", e0);
+    eventHandler.endNonterminal(1, e0);
   }
 
   private void parse_PhythiaProduction()
   {
-    eventHandler.startNonterminal("PhythiaProduction", e0);
+    eventHandler.startNonterminal(2, e0);
     consume(63);                    // 'rule'
     lookahead1W(19);                // Name^Token | S | 'rule'
     whitespace();
@@ -180,12 +196,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
     {
       consume(37);                  // '.'
     }
-    eventHandler.endNonterminal("PhythiaProduction", e0);
+    eventHandler.endNonterminal(2, e0);
   }
 
   private void parse_PhythiaChoice()
   {
-    eventHandler.startNonterminal("PhythiaChoice", e0);
+    eventHandler.startNonterminal(3, e0);
     parse_PhythiaSequence();
     for (;;)
     {
@@ -199,12 +215,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_PhythiaSequence();
     }
-    eventHandler.endNonterminal("PhythiaChoice", e0);
+    eventHandler.endNonterminal(3, e0);
   }
 
   private void parse_PhythiaSequence()
   {
-    eventHandler.startNonterminal("PhythiaSequence", e0);
+    eventHandler.startNonterminal(4, e0);
     for (;;)
     {
       lookahead1W(72);              // Name^Token | StringLiteral | S | Sem | '(' | ')' | '*>' | '*}' | '+>' | '+}' |
@@ -224,12 +240,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_PhythiaItem();
     }
-    eventHandler.endNonterminal("PhythiaSequence", e0);
+    eventHandler.endNonterminal(4, e0);
   }
 
   private void parse_PhythiaItem()
   {
-    eventHandler.startNonterminal("PhythiaItem", e0);
+    eventHandler.startNonterminal(5, e0);
     switch (l1)
     {
     case 5:                         // StringLiteral
@@ -299,12 +315,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
     default:
       parse_Name();
     }
-    eventHandler.endNonterminal("PhythiaItem", e0);
+    eventHandler.endNonterminal(5, e0);
   }
 
   private void parse_W3CGrammar()
   {
-    eventHandler.startNonterminal("W3CGrammar", e0);
+    eventHandler.startNonterminal(6, e0);
     for (;;)
     {
       lookahead1W(37);              // Name^Token | Number | StringLiteral | S | '<?' | 'rule'
@@ -396,12 +412,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
         parse_ProcessingInstruction();
       }
     }
-    eventHandler.endNonterminal("W3CGrammar", e0);
+    eventHandler.endNonterminal(6, e0);
   }
 
   private void parse_ProcessingInstruction()
   {
-    eventHandler.startNonterminal("ProcessingInstruction", e0);
+    eventHandler.startNonterminal(7, e0);
     consume(46);                    // '<?'
     parse_Name();
     for (;;)
@@ -420,12 +436,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
     }
     lookahead1(4);                  // '?>'
     consume(54);                    // '?>'
-    eventHandler.endNonterminal("ProcessingInstruction", e0);
+    eventHandler.endNonterminal(7, e0);
   }
 
   private void parse_SyntaxProduction()
   {
-    eventHandler.startNonterminal("SyntaxProduction", e0);
+    eventHandler.startNonterminal(8, e0);
     if (l1 == 4)                    // Number
     {
       consume(4);                   // Number
@@ -457,12 +473,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Option();
     }
-    eventHandler.endNonterminal("SyntaxProduction", e0);
+    eventHandler.endNonterminal(8, e0);
   }
 
   private void parse_SyntaxChoice()
   {
-    eventHandler.startNonterminal("SyntaxChoice", e0);
+    eventHandler.startNonterminal(9, e0);
     parse_SyntaxSequence();
     if (l1 == 38                    // '/'
      || l1 == 70)                   // '|'
@@ -498,12 +514,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
         }
       }
     }
-    eventHandler.endNonterminal("SyntaxChoice", e0);
+    eventHandler.endNonterminal(9, e0);
   }
 
   private void parse_SyntaxSequence()
   {
-    eventHandler.startNonterminal("SyntaxSequence", e0);
+    eventHandler.startNonterminal(10, e0);
     switch (l1)
     {
     case 1:                         // Name^Token
@@ -589,12 +605,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Constraint();
     }
-    eventHandler.endNonterminal("SyntaxSequence", e0);
+    eventHandler.endNonterminal(10, e0);
   }
 
   private void parse_SyntaxItem()
   {
-    eventHandler.startNonterminal("SyntaxItem", e0);
+    eventHandler.startNonterminal(11, e0);
     parse_SyntaxPrimary();
     lookahead1W(75);                // Name^Token | Number | StringLiteral | S | VC | WFC | EOF | '(' | ')' | '*' |
                                     // '+' | '/' | '/*' | '<?' | '<?ENCORE?>' | '<?TERMINALS?>' | '<?TOKENS?>' | '=>' |
@@ -615,12 +631,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
         consume(33);                // '+'
       }
     }
-    eventHandler.endNonterminal("SyntaxItem", e0);
+    eventHandler.endNonterminal(11, e0);
   }
 
   private void parse_SyntaxPrimary()
   {
-    eventHandler.startNonterminal("SyntaxPrimary", e0);
+    eventHandler.startNonterminal(12, e0);
     switch (l1)
     {
     case 27:                        // '('
@@ -640,12 +656,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
     default:
       parse_NameOrString();
     }
-    eventHandler.endNonterminal("SyntaxPrimary", e0);
+    eventHandler.endNonterminal(12, e0);
   }
 
   private void parse_LexicalProduction()
   {
-    eventHandler.startNonterminal("LexicalProduction", e0);
+    eventHandler.startNonterminal(13, e0);
     if (l1 == 4)                    // Number
     {
       consume(4);                   // Number
@@ -685,12 +701,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Option();
     }
-    eventHandler.endNonterminal("LexicalProduction", e0);
+    eventHandler.endNonterminal(13, e0);
   }
 
   private void parse_ContextChoice()
   {
-    eventHandler.startNonterminal("ContextChoice", e0);
+    eventHandler.startNonterminal(14, e0);
     parse_ContextExpression();
     for (;;)
     {
@@ -704,12 +720,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ContextExpression();
     }
-    eventHandler.endNonterminal("ContextChoice", e0);
+    eventHandler.endNonterminal(14, e0);
   }
 
   private void parse_LexicalChoice()
   {
-    eventHandler.startNonterminal("LexicalChoice", e0);
+    eventHandler.startNonterminal(15, e0);
     parse_LexicalSequence();
     for (;;)
     {
@@ -724,12 +740,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_LexicalSequence();
     }
-    eventHandler.endNonterminal("LexicalChoice", e0);
+    eventHandler.endNonterminal(15, e0);
   }
 
   private void parse_ContextExpression()
   {
-    eventHandler.startNonterminal("ContextExpression", e0);
+    eventHandler.startNonterminal(16, e0);
     parse_LexicalSequence();
     lookahead1W(50);                // Name^Token | Number | StringLiteral | S | VC | WFC | EOF | '&' | '.' | '/*' |
                                     // '<?ENCORE?>' | 'rule' | '|'
@@ -753,12 +769,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Constraint();
     }
-    eventHandler.endNonterminal("ContextExpression", e0);
+    eventHandler.endNonterminal(16, e0);
   }
 
   private void parse_LexicalSequence()
   {
-    eventHandler.startNonterminal("LexicalSequence", e0);
+    eventHandler.startNonterminal(17, e0);
     switch (l1)
     {
     case 5:                         // StringLiteral
@@ -929,12 +945,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
         }
       }
     }
-    eventHandler.endNonterminal("LexicalSequence", e0);
+    eventHandler.endNonterminal(17, e0);
   }
 
   private void parse_LexicalItem()
   {
-    eventHandler.startNonterminal("LexicalItem", e0);
+    eventHandler.startNonterminal(18, e0);
     parse_LexicalPrimary();
     lookahead1W(73);                // Name^Token | Number | StringLiteral | CharCode | S | VC | WFC | EOF | '$' | '&' |
                                     // '(' | ')' | '*' | '+' | '-' | '.' | '/*' | '<?ENCORE?>' | '?' | '[' | 'rule' |
@@ -955,12 +971,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
         consume(33);                // '+'
       }
     }
-    eventHandler.endNonterminal("LexicalItem", e0);
+    eventHandler.endNonterminal(18, e0);
   }
 
   private void parse_LexicalPrimary()
   {
-    eventHandler.startNonterminal("LexicalPrimary", e0);
+    eventHandler.startNonterminal(19, e0);
     switch (l1)
     {
     case 5:                         // StringLiteral
@@ -993,12 +1009,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
         parse_Name();
       }
     }
-    eventHandler.endNonterminal("LexicalPrimary", e0);
+    eventHandler.endNonterminal(19, e0);
   }
 
   private void parse_NameOrString()
   {
-    eventHandler.startNonterminal("NameOrString", e0);
+    eventHandler.startNonterminal(20, e0);
     switch (l1)
     {
     case 5:                         // StringLiteral
@@ -1023,19 +1039,19 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
         parse_Context();
       }
     }
-    eventHandler.endNonterminal("NameOrString", e0);
+    eventHandler.endNonterminal(20, e0);
   }
 
   private void parse_Context()
   {
-    eventHandler.startNonterminal("Context", e0);
+    eventHandler.startNonterminal(21, e0);
     consume(6);                     // CaretName
-    eventHandler.endNonterminal("Context", e0);
+    eventHandler.endNonterminal(21, e0);
   }
 
   private void parse_DisAllow()
   {
-    eventHandler.startNonterminal("DisAllow", e0);
+    eventHandler.startNonterminal(22, e0);
     consume(67);                    // '{'
     for (;;)
     {
@@ -1091,12 +1107,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       consume(2);                   // Space
     }
     consume(71);                    // '}'
-    eventHandler.endNonterminal("DisAllow", e0);
+    eventHandler.endNonterminal(22, e0);
   }
 
   private void parse_CharClass()
   {
-    eventHandler.startNonterminal("CharClass", e0);
+    eventHandler.startNonterminal(23, e0);
     consume(55);                    // '['
     lookahead1(35);                 // CharCode | Char | CharRange | CharCodeRange | '^'
     if (l1 == 57)                   // '^'
@@ -1127,12 +1143,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       }
     }
     consume(56);                    // ']'
-    eventHandler.endNonterminal("CharClass", e0);
+    eventHandler.endNonterminal(23, e0);
   }
 
   private void parse_Option()
   {
-    eventHandler.startNonterminal("Option", e0);
+    eventHandler.startNonterminal(24, e0);
     consume(39);                    // '/*'
     for (;;)
     {
@@ -1214,12 +1230,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
     }
     lookahead1(2);                  // '*/'
     consume(30);                    // '*/'
-    eventHandler.endNonterminal("Option", e0);
+    eventHandler.endNonterminal(24, e0);
   }
 
   private void parse_Constraint()
   {
-    eventHandler.startNonterminal("Constraint", e0);
+    eventHandler.startNonterminal(25, e0);
     switch (l1)
     {
     case 16:                        // VC
@@ -1252,12 +1268,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       }
       consume(18);                  // NonRBrackedContents
     }
-    eventHandler.endNonterminal("Constraint", e0);
+    eventHandler.endNonterminal(25, e0);
   }
 
   private void parse_Preference()
   {
-    eventHandler.startNonterminal("Preference", e0);
+    eventHandler.startNonterminal(26, e0);
     parse_NameOrString();
     lookahead1W(27);                // S | '<<' | '>>'
     switch (l1)
@@ -1394,12 +1410,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
         }
       }
     }
-    eventHandler.endNonterminal("Preference", e0);
+    eventHandler.endNonterminal(26, e0);
   }
 
   private void parse_Delimiter()
   {
-    eventHandler.startNonterminal("Delimiter", e0);
+    eventHandler.startNonterminal(27, e0);
     parse_Name();
     lookahead1W(13);                // S | DoubleBackslash
     consume(15);                    // DoubleBackslash
@@ -1466,12 +1482,12 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("Delimiter", e0);
+    eventHandler.endNonterminal(27, e0);
   }
 
   private void parse_Name()
   {
-    eventHandler.startNonterminal("Name", e0);
+    eventHandler.startNonterminal(29, e0);
     lookahead1(5);                  // Name^Token | 'rule'
     switch (l1)
     {
@@ -1481,7 +1497,7 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
     default:
       consume(1);                   // Name^Token
     }
-    eventHandler.endNonterminal("Name", e0);
+    eventHandler.endNonterminal(29, e0);
   }
 
   private void consume(int t)
@@ -1489,7 +1505,7 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
     if (l1 == t)
     {
       whitespace();
-      eventHandler.terminal(TOKEN[l1], b1, e1);
+      eventHandler.terminal(l1, b1, e1);
       b0 = b1; e0 = e1; l1 = l2; if (l1 != 0) {
       b1 = b2; e1 = e2; l2 = l3; if (l2 != 0) {
       b2 = b3; e2 = e3; l3 = 0; }}
@@ -1690,6 +1706,35 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
     return expected.toArray(new String[]{});
   }
 
+  private static void decode(String[] chunks, int[] target)
+  {
+    int n = 0;
+    for (String chunk : chunks)
+    {
+      int value = 0;
+      boolean negative = false;
+      for (int i = 0, length = chunk.length(); i < length; ++i)
+      {
+        char c = chunk.charAt(i);
+        if (c >= '0' && c <= '9')
+        {
+          value = value * 10 + (c - '0');
+        }
+        else if (c == '-')
+        {
+          negative = true;
+        }
+        else if (c == ',')
+        {
+          target[n++] = negative ? - value : value;
+          value = 0;
+          negative = false;
+        }
+      }
+      target[n++] = negative ? - value : value;
+    }
+  }
+
   private static final int[] MAP0 = new int[128];
   static
   {
@@ -1701,8 +1746,7 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       /*  87 */ "41, 30, 30, 30, 42, 43, 44, 45, 46, 8, 47, 48, 49, 50, 51, 52, 53, 54, 55, 54, 54, 56, 57, 58, 59, 60",
       /* 113 */ "54, 61, 62, 63, 64, 54, 65, 66, 67, 54, 68, 69, 70, 8, 8"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 128; ++i) {MAP0[i] = Integer.parseInt(s2[i]);}
+    decode(s1, MAP0);
   }
 
   private static final int[] MAP1 = new int[1458];
@@ -1784,8 +1828,7 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       /* 1428 */ "30, 8, 30, 8, 30, 8, 8, 8, 30, 8, 8, 8, 8, 8, 8, 8, 71, 71, 8, 30, 30, 30, 8, 71, 71, 71, 8, 30, 30",
       /* 1457 */ "30"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 1458; ++i) {MAP1[i] = Integer.parseInt(s2[i]);}
+    decode(s1, MAP1);
   }
 
   private static final int[] MAP2 = new int[6];
@@ -1795,8 +1838,7 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
     {
       /* 0 */ "57344, 65536, 65533, 1114111, 8, 8"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 6; ++i) {MAP2[i] = Integer.parseInt(s2[i]);}
+    decode(s1, MAP2);
   }
 
   private static final int[] INITIAL = new int[84];
@@ -1809,8 +1851,7 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       /* 54 */ "55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80",
       /* 80 */ "81, 82, 83, 84"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 84; ++i) {INITIAL[i] = Integer.parseInt(s2[i]);}
+    decode(s1, INITIAL);
   }
 
   private static final int[] TRANSITION = new int[7507];
@@ -2217,8 +2258,7 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       /* 7464 */ "12288, 0, 0, 0, 12288, 0, 0, 0, 146, 147, 147, 103, 103, 0, 12288, 12288, 0, 12288, 12288, 0, 12288",
       /* 7485 */ "12288, 0, 0, 0, 0, 0, 0, 0, 223, 224, 12288, 12288, 12288, 12288, 0, 0, 0, 0, 3704, 0, 3704, 3704"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 7507; ++i) {TRANSITION[i] = Integer.parseInt(s2[i]);}
+    decode(s1, TRANSITION);
   }
 
   private static final int[] EXPECTED = new int[640];
@@ -2269,11 +2309,10 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
       /* 606 */ "0, 0, 2048, 131072, 0, 0, 268435456, 0, 6, 0, 0, 0, 32768, 65536, 131072, 64, 112, 112, 112, 112, 112",
       /* 627 */ "0, 64, 64, 72, 0, 64, 72, 72, 64, 0, 0, 256, 4194304"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 640; ++i) {EXPECTED[i] = Integer.parseInt(s2[i]);}
+    decode(s1, EXPECTED);
   }
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "Name",
@@ -2347,6 +2386,40 @@ public class REx_5_9 implements de.bottlecaps.convert.Parser
     "'{+'",
     "'|'",
     "'}'"
+  };
+
+  public static final String[] NONTERMINAL =
+  {
+    "Grammar",
+    "PhythiaGrammar",
+    "PhythiaProduction",
+    "PhythiaChoice",
+    "PhythiaSequence",
+    "PhythiaItem",
+    "W3CGrammar",
+    "ProcessingInstruction",
+    "SyntaxProduction",
+    "SyntaxChoice",
+    "SyntaxSequence",
+    "SyntaxItem",
+    "SyntaxPrimary",
+    "LexicalProduction",
+    "ContextChoice",
+    "LexicalChoice",
+    "ContextExpression",
+    "LexicalSequence",
+    "LexicalItem",
+    "LexicalPrimary",
+    "NameOrString",
+    "Context",
+    "DisAllow",
+    "CharClass",
+    "Option",
+    "Constraint",
+    "Preference",
+    "Delimiter",
+    "Whitespace",
+    "Name"
   };
 }
 

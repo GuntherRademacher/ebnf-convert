@@ -28,7 +28,7 @@ ebnf-convert has a simple browser UI as well as a command line interface for bat
 # Distribution
 
 ebnf-convert comes as a `.zip`, containing a `.war` file. The `.war` file can be deployed
-in servlet containers like Tomcat or Jetty for serving the browser UI. This makes up the webapp
+in Jakarta EE 11 servlet containers like Tomcat 11 or Jetty 12 for serving the browser UI. This makes up the webapp
 that is running on the original website, <https://www.bottlecaps.de/ebnf-convert>.
 
 The `.war` file is a Java "executable war", i.e. it can also be started

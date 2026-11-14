@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net> -->
+<!-- This file was generated on Sat Nov 14, 2026 08:41 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net> -->
 <!-- REx command line: -q -glr 1 -tree -a none -xslt -name de/bottlecaps/convert/xq/ixml/ixml.xslt ../../../../../../../main/java/de/bottlecaps/convert/ixml/ixml.ebnf -->
 
 <xsl:stylesheet version="3.0"
@@ -981,8 +981,9 @@
     <xsl:param name="other" as="map(*)"/>
 
     <xsl:variable name="lexer-state" select="$thread?lexer-state"/>
-    <xsl:variable name="first-tree" select="$lexer-state[last()]"/>
-    <xsl:variable name="second-tree" select="$other?lexer-state[last()]"/>
+    <xsl:variable name="first-tree" select="subsequence($lexer-state, $p:result)"/>
+    <xsl:variable name="second-tree" select="subsequence($other?lexer-state, $p:result)"/>
+    <xsl:variable name="shared" select="p:shared-elements($thread?fork, $other?fork)"/>
     <xsl:variable name="node">
       <xsl:element name="error">
         <xsl:attribute name="b" select="$thread?stack[last() - 2]"/>
@@ -990,10 +991,10 @@
         <xsl:attribute name="ambiguous-input" select="true()"/>
         <xsl:element name="AMBIGUOUS">
           <xsl:element name="ALTERNATIVE">
-            <xsl:sequence select="p:rewrite-ambiguity($first-tree, $second-tree, true())"/>
+            <xsl:sequence select="p:rewrite-ambiguity($first-tree, $shared, true())"/>
           </xsl:element>
           <xsl:element name="ALTERNATIVE">
-            <xsl:sequence select="p:rewrite-ambiguity($second-tree, $first-tree, true())"/>
+            <xsl:sequence select="p:rewrite-ambiguity($second-tree, $shared, true())"/>
           </xsl:element>
         </xsl:element>
       </xsl:element>
@@ -1006,50 +1007,100 @@
   </xsl:function>
 
   <!--~
-   ! Rewrite a parse tree fragment $first, combining elements into an "UNAMBIGUOUS"
-   ! element as long as they match elements in $second, in node order.
+   ! Determine the number of elements that two threads have in common, from their fork history. The
+   ! elements created by a thread before the fork at which the two threads diverged are shared by both
+   ! threads.
    !
-   ! @param $first the first node.
-   ! @param $second the second node.
-   ! @return $first rewritten, with initial element nodes possibly combined.
+   ! @param $fork1 the fork history of the first thread.
+   ! @param $fork2 the fork history of the second thread.
+   ! @return the number of shared elements.
   -->
-  <xsl:function name="p:rewrite-ambiguity">
-    <xsl:param name="first" as="node()"/>
-    <xsl:param name="second" as="node()?"/>
-    <xsl:param name="unambiguous" as="xs:boolean"/>
+  <xsl:function name="p:shared-elements" as="xs:integer">
+    <xsl:param name="fork1" as="xs:integer*"/>
+    <xsl:param name="fork2" as="xs:integer*"/>
 
+    <xsl:variable name="i" select="(for $k in 1 to min((count($fork1), count($fork2))) return if ($fork1[$k] ne $fork2[$k]) then $k else ())[1]"/>
+    <xsl:sequence select="if (empty($i)) then 0 else $fork1[$i - 1 + $i mod 2]"/>
+  </xsl:function>
+
+  <!--~
+   ! Rewrite a sequence of parse tree fragments, combining the leading elements that were created
+   ! before the threads were forked into "UNAMBIGUOUS" elements. Leading nodes that are shared on the
+   ! top level are omitted.
+   !
+   ! @param $nodes the sequence of nodes.
+   ! @param $shared the number of leading elements (in post-order) that are shared.
+   ! @param $leading true(), if nothing has been output on the top level yet.
+   ! @return $nodes rewritten.
+  -->
+  <xsl:function name="p:rewrite-ambiguity" as="node()*">
+    <xsl:param name="nodes" as="node()*"/>
+    <xsl:param name="shared" as="xs:integer"/>
+    <xsl:param name="leading" as="xs:boolean"/>
+
+    <xsl:variable name="node" select="head($nodes)"/>
     <xsl:choose>
-      <xsl:when test="$first instance of element()">
+      <xsl:when test="empty($node)"/>
+      <xsl:when test="$node instance of element()">
+        <xsl:variable name="size" select="count($node/descendant-or-self::*)"/>
         <xsl:choose>
-          <xsl:when test="$unambiguous and deep-equal($first, $second)">
-            <xsl:variable name="node">
+          <xsl:when test="$size le $shared">
+            <xsl:variable name="run" select="p:shared-run($nodes, 2, 1, $shared - $size)"/>
+            <xsl:if test="not($leading)">
               <xsl:element name="UNAMBIGUOUS">
-                <xsl:sequence select="string($first)"/>
+                <xsl:sequence select="string-join(subsequence($nodes, 1, $run[1]))"/>
               </xsl:element>
-            </xsl:variable>
-            <xsl:sequence select="$node/node()"/>
+            </xsl:if>
+            <xsl:sequence select="p:rewrite-ambiguity(subsequence($nodes, $run[1] + 1), $run[2], $leading)"/>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:variable name="node">
-              <xsl:element name="{node-name($first)}">
-                <xsl:for-each select="1 to count($first/node())">
-                  <xsl:variable name="i" select="."/>
-                  <xsl:sequence select="
-                    p:rewrite-ambiguity
-                    (
-                      $first/node()[$i], $second/node()[$i],
-                      $unambiguous and (every $j in 1 to $i - 1 satisfies deep-equal($first/node()[$j], $second/node()[$j]))
-                    )
-                  "/>
-                </xsl:for-each>
-              </xsl:element>
-            </xsl:variable>
-            <xsl:sequence select="$node/node()"/>
+            <xsl:element name="{node-name($node)}">
+              <xsl:sequence select="p:rewrite-ambiguity($node/node(), $shared, false())"/>
+            </xsl:element>
+            <xsl:sequence select="p:rewrite-ambiguity(tail($nodes), 0, false())"/>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:sequence select="$first"/>
+        <xsl:if test="not($leading)">
+          <xsl:sequence select="$node"/>
+        </xsl:if>
+        <xsl:sequence select="p:rewrite-ambiguity(tail($nodes), $shared, $leading)"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:function>
+
+  <!--~
+   ! Find the run of shared nodes at the beginning of a sequence of nodes.
+   !
+   ! @param $nodes the sequence of nodes.
+   ! @param $i the index of the node to examine next.
+   ! @param $last the index of the last shared element so far.
+   ! @param $left the number of shared elements not yet consumed.
+   ! @return the length of the run, and the number of shared elements left.
+  -->
+  <xsl:function name="p:shared-run" as="xs:integer+">
+    <xsl:param name="nodes" as="node()*"/>
+    <xsl:param name="i" as="xs:integer"/>
+    <xsl:param name="last" as="xs:integer"/>
+    <xsl:param name="left" as="xs:integer"/>
+
+    <xsl:variable name="node" select="$nodes[$i]"/>
+    <xsl:choose>
+      <xsl:when test="empty($node)">
+        <xsl:sequence select="$last, $left"/>
+      </xsl:when>
+      <xsl:when test="$node instance of element()">
+        <xsl:variable name="size" select="count($node/descendant-or-self::*)"/>
+        <xsl:sequence select="
+          if ($size le $left) then
+            p:shared-run($nodes, $i + 1, $i, $left - $size)
+          else
+            ($last, $left)
+        "/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:sequence select="p:shared-run($nodes, $i + 1, $last, $left)"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>
@@ -1059,6 +1110,8 @@
    !
    ! @param $id the parsing thread id.
    ! @param $accepted true(), if this thread has accepted.
+   ! @param $fork the fork history: for each fork, the number of elements created so far and the branch taken.
+   ! @param $created the number of elements created so far.
    ! @param $state the LR parser state number.
    ! @param $action the action code.
    ! @param $nonterminal current nonterminal, -1 if processing a terminal.
@@ -1072,6 +1125,8 @@
   <xsl:function name="p:thread" as="map(*)">
     <xsl:param name="id" as="xs:integer"/>
     <xsl:param name="accepted" as="xs:boolean"/>
+    <xsl:param name="fork" as="xs:integer*"/>
+    <xsl:param name="created" as="xs:integer"/>
     <xsl:param name="state" as="xs:integer"/>
     <xsl:param name="action" as="xs:integer"/>
     <xsl:param name="nonterminal" as="xs:integer"/>
@@ -1086,6 +1141,8 @@
       {
         'id': $id,
         'accepted': $accepted,
+        'fork': $fork,
+        'created': $created,
         'state': $state,
         'action': $action,
         'nonterminal': $nonterminal,
@@ -1133,12 +1190,12 @@
         <xsl:variable name="action" select="$action mod 8"/>
         <xsl:choose>
           <xsl:when test="$action eq 6"> <!-- SHIFT+ACCEPT -->
-            <xsl:sequence select="p:thread($thread?id, true(), $state, $action, $nonterminal, $bw, $bs, $es, $stack, $lexer-state)"/>
+            <xsl:sequence select="p:thread($thread?id, true(), $thread?fork, $thread?created, $state, $action, $nonterminal, $bw, $bs, $es, $stack, $lexer-state)"/>
           </xsl:when>
           <xsl:when test="$action eq 7"> <!-- FORK -->
             <xsl:sequence select="
               for $i in (1, 2)
-              return p:thread(($max-id + 1, $thread?id)[$i], false(), $state, $p:APPENDIX[$argument + $i], -1, $bw, $bs, $es, $stack, $lexer-state)
+              return p:thread(($max-id + 1, $thread?id)[$i], false(), ($thread?fork, $thread?created, $i - 1), $thread?created, $state, $p:APPENDIX[$argument + $i], -1, $bw, $bs, $es, $stack, $lexer-state)
             "/>
           </xsl:when>
           <xsl:otherwise>
@@ -1171,6 +1228,7 @@
                   $lexer-state
                 )
             "/>
+            <xsl:variable name="created" select="$thread?created + (if ($shift lt 0 or $nonterminal ge 0) then 0 else 1)"/>
             <xsl:variable name="stack" select="
               if ($shift lt 0) then
                 $stack
@@ -1195,7 +1253,7 @@
                     <xsl:sequence select="
                       p:thread
                       (
-                        $thread?id, false(), $state, 0, -1, $bw, $bs, $es, $stack,
+                        $thread?id, false(), $thread?fork, $created, $state, 0, -1, $bw, $bs, $es, $stack,
                         (
                           subsequence($lexer-state, 1, $p:error - 1),
                           $node/node(),
@@ -1206,7 +1264,7 @@
                   </xsl:when>
                   <xsl:otherwise>
                     <xsl:variable name="lexer-state" select="p:predict($input, $lexer-state, $state, $thread?id)"/>
-                    <xsl:sequence select="p:thread($thread?id, false(), $state, $lexer-state[$p:lk], -1, $bw, $bs, $es, $stack, $lexer-state)"/>
+                    <xsl:sequence select="p:thread($thread?id, false(), $thread?fork, $created, $state, $lexer-state[$p:lk], -1, $bw, $bs, $es, $stack, $lexer-state)"/>
                   </xsl:otherwise>
                 </xsl:choose>
               </xsl:when>
@@ -1227,7 +1285,7 @@
                 </xsl:variable>
                 <xsl:variable name="lexer-state" select="subsequence($lexer-state, 1, $index - 1), $node/node()"/>
                 <xsl:variable name="nonterminal" select="$reduce"/>
-                <xsl:variable name="thread" select="p:thread($thread?id, false(), $state, p:goto($nonterminal, $state), $nonterminal, $bw, $bs, $es, $stack, $lexer-state)"/>
+                <xsl:variable name="thread" select="p:thread($thread?id, false(), $thread?fork, $created + 1, $state, p:goto($nonterminal, $state), $nonterminal, $bw, $bs, $es, $stack, $lexer-state)"/>
                 <xsl:sequence select="p:parse($input, $target, $max-id, $thread)"/>
               </xsl:otherwise>
             </xsl:choose>
@@ -1434,7 +1492,7 @@
 
     <xsl:variable name="state" select="0, 1, 1, 0, 0, 0, false()"/>
     <xsl:variable name="state" select="p:predict($s, $state, 0, 0)"/>
-    <xsl:variable name="state" select="p:parse-glr($s, 0, 0, p:thread(0, false(), 0, $state[$p:lk], -1, 1, 1, 1, (1, -1, 0), $state))"/>
+    <xsl:variable name="state" select="p:parse-glr($s, 0, 0, p:thread(0, false(), (), 0, 0, $state[$p:lk], -1, 1, 1, 1, (1, -1, 0), $state))"/>
     <xsl:variable name="error" select="$state[$p:error]"/>
     <xsl:choose>
       <xsl:when test="$error">

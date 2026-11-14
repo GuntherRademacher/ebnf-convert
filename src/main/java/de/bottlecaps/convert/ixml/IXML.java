@@ -1,10 +1,11 @@
-// This file was generated on Fri Oct 2, 2026 21:53 (UTC+02) by REx v6.3-SNAPSHOT which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:40 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.LRParser -name de.bottlecaps.convert.ixml.IXML -glr 1 ixml.ebnf
 
 package de.bottlecaps.convert.ixml;
 
 import java.util.PriorityQueue;
 
+@SuppressWarnings("all")
 public class IXML implements de.bottlecaps.convert.LRParser
 {
   public IXML(CharSequence string, BottomUpEventHandler t)
@@ -30,6 +31,21 @@ public class IXML implements de.bottlecaps.convert.LRParser
   public static String getOffendingToken(ParseException e)
   {
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
+  }
+
+  private IXML()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return id >= 0 ? NONTERMINAL[id] : id == -2 ? "ALTERNATIVE" : id == -3 ? "AMBIGUOUS" : id == -4 ? "UNAMBIGUOUS" : null;
   }
 
   public static String[] getExpectedTokenSet(ParseException e)
@@ -115,6 +131,7 @@ public class IXML implements de.bottlecaps.convert.LRParser
       return lhs == rhs;
     }
 
+
     public int lookback(int x, int y)
     {
       int i = LOOKBACK[y];
@@ -148,20 +165,19 @@ public class IXML implements de.bottlecaps.convert.LRParser
       }
       return count;
     }
-
   }
 
   private abstract static class DeferredEvent
   {
     public DeferredEvent link;
-    public String name;
+    public int id;
     public int begin;
     public int end;
 
-    public DeferredEvent(DeferredEvent link, String name, int begin, int end)
+    public DeferredEvent(DeferredEvent link, int id, int begin, int end)
     {
       this.link = link;
-      this.name = name;
+      this.id = id;
       this.begin = begin;
       this.end = end;
     }
@@ -204,21 +220,21 @@ public class IXML implements de.bottlecaps.convert.LRParser
 
   public static class TerminalEvent extends DeferredEvent
   {
-    public TerminalEvent(DeferredEvent link, String name, int begin, int end)
+    public TerminalEvent(DeferredEvent link, int id, int begin, int end)
     {
-      super(link, name, begin, end);
+      super(link, id, begin, end);
     }
 
     @Override
     public void execute(BottomUpEventHandler eventHandler)
     {
-      eventHandler.terminal(name, begin, end);
+      eventHandler.terminal(id, begin, end);
     }
 
     @Override
     public String toString()
     {
-      return "terminal(" + name + ", " + begin + ", " + end + ")";
+      return "terminal(" + TOKEN[id] + ", " + begin + ", " + end + ")";
     }
   }
 
@@ -226,22 +242,22 @@ public class IXML implements de.bottlecaps.convert.LRParser
   {
     public int count;
 
-    public NonterminalEvent(DeferredEvent link, String name, int begin, int end, int count)
+    public NonterminalEvent(DeferredEvent link, int id, int begin, int end, int count)
     {
-      super(link, name, begin, end);
+      super(link, id, begin, end);
       this.count = count;
     }
 
     @Override
     public void execute(BottomUpEventHandler eventHandler)
     {
-      eventHandler.nonterminal(name, begin, end, count);
+      eventHandler.nonterminal(id, begin, end, count);
     }
 
     @Override
     public String toString()
     {
-      return "nonterminal(" + name + ", " + begin + ", " + end + ", " + count + ")";
+      return "nonterminal(" + (id >= 0 ? NONTERMINAL[id] : id == -2 ? "ALTERNATIVE" : id == -3 ? "AMBIGUOUS" : id == -4 ? "UNAMBIGUOUS" : null) + ", " + begin + ", " + end + ", " + count + ")";
     }
   }
 
@@ -323,12 +339,12 @@ public class IXML implements de.bottlecaps.convert.LRParser
     ParseTreeBuilder treeBuilder = new ParseTreeBuilder();
     treeBuilder.reset(input);
     second.show(treeBuilder);
-    treeBuilder.nonterminal("ALTERNATIVE", treeBuilder.stack[0].begin, treeBuilder.stack[treeBuilder.top].end, treeBuilder.top + 1);
+    treeBuilder.nonterminal(-2, treeBuilder.stack[0].begin, treeBuilder.stack[treeBuilder.top].end, treeBuilder.top + 1);
     Symbol secondTree = treeBuilder.pop(1)[0];
     first.show(treeBuilder);
-    treeBuilder.nonterminal("ALTERNATIVE", treeBuilder.stack[0].begin, treeBuilder.stack[treeBuilder.top].end, treeBuilder.top + 1);
+    treeBuilder.nonterminal(-2, treeBuilder.stack[0].begin, treeBuilder.stack[treeBuilder.top].end, treeBuilder.top + 1);
     treeBuilder.push(secondTree);
-    treeBuilder.nonterminal("AMBIGUOUS", treeBuilder.stack[0].begin, treeBuilder.stack[treeBuilder.top].end, 2);
+    treeBuilder.nonterminal(-3, treeBuilder.stack[0].begin, treeBuilder.stack[treeBuilder.top].end, 2);
     throw new ParseException(begin, end, treeBuilder);
   }
 
@@ -426,6 +442,7 @@ public class IXML implements de.bottlecaps.convert.LRParser
         int shift = -1;
         int reduce = -1;
         int symbols = -1;
+        int pos = -1;
         switch (action & 7)
         {
         case 1: // SHIFT
@@ -476,41 +493,58 @@ public class IXML implements de.bottlecaps.convert.LRParser
             {
               if (isUnambiguous())
               {
-                eventHandler.terminal(TOKEN[l1], b1, e1);
+                eventHandler.terminal(l1, b1, e1);
               }
               else
               {
-                deferredEvent = new TerminalEvent(deferredEvent, TOKEN[l1], b1, e1);
+                deferredEvent = new TerminalEvent(deferredEvent, l1, b1, e1);
               }
             }
             es = e1;
-            stack = new StackNode(state, lookback, b1, stack);
+            pos = b1;
             consume(l1);
           }
           else
           {
-            stack = new StackNode(state, lookback, bs, stack);
+            pos = bs;
           }
-          state = shift;
         }
 
         if (reduce < 0)
         {
+          stack = new StackNode(state, lookback, pos, stack);
+          state = shift;
           action = predict(state);
           return PARSING;
         }
         else
         {
           nonterminalId = reduce;
+          if (l1 == 0)
+          {
+            b1 = e0;
+          }
           if (symbols > 0)
           {
-            for (int i = 1; i < symbols; i++)
+            int n = symbols;
+            if (shift >= 0)
             {
+              n -= 1;
+            }
+            if (n > 0)
+            {
+              for (int i = 1; i < n; i++)
+              {
+                stack = stack.link;
+              }
+              state = stack.state;
+              bs = stack.pos;
               stack = stack.link;
             }
-            state = stack.state;
-            bs = stack.pos;
-            stack = stack.link;
+            else
+            {
+              bs = pos;
+            }
           }
           else
           {
@@ -527,11 +561,11 @@ public class IXML implements de.bottlecaps.convert.LRParser
           {
             if (isUnambiguous())
             {
-              eventHandler.nonterminal(NONTERMINAL[nonterminalId], bs, es, symbols);
+              eventHandler.nonterminal(nonterminalId, bs, es, symbols);
             }
             else
             {
-              deferredEvent = new NonterminalEvent(deferredEvent, NONTERMINAL[nonterminalId], bs, es, symbols);
+              deferredEvent = new NonterminalEvent(deferredEvent, nonterminalId, bs, es, symbols);
             }
           }
           action = goTo(nonterminalId, state);
@@ -694,6 +728,35 @@ public class IXML implements de.bottlecaps.convert.LRParser
     return expected.toArray(new String[]{});
   }
 
+  private static void decode(String[] chunks, int[] target)
+  {
+    int n = 0;
+    for (String chunk : chunks)
+    {
+      int value = 0;
+      boolean negative = false;
+      for (int i = 0, length = chunk.length(); i < length; ++i)
+      {
+        char c = chunk.charAt(i);
+        if (c >= '0' && c <= '9')
+        {
+          value = value * 10 + (c - '0');
+        }
+        else if (c == '-')
+        {
+          negative = true;
+        }
+        else if (c == ',')
+        {
+          target[n++] = negative ? - value : value;
+          value = 0;
+          negative = false;
+        }
+      }
+      target[n++] = negative ? - value : value;
+    }
+  }
+
   private static final int[] MAP0 = new int[128];
   static
   {
@@ -705,8 +768,7 @@ public class IXML implements de.bottlecaps.convert.LRParser
       /*  88 */ "21, 21, 21, 22, 3, 23, 24, 25, 3, 26, 26, 26, 26, 27, 26, 28, 28, 29, 28, 28, 30, 31, 32, 33, 28, 28",
       /* 114 */ "34, 35, 28, 28, 36, 28, 37, 28, 28, 38, 39, 40, 41, 3"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 128; ++i) {MAP0[i] = Integer.parseInt(s2[i]);}
+    decode(s1, MAP0);
   }
 
   private static final int[] MAP1 = new int[2338];
@@ -835,8 +897,7 @@ public class IXML implements de.bottlecaps.convert.LRParser
       /* 2290 */ "25, 42, 25, 25, 25, 42, 25, 3, 3, 3, 3, 3, 3, 42, 25, 25, 25, 25, 25, 42, 42, 42, 42, 42, 3, 3, 42",
       /* 2317 */ "42, 25, 25, 25, 3, 42, 42, 3, 3, 3, 3, 42, 25, 25, 25, 3, 3, 42, 3, 3, 3"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 2338; ++i) {MAP1[i] = Integer.parseInt(s2[i]);}
+    decode(s1, MAP1);
   }
 
   private static final int[] MAP2 = new int[1050];
@@ -911,8 +972,7 @@ public class IXML implements de.bottlecaps.convert.LRParser
       /* 1003 */ "3, 25, 3, 25, 3, 25, 3, 25, 3, 25, 3, 25, 3, 25, 3, 25, 3, 25, 3, 25, 3, 25, 3, 25, 3, 25, 3, 25, 3",
       /* 1032 */ "25, 3, 25, 3, 25, 3, 25, 3, 25, 3, 25, 3, 25, 3, 25, 3, 42, 3"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 1050; ++i) {MAP2[i] = Integer.parseInt(s2[i]);}
+    decode(s1, MAP2);
   }
 
   private static final int[] INITIAL = new int[71];
@@ -924,8 +984,7 @@ public class IXML implements de.bottlecaps.convert.LRParser
       /* 28 */ "29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54",
       /* 54 */ "55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 71; ++i) {INITIAL[i] = Integer.parseInt(s2[i]);}
+    decode(s1, INITIAL);
   }
 
   private static final int[] TRANSITION = new int[1468];
@@ -1008,8 +1067,7 @@ public class IXML implements de.bottlecaps.convert.LRParser
       /* 1444 */ "5760, 5760, 0, 0, 0, 0, 0, 384, 4169, 4096, 0, 3200, 0, 0, 0, 0, 0, 3200, 0, 3200, 3200, 3200, 3200",
       /* 1467 */ "0"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 1468; ++i) {TRANSITION[i] = Integer.parseInt(s2[i]);}
+    decode(s1, TRANSITION);
   }
 
   private static final int[] EXPECTED = new int[152];
@@ -1029,8 +1087,7 @@ public class IXML implements de.bottlecaps.convert.LRParser
       /* 126 */ "6180, 2308, 3160, 2048, 2176, 2308, 7210, 2432, 7211, 4131, 4138, 6179, 6186, 388, 7210, 2436, 7211",
       /* 143 */ "4517, 4524, 6565, 6572, 0, 0, 0, 0, 0"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 152; ++i) {EXPECTED[i] = Integer.parseInt(s2[i]);}
+    decode(s1, EXPECTED);
   }
 
   private static final int[] CASEID = new int[2040];
@@ -1151,8 +1208,7 @@ public class IXML implements de.bottlecaps.convert.LRParser
       /* 2009 */ "1288562, 0, 0, 0, 1722226, 278552, 0, 0, 0, 1755010, 1343506, 0, 0, 0, 1787762, 1297010, 0, 0, 0",
       /* 2028 */ "1820610, 0, 1395042, 0, 0, 1925138, 1933330, 1395058, 0, 0, 0, 1828722"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 2040; ++i) {CASEID[i] = Integer.parseInt(s2[i]);}
+    decode(s1, CASEID);
   }
 
   private static final int[] TOKENSET = new int[249];
@@ -1171,8 +1227,7 @@ public class IXML implements de.bottlecaps.convert.LRParser
       /* 207 */ "1, 2, 21, 22, 34, 7, 21, 22, 50, 17, 21, 22, 6, 2, 21, 50, 22, 11, 6, 2, 0, 1, 2, 34, 15, 34, 21, 22",
       /* 235 */ "0, 1, 2, 14, 6, 2, 4, 5, 34, 0, 1, 8, 21, 22"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 249; ++i) {TOKENSET[i] = Integer.parseInt(s2[i]);}
+    decode(s1, TOKENSET);
   }
 
   private static final int[] APPENDIX = new int[10];
@@ -1182,8 +1237,7 @@ public class IXML implements de.bottlecaps.convert.LRParser
     {
       /*  0 */ "73738, 733193, 70395, 77828, 28682, 94218, 122898, 139282, 99227, 139290"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 10; ++i) {APPENDIX[i] = Integer.parseInt(s2[i]);}
+    decode(s1, APPENDIX);
   }
 
   private static final int[] LOOKBACK = new int[573];
@@ -1217,8 +1271,7 @@ public class IXML implements de.bottlecaps.convert.LRParser
       /* 531 */ "155, 156, 147, 148, 0, 151, 151, 150, 150, 0, 152, 152, 0, 153, 153, 0, 158, 158, 0, 159, 159, 0, 161",
       /* 554 */ "161, 0, 163, 162, 0, 163, 164, 0, 167, 167, 165, 165, 0, 166, 166, 0, 168, 168, 0"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 573; ++i) {LOOKBACK[i] = Integer.parseInt(s2[i]);}
+    decode(s1, LOOKBACK);
   }
 
   private static final int[] GOTO = new int[1721];
@@ -1321,11 +1374,10 @@ public class IXML implements de.bottlecaps.convert.LRParser
       /* 1694 */ "951513, 0, 442569, 0, 705729, 0, 590025, 0, 1007625, 0, 708809, 0, 0, 718025, 122884, 0, 0, 0",
       /* 1712 */ "708809, 0, 0, 0, 713097, 0, 996569, 0, 442569"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 1721; ++i) {GOTO[i] = Integer.parseInt(s2[i]);}
+    decode(s1, GOTO);
   }
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "cchar",
@@ -1374,7 +1426,7 @@ public class IXML implements de.bottlecaps.convert.LRParser
     "'|'"
   };
 
-  private static final String[] NONTERMINAL =
+  public static final String[] NONTERMINAL =
   {
     "ixml",
     "s",

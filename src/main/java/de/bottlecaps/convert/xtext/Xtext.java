@@ -1,9 +1,10 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:40 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.xtext.Xtext xtext.ebnf
 
 package de.bottlecaps.convert.xtext;
 
 
+@SuppressWarnings("all")
 public class Xtext implements de.bottlecaps.convert.Parser
 {
   public Xtext(CharSequence string, EventHandler t)
@@ -54,6 +55,21 @@ public class Xtext implements de.bottlecaps.convert.Parser
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
   }
 
+  private Xtext()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
+  }
+
   public static String[] getExpectedTokenSet(ParseException e)
   {
     String[] expected;
@@ -95,7 +111,7 @@ public class Xtext implements de.bottlecaps.convert.Parser
 
   public void parse_Grammar()
   {
-    eventHandler.startNonterminal("Grammar", e0);
+    eventHandler.startNonterminal(0, e0);
     lookahead1W(7);                 // _ | 'grammar'
     consume(35);                    // 'grammar'
     lookahead1W(18);                // _ | ID | 'false' | 'true'
@@ -166,12 +182,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       }
     }
     consume(4);                     // EOF
-    eventHandler.endNonterminal("Grammar", e0);
+    eventHandler.endNonterminal(0, e0);
   }
 
   private void parse_GrammarID()
   {
-    eventHandler.startNonterminal("GrammarID", e0);
+    eventHandler.startNonterminal(1, e0);
     parse_ValidID();
     for (;;)
     {
@@ -186,12 +202,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ValidID();
     }
-    eventHandler.endNonterminal("GrammarID", e0);
+    eventHandler.endNonterminal(1, e0);
   }
 
   private void parse_AbstractRule()
   {
-    eventHandler.startNonterminal("AbstractRule", e0);
+    eventHandler.startNonterminal(2, e0);
     for (;;)
     {
       lookahead1W(32);              // _ | ID | '@' | 'enum' | 'false' | 'fragment' | 'terminal' | 'true'
@@ -216,12 +232,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ParserRule();
     }
-    eventHandler.endNonterminal("AbstractRule", e0);
+    eventHandler.endNonterminal(2, e0);
   }
 
   private void parse_AbstractMetamodelDeclaration()
   {
-    eventHandler.startNonterminal("AbstractMetamodelDeclaration", e0);
+    eventHandler.startNonterminal(3, e0);
     switch (l1)
     {
     case 34:                        // 'generate'
@@ -230,12 +246,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     default:
       parse_ReferencedMetamodel();
     }
-    eventHandler.endNonterminal("AbstractMetamodelDeclaration", e0);
+    eventHandler.endNonterminal(3, e0);
   }
 
   private void parse_GeneratedMetamodel()
   {
-    eventHandler.startNonterminal("GeneratedMetamodel", e0);
+    eventHandler.startNonterminal(4, e0);
     consume(34);                    // 'generate'
     lookahead1W(18);                // _ | ID | 'false' | 'true'
     whitespace();
@@ -251,12 +267,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ValidID();
     }
-    eventHandler.endNonterminal("GeneratedMetamodel", e0);
+    eventHandler.endNonterminal(4, e0);
   }
 
   private void parse_ReferencedMetamodel()
   {
-    eventHandler.startNonterminal("ReferencedMetamodel", e0);
+    eventHandler.startNonterminal(5, e0);
     consume(37);                    // 'import'
     lookahead1W(1);                 // _ | STRING
     consume(3);                     // STRING
@@ -269,21 +285,21 @@ public class Xtext implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ValidID();
     }
-    eventHandler.endNonterminal("ReferencedMetamodel", e0);
+    eventHandler.endNonterminal(5, e0);
   }
 
   private void parse_Annotation()
   {
-    eventHandler.startNonterminal("Annotation", e0);
+    eventHandler.startNonterminal(6, e0);
     consume(25);                    // '@'
     lookahead1W(0);                 // _ | ID
     consume(2);                     // ID
-    eventHandler.endNonterminal("Annotation", e0);
+    eventHandler.endNonterminal(6, e0);
   }
 
   private void parse_ParserRule()
   {
-    eventHandler.startNonterminal("ParserRule", e0);
+    eventHandler.startNonterminal(7, e0);
     switch (l1)
     {
     case 33:                        // 'fragment'
@@ -350,12 +366,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     whitespace();
     parse_Alternatives();
     consume(18);                    // ';'
-    eventHandler.endNonterminal("ParserRule", e0);
+    eventHandler.endNonterminal(7, e0);
   }
 
   private void parse_RuleNameAndParams()
   {
-    eventHandler.startNonterminal("RuleNameAndParams", e0);
+    eventHandler.startNonterminal(8, e0);
     parse_ValidID();
     lookahead1W(30);                // _ | '*' | ':' | '<' | 'hidden' | 'returns'
     if (l1 == 19)                   // '<'
@@ -381,19 +397,19 @@ public class Xtext implements de.bottlecaps.convert.Parser
       }
       consume(22);                  // '>'
     }
-    eventHandler.endNonterminal("RuleNameAndParams", e0);
+    eventHandler.endNonterminal(8, e0);
   }
 
   private void parse_Parameter()
   {
-    eventHandler.startNonterminal("Parameter", e0);
+    eventHandler.startNonterminal(9, e0);
     consume(2);                     // ID
-    eventHandler.endNonterminal("Parameter", e0);
+    eventHandler.endNonterminal(9, e0);
   }
 
   private void parse_TypeRef()
   {
-    eventHandler.startNonterminal("TypeRef", e0);
+    eventHandler.startNonterminal(10, e0);
     consume(2);                     // ID
     lookahead1W(33);                // _ | '.' | ':' | '::' | ']' | 'hidden' | '|' | '}'
     if (l1 == 17)                   // '::'
@@ -402,12 +418,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       lookahead1W(0);               // _ | ID
       consume(2);                   // ID
     }
-    eventHandler.endNonterminal("TypeRef", e0);
+    eventHandler.endNonterminal(10, e0);
   }
 
   private void parse_Alternatives()
   {
-    eventHandler.startNonterminal("Alternatives", e0);
+    eventHandler.startNonterminal(11, e0);
     parse_ConditionalBranch();
     for (;;)
     {
@@ -420,12 +436,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ConditionalBranch();
     }
-    eventHandler.endNonterminal("Alternatives", e0);
+    eventHandler.endNonterminal(11, e0);
   }
 
   private void parse_ConditionalBranch()
   {
-    eventHandler.startNonterminal("ConditionalBranch", e0);
+    eventHandler.startNonterminal(12, e0);
     switch (l1)
     {
     case 19:                        // '<'
@@ -451,12 +467,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     default:
       parse_UnorderedGroup();
     }
-    eventHandler.endNonterminal("ConditionalBranch", e0);
+    eventHandler.endNonterminal(12, e0);
   }
 
   private void parse_UnorderedGroup()
   {
-    eventHandler.startNonterminal("UnorderedGroup", e0);
+    eventHandler.startNonterminal(13, e0);
     parse_Group();
     for (;;)
     {
@@ -469,12 +485,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Group();
     }
-    eventHandler.endNonterminal("UnorderedGroup", e0);
+    eventHandler.endNonterminal(13, e0);
   }
 
   private void parse_Group()
   {
-    eventHandler.startNonterminal("Group", e0);
+    eventHandler.startNonterminal(14, e0);
     for (;;)
     {
       whitespace();
@@ -489,12 +505,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("Group", e0);
+    eventHandler.endNonterminal(14, e0);
   }
 
   private void parse_AbstractToken()
   {
-    eventHandler.startNonterminal("AbstractToken", e0);
+    eventHandler.startNonterminal(15, e0);
     switch (l1)
     {
     case 42:                        // '{'
@@ -503,12 +519,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     default:
       parse_AbstractTokenWithCardinality();
     }
-    eventHandler.endNonterminal("AbstractToken", e0);
+    eventHandler.endNonterminal(15, e0);
   }
 
   private void parse_AbstractTokenWithCardinality()
   {
-    eventHandler.startNonterminal("AbstractTokenWithCardinality", e0);
+    eventHandler.startNonterminal(16, e0);
     switch (l1)
     {
     case 13:                        // '->'
@@ -588,12 +604,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
         consume(10);                // '+'
       }
     }
-    eventHandler.endNonterminal("AbstractTokenWithCardinality", e0);
+    eventHandler.endNonterminal(16, e0);
   }
 
   private void parse_Action()
   {
-    eventHandler.startNonterminal("Action", e0);
+    eventHandler.startNonterminal(17, e0);
     consume(42);                    // '{'
     lookahead1W(0);                 // _ | ID
     whitespace();
@@ -619,12 +635,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     }
     lookahead1W(8);                 // _ | '}'
     consume(44);                    // '}'
-    eventHandler.endNonterminal("Action", e0);
+    eventHandler.endNonterminal(17, e0);
   }
 
   private void parse_AbstractTerminal()
   {
-    eventHandler.startNonterminal("AbstractTerminal", e0);
+    eventHandler.startNonterminal(18, e0);
     switch (l1)
     {
     case 13:                        // '->'
@@ -658,19 +674,19 @@ public class Xtext implements de.bottlecaps.convert.Parser
     default:
       parse_PredicatedRuleCall();
     }
-    eventHandler.endNonterminal("AbstractTerminal", e0);
+    eventHandler.endNonterminal(18, e0);
   }
 
   private void parse_Keyword()
   {
-    eventHandler.startNonterminal("Keyword", e0);
+    eventHandler.startNonterminal(19, e0);
     consume(3);                     // STRING
-    eventHandler.endNonterminal("Keyword", e0);
+    eventHandler.endNonterminal(19, e0);
   }
 
   private void parse_RuleCall()
   {
-    eventHandler.startNonterminal("RuleCall", e0);
+    eventHandler.startNonterminal(20, e0);
     parse_RuleID();
     if (l1 == 19)                   // '<'
     {
@@ -691,12 +707,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       }
       consume(22);                  // '>'
     }
-    eventHandler.endNonterminal("RuleCall", e0);
+    eventHandler.endNonterminal(20, e0);
   }
 
   private void parse_NamedArgument()
   {
-    eventHandler.startNonterminal("NamedArgument", e0);
+    eventHandler.startNonterminal(21, e0);
     switch (l1)
     {
     case 2:                         // ID
@@ -714,12 +730,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     lookahead1W(27);                // _ | ID | '!' | '(' | 'false' | 'true'
     whitespace();
     parse_Disjunction();
-    eventHandler.endNonterminal("NamedArgument", e0);
+    eventHandler.endNonterminal(21, e0);
   }
 
   private void parse_LiteralCondition()
   {
-    eventHandler.startNonterminal("LiteralCondition", e0);
+    eventHandler.startNonterminal(22, e0);
     switch (l1)
     {
     case 40:                        // 'true'
@@ -728,12 +744,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     default:
       consume(32);                  // 'false'
     }
-    eventHandler.endNonterminal("LiteralCondition", e0);
+    eventHandler.endNonterminal(22, e0);
   }
 
   private void parse_Disjunction()
   {
-    eventHandler.startNonterminal("Disjunction", e0);
+    eventHandler.startNonterminal(23, e0);
     parse_Conjunction();
     for (;;)
     {
@@ -746,12 +762,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Conjunction();
     }
-    eventHandler.endNonterminal("Disjunction", e0);
+    eventHandler.endNonterminal(23, e0);
   }
 
   private void parse_Conjunction()
   {
-    eventHandler.startNonterminal("Conjunction", e0);
+    eventHandler.startNonterminal(24, e0);
     parse_Negation();
     for (;;)
     {
@@ -765,12 +781,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Negation();
     }
-    eventHandler.endNonterminal("Conjunction", e0);
+    eventHandler.endNonterminal(24, e0);
   }
 
   private void parse_Negation()
   {
-    eventHandler.startNonterminal("Negation", e0);
+    eventHandler.startNonterminal(25, e0);
     for (;;)
     {
       lookahead1W(27);              // _ | ID | '!' | '(' | 'false' | 'true'
@@ -782,12 +798,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     }
     whitespace();
     parse_Atom();
-    eventHandler.endNonterminal("Negation", e0);
+    eventHandler.endNonterminal(25, e0);
   }
 
   private void parse_Atom()
   {
-    eventHandler.startNonterminal("Atom", e0);
+    eventHandler.startNonterminal(26, e0);
     switch (l1)
     {
     case 2:                         // ID
@@ -799,37 +815,37 @@ public class Xtext implements de.bottlecaps.convert.Parser
     default:
       parse_LiteralCondition();
     }
-    eventHandler.endNonterminal("Atom", e0);
+    eventHandler.endNonterminal(26, e0);
   }
 
   private void parse_ParenthesizedCondition()
   {
-    eventHandler.startNonterminal("ParenthesizedCondition", e0);
+    eventHandler.startNonterminal(27, e0);
     consume(7);                     // '('
     lookahead1W(27);                // _ | ID | '!' | '(' | 'false' | 'true'
     whitespace();
     parse_Disjunction();
     consume(8);                     // ')'
-    eventHandler.endNonterminal("ParenthesizedCondition", e0);
+    eventHandler.endNonterminal(27, e0);
   }
 
   private void parse_ParameterReference()
   {
-    eventHandler.startNonterminal("ParameterReference", e0);
+    eventHandler.startNonterminal(28, e0);
     consume(2);                     // ID
-    eventHandler.endNonterminal("ParameterReference", e0);
+    eventHandler.endNonterminal(28, e0);
   }
 
   private void parse_TerminalRuleCall()
   {
-    eventHandler.startNonterminal("TerminalRuleCall", e0);
+    eventHandler.startNonterminal(29, e0);
     parse_RuleID();
-    eventHandler.endNonterminal("TerminalRuleCall", e0);
+    eventHandler.endNonterminal(29, e0);
   }
 
   private void parse_RuleID()
   {
-    eventHandler.startNonterminal("RuleID", e0);
+    eventHandler.startNonterminal(30, e0);
     parse_ValidID();
     for (;;)
     {
@@ -844,12 +860,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       whitespace();
       parse_ValidID();
     }
-    eventHandler.endNonterminal("RuleID", e0);
+    eventHandler.endNonterminal(30, e0);
   }
 
   private void parse_ValidID()
   {
-    eventHandler.startNonterminal("ValidID", e0);
+    eventHandler.startNonterminal(31, e0);
     switch (l1)
     {
     case 2:                         // ID
@@ -861,12 +877,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     default:
       consume(32);                  // 'false'
     }
-    eventHandler.endNonterminal("ValidID", e0);
+    eventHandler.endNonterminal(31, e0);
   }
 
   private void parse_PredicatedKeyword()
   {
-    eventHandler.startNonterminal("PredicatedKeyword", e0);
+    eventHandler.startNonterminal(32, e0);
     switch (l1)
     {
     case 21:                        // '=>'
@@ -877,12 +893,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     }
     lookahead1W(1);                 // _ | STRING
     consume(3);                     // STRING
-    eventHandler.endNonterminal("PredicatedKeyword", e0);
+    eventHandler.endNonterminal(32, e0);
   }
 
   private void parse_PredicatedRuleCall()
   {
-    eventHandler.startNonterminal("PredicatedRuleCall", e0);
+    eventHandler.startNonterminal(33, e0);
     switch (l1)
     {
     case 21:                        // '=>'
@@ -913,12 +929,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       }
       consume(22);                  // '>'
     }
-    eventHandler.endNonterminal("PredicatedRuleCall", e0);
+    eventHandler.endNonterminal(33, e0);
   }
 
   private void parse_Assignment()
   {
-    eventHandler.startNonterminal("Assignment", e0);
+    eventHandler.startNonterminal(34, e0);
     if (l1 == 13                    // '->'
      || l1 == 21)                   // '=>'
     {
@@ -949,12 +965,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     lookahead1W(31);                // _ | ID | STRING | '(' | '[' | 'false' | 'true'
     whitespace();
     parse_AssignableTerminal();
-    eventHandler.endNonterminal("Assignment", e0);
+    eventHandler.endNonterminal(34, e0);
   }
 
   private void parse_AssignableTerminal()
   {
-    eventHandler.startNonterminal("AssignableTerminal", e0);
+    eventHandler.startNonterminal(35, e0);
     switch (l1)
     {
     case 3:                         // STRING
@@ -969,23 +985,23 @@ public class Xtext implements de.bottlecaps.convert.Parser
     default:
       parse_RuleCall();
     }
-    eventHandler.endNonterminal("AssignableTerminal", e0);
+    eventHandler.endNonterminal(35, e0);
   }
 
   private void parse_ParenthesizedAssignableElement()
   {
-    eventHandler.startNonterminal("ParenthesizedAssignableElement", e0);
+    eventHandler.startNonterminal(36, e0);
     consume(7);                     // '('
     lookahead1W(31);                // _ | ID | STRING | '(' | '[' | 'false' | 'true'
     whitespace();
     parse_AssignableAlternatives();
     consume(8);                     // ')'
-    eventHandler.endNonterminal("ParenthesizedAssignableElement", e0);
+    eventHandler.endNonterminal(36, e0);
   }
 
   private void parse_AssignableAlternatives()
   {
-    eventHandler.startNonterminal("AssignableAlternatives", e0);
+    eventHandler.startNonterminal(37, e0);
     parse_AssignableTerminal();
     for (;;)
     {
@@ -999,12 +1015,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       whitespace();
       parse_AssignableTerminal();
     }
-    eventHandler.endNonterminal("AssignableAlternatives", e0);
+    eventHandler.endNonterminal(37, e0);
   }
 
   private void parse_CrossReference()
   {
-    eventHandler.startNonterminal("CrossReference", e0);
+    eventHandler.startNonterminal(38, e0);
     consume(27);                    // '['
     lookahead1W(0);                 // _ | ID
     whitespace();
@@ -1019,12 +1035,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     }
     lookahead1W(5);                 // _ | ']'
     consume(28);                    // ']'
-    eventHandler.endNonterminal("CrossReference", e0);
+    eventHandler.endNonterminal(38, e0);
   }
 
   private void parse_CrossReferenceableTerminal()
   {
-    eventHandler.startNonterminal("CrossReferenceableTerminal", e0);
+    eventHandler.startNonterminal(39, e0);
     switch (l1)
     {
     case 3:                         // STRING
@@ -1033,23 +1049,23 @@ public class Xtext implements de.bottlecaps.convert.Parser
     default:
       parse_RuleCall();
     }
-    eventHandler.endNonterminal("CrossReferenceableTerminal", e0);
+    eventHandler.endNonterminal(39, e0);
   }
 
   private void parse_ParenthesizedElement()
   {
-    eventHandler.startNonterminal("ParenthesizedElement", e0);
+    eventHandler.startNonterminal(40, e0);
     consume(7);                     // '('
     lookahead1W(37);                // _ | ID | STRING | '(' | '->' | '<' | '=>' | 'false' | 'true' | '{'
     whitespace();
     parse_Alternatives();
     consume(8);                     // ')'
-    eventHandler.endNonterminal("ParenthesizedElement", e0);
+    eventHandler.endNonterminal(40, e0);
   }
 
   private void parse_PredicatedGroup()
   {
-    eventHandler.startNonterminal("PredicatedGroup", e0);
+    eventHandler.startNonterminal(41, e0);
     switch (l1)
     {
     case 21:                        // '=>'
@@ -1064,12 +1080,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     whitespace();
     parse_Alternatives();
     consume(8);                     // ')'
-    eventHandler.endNonterminal("PredicatedGroup", e0);
+    eventHandler.endNonterminal(41, e0);
   }
 
   private void parse_TerminalRule()
   {
-    eventHandler.startNonterminal("TerminalRule", e0);
+    eventHandler.startNonterminal(42, e0);
     consume(39);                    // 'terminal'
     lookahead1W(24);                // _ | ID | 'false' | 'fragment' | 'true'
     switch (l1)
@@ -1098,12 +1114,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     whitespace();
     parse_TerminalAlternatives();
     consume(18);                    // ';'
-    eventHandler.endNonterminal("TerminalRule", e0);
+    eventHandler.endNonterminal(42, e0);
   }
 
   private void parse_TerminalAlternatives()
   {
-    eventHandler.startNonterminal("TerminalAlternatives", e0);
+    eventHandler.startNonterminal(43, e0);
     parse_TerminalGroup();
     for (;;)
     {
@@ -1116,12 +1132,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       whitespace();
       parse_TerminalGroup();
     }
-    eventHandler.endNonterminal("TerminalAlternatives", e0);
+    eventHandler.endNonterminal(43, e0);
   }
 
   private void parse_TerminalGroup()
   {
-    eventHandler.startNonterminal("TerminalGroup", e0);
+    eventHandler.startNonterminal(44, e0);
     for (;;)
     {
       whitespace();
@@ -1135,12 +1151,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("TerminalGroup", e0);
+    eventHandler.endNonterminal(44, e0);
   }
 
   private void parse_TerminalToken()
   {
-    eventHandler.startNonterminal("TerminalToken", e0);
+    eventHandler.startNonterminal(45, e0);
     parse_TerminalTokenElement();
     lookahead1W(44);                // _ | ID | STRING | '!' | '(' | ')' | '*' | '+' | '->' | '.' | ';' | '?' | 'EOF' |
                                     // 'false' | 'true' | '|'
@@ -1160,12 +1176,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
         consume(10);                // '+'
       }
     }
-    eventHandler.endNonterminal("TerminalToken", e0);
+    eventHandler.endNonterminal(45, e0);
   }
 
   private void parse_TerminalTokenElement()
   {
-    eventHandler.startNonterminal("TerminalTokenElement", e0);
+    eventHandler.startNonterminal(46, e0);
     switch (l1)
     {
     case 3:                         // STRING
@@ -1187,23 +1203,23 @@ public class Xtext implements de.bottlecaps.convert.Parser
     default:
       parse_TerminalRuleCall();
     }
-    eventHandler.endNonterminal("TerminalTokenElement", e0);
+    eventHandler.endNonterminal(46, e0);
   }
 
   private void parse_ParenthesizedTerminalElement()
   {
-    eventHandler.startNonterminal("ParenthesizedTerminalElement", e0);
+    eventHandler.startNonterminal(47, e0);
     consume(7);                     // '('
     lookahead1W(36);                // _ | ID | STRING | '!' | '(' | '->' | '.' | 'EOF' | 'false' | 'true'
     whitespace();
     parse_TerminalAlternatives();
     consume(8);                     // ')'
-    eventHandler.endNonterminal("ParenthesizedTerminalElement", e0);
+    eventHandler.endNonterminal(47, e0);
   }
 
   private void parse_AbstractNegatedToken()
   {
-    eventHandler.startNonterminal("AbstractNegatedToken", e0);
+    eventHandler.startNonterminal(48, e0);
     switch (l1)
     {
     case 5:                         // '!'
@@ -1212,32 +1228,32 @@ public class Xtext implements de.bottlecaps.convert.Parser
     default:
       parse_UntilToken();
     }
-    eventHandler.endNonterminal("AbstractNegatedToken", e0);
+    eventHandler.endNonterminal(48, e0);
   }
 
   private void parse_NegatedToken()
   {
-    eventHandler.startNonterminal("NegatedToken", e0);
+    eventHandler.startNonterminal(49, e0);
     consume(5);                     // '!'
     lookahead1W(36);                // _ | ID | STRING | '!' | '(' | '->' | '.' | 'EOF' | 'false' | 'true'
     whitespace();
     parse_TerminalTokenElement();
-    eventHandler.endNonterminal("NegatedToken", e0);
+    eventHandler.endNonterminal(49, e0);
   }
 
   private void parse_UntilToken()
   {
-    eventHandler.startNonterminal("UntilToken", e0);
+    eventHandler.startNonterminal(50, e0);
     consume(13);                    // '->'
     lookahead1W(36);                // _ | ID | STRING | '!' | '(' | '->' | '.' | 'EOF' | 'false' | 'true'
     whitespace();
     parse_TerminalTokenElement();
-    eventHandler.endNonterminal("UntilToken", e0);
+    eventHandler.endNonterminal(50, e0);
   }
 
   private void parse_CharacterRange()
   {
-    eventHandler.startNonterminal("CharacterRange", e0);
+    eventHandler.startNonterminal(51, e0);
     parse_Keyword();
     lookahead1W(46);                // _ | ID | STRING | '!' | '(' | ')' | '*' | '+' | '->' | '.' | '..' | ';' | '?' |
                                     // 'EOF' | 'false' | 'true' | '|'
@@ -1248,12 +1264,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Keyword();
     }
-    eventHandler.endNonterminal("CharacterRange", e0);
+    eventHandler.endNonterminal(51, e0);
   }
 
   private void parse_EnumRule()
   {
-    eventHandler.startNonterminal("EnumRule", e0);
+    eventHandler.startNonterminal(52, e0);
     consume(31);                    // 'enum'
     lookahead1W(18);                // _ | ID | 'false' | 'true'
     whitespace();
@@ -1272,12 +1288,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
     whitespace();
     parse_EnumLiterals();
     consume(18);                    // ';'
-    eventHandler.endNonterminal("EnumRule", e0);
+    eventHandler.endNonterminal(52, e0);
   }
 
   private void parse_EnumLiterals()
   {
-    eventHandler.startNonterminal("EnumLiterals", e0);
+    eventHandler.startNonterminal(53, e0);
     parse_EnumLiteralDeclaration();
     for (;;)
     {
@@ -1291,12 +1307,12 @@ public class Xtext implements de.bottlecaps.convert.Parser
       whitespace();
       parse_EnumLiteralDeclaration();
     }
-    eventHandler.endNonterminal("EnumLiterals", e0);
+    eventHandler.endNonterminal(53, e0);
   }
 
   private void parse_EnumLiteralDeclaration()
   {
-    eventHandler.startNonterminal("EnumLiteralDeclaration", e0);
+    eventHandler.startNonterminal(54, e0);
     parse_ValidID();
     lookahead1W(21);                // _ | ';' | '=' | '|'
     if (l1 == 20)                   // '='
@@ -1306,7 +1322,7 @@ public class Xtext implements de.bottlecaps.convert.Parser
       whitespace();
       parse_Keyword();
     }
-    eventHandler.endNonterminal("EnumLiteralDeclaration", e0);
+    eventHandler.endNonterminal(54, e0);
   }
 
   private void consume(int t)
@@ -1314,7 +1330,7 @@ public class Xtext implements de.bottlecaps.convert.Parser
     if (l1 == t)
     {
       whitespace();
-      eventHandler.terminal(TOKEN[l1], b1, e1);
+      eventHandler.terminal(l1, b1, e1);
       b0 = b1; e0 = e1; l1 = l2; if (l1 != 0) {
       b1 = b2; e1 = e2; l2 = l3; if (l2 != 0) {
       b2 = b3; e2 = e3; l3 = 0; }}
@@ -1679,7 +1695,7 @@ public class Xtext implements de.bottlecaps.convert.Parser
     /* 252 */ 0
   };
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "_",
@@ -1726,6 +1742,65 @@ public class Xtext implements de.bottlecaps.convert.Parser
     "'{'",
     "'|'",
     "'}'"
+  };
+
+  public static final String[] NONTERMINAL =
+  {
+    "Grammar",
+    "GrammarID",
+    "AbstractRule",
+    "AbstractMetamodelDeclaration",
+    "GeneratedMetamodel",
+    "ReferencedMetamodel",
+    "Annotation",
+    "ParserRule",
+    "RuleNameAndParams",
+    "Parameter",
+    "TypeRef",
+    "Alternatives",
+    "ConditionalBranch",
+    "UnorderedGroup",
+    "Group",
+    "AbstractToken",
+    "AbstractTokenWithCardinality",
+    "Action",
+    "AbstractTerminal",
+    "Keyword",
+    "RuleCall",
+    "NamedArgument",
+    "LiteralCondition",
+    "Disjunction",
+    "Conjunction",
+    "Negation",
+    "Atom",
+    "ParenthesizedCondition",
+    "ParameterReference",
+    "TerminalRuleCall",
+    "RuleID",
+    "ValidID",
+    "PredicatedKeyword",
+    "PredicatedRuleCall",
+    "Assignment",
+    "AssignableTerminal",
+    "ParenthesizedAssignableElement",
+    "AssignableAlternatives",
+    "CrossReference",
+    "CrossReferenceableTerminal",
+    "ParenthesizedElement",
+    "PredicatedGroup",
+    "TerminalRule",
+    "TerminalAlternatives",
+    "TerminalGroup",
+    "TerminalToken",
+    "TerminalTokenElement",
+    "ParenthesizedTerminalElement",
+    "AbstractNegatedToken",
+    "NegatedToken",
+    "UntilToken",
+    "CharacterRange",
+    "EnumRule",
+    "EnumLiterals",
+    "EnumLiteralDeclaration"
   };
 }
 

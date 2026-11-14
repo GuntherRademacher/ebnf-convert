@@ -9,19 +9,17 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 
-import org.apache.commons.fileupload.DiskFileUpload;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 
 import de.bottlecaps.convert.Convert.Error;
 import de.bottlecaps.convert.Convert.OutputMethod;
@@ -32,7 +30,7 @@ import de.bottlecaps.webapp.servlet.ServletRequest;
  * The converter servlet for pegjs grammars. Handle POST request to
  * receive grammars, and return W3C-style EBNF wrapped in an HTML page.
  */
-@SuppressWarnings("deprecation")
+@MultipartConfig(maxRequestSize = 1000000)
 public class ConvertServlet extends HttpServlet
 {
   private static final String DOWNLOAD_FILENAME =
@@ -152,46 +150,30 @@ public class ConvertServlet extends HttpServlet
       request.setCharacterEncoding(encoding);
     }
 
-    List<FileItem> fileItems = null;
+    Map<String, String> parameters = new HashMap<String, String>();
 
-    if (! DiskFileUpload.isMultipartContent(request))
+    if (request.getContentType() != null
+        && request.getContentType().toLowerCase().startsWith("multipart/"))
     {
-      fileItems = null;
-    }
-    else
-    {
-      DiskFileUpload fu = new DiskFileUpload();
-      fu.setSizeMax(1000000);
-      fu.setHeaderEncoding(encoding);
-
       try
       {
-        List<FileItem> parseRequest = fu.parseRequest(request);
-        fileItems = parseRequest;
+        for (Part part : request.getParts())
+        {
+          String value = new String(part.getInputStream().readAllBytes(), encoding);
+          parameters.put(part.getName(), value);
+        }
       }
-      catch (FileUploadException e)
+      catch (IllegalStateException e)
       {
         throw new RuntimeException(e);
       }
     }
-
-    Map<String, String> parameters = new HashMap<String, String>();
-
-    if (fileItems == null)
+    else
     {
       for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();)
       {
         String name = e.nextElement();
         String value = request.getParameter(name);
-        parameters.put(name, value);
-      }
-    }
-    else
-    {
-      for (FileItem fi : fileItems)
-      {
-        String name = fi.getFieldName();
-        String value = fi.getString(encoding);
         parameters.put(name, value);
       }
     }

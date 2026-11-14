@@ -1,9 +1,10 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:39 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -backtrack -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.antlr_3.Antlr_3 antlr_3.ebnf
 
 package de.bottlecaps.convert.antlr_3;
 
 
+@SuppressWarnings("all")
 public class Antlr_3 implements de.bottlecaps.convert.Parser
 {
   public Antlr_3(CharSequence string, EventHandler t)
@@ -56,6 +57,21 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
   }
 
+  private Antlr_3()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
+  }
+
   public static String[] getExpectedTokenSet(ParseException e)
   {
     String[] expected;
@@ -97,7 +113,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   public void parse_grammar_()
   {
-    eventHandler.startNonterminal("grammar_", e0);
+    eventHandler.startNonterminal(0, e0);
     lookahead1W(43);                // DOC_COMMENT | WHITESPACE | 'grammar' | 'lexer' | 'parser' | 'tree' | '{'
     if (l1 == 55)                   // '{'
     {
@@ -150,12 +166,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     whitespace();
     parse_rules();
     consume(17);                    // EOF
-    eventHandler.endNonterminal("grammar_", e0);
+    eventHandler.endNonterminal(0, e0);
   }
 
   private void parse_grammarType()
   {
-    eventHandler.startNonterminal("grammarType", e0);
+    eventHandler.startNonterminal(1, e0);
     if (l1 != 44)                   // 'grammar'
     {
       switch (l1)
@@ -172,12 +188,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     }
     lookahead1W(11);                // WHITESPACE | 'grammar'
     consume(44);                    // 'grammar'
-    eventHandler.endNonterminal("grammarType", e0);
+    eventHandler.endNonterminal(1, e0);
   }
 
   private void parse_actions()
   {
-    eventHandler.startNonterminal("actions", e0);
+    eventHandler.startNonterminal(2, e0);
     for (;;)
     {
       whitespace();
@@ -189,12 +205,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("actions", e0);
+    eventHandler.endNonterminal(2, e0);
   }
 
   private void parse_action()
   {
-    eventHandler.startNonterminal("action", e0);
+    eventHandler.startNonterminal(3, e0);
     consume(38);                    // '@'
     lookahead1W(36);                // TOKEN_REF | RULE_REF | WHITESPACE | 'lexer' | 'parser'
     switch (l1)
@@ -222,12 +238,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     lookahead1W(12);                // WHITESPACE | '{'
     whitespace();
     parse_ACTION();
-    eventHandler.endNonterminal("action", e0);
+    eventHandler.endNonterminal(3, e0);
   }
 
   private void parse_actionScopeName()
   {
-    eventHandler.startNonterminal("actionScopeName", e0);
+    eventHandler.startNonterminal(4, e0);
     switch (l1)
     {
     case 46:                        // 'lexer'
@@ -239,12 +255,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     default:
       parse_id();
     }
-    eventHandler.endNonterminal("actionScopeName", e0);
+    eventHandler.endNonterminal(4, e0);
   }
 
   private void parse_optionsSpec()
   {
-    eventHandler.startNonterminal("optionsSpec", e0);
+    eventHandler.startNonterminal(5, e0);
     consume(15);                    // OPTIONS
     for (;;)
     {
@@ -260,7 +276,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       }
     }
     consume(57);                    // '}'
-    eventHandler.endNonterminal("optionsSpec", e0);
+    eventHandler.endNonterminal(5, e0);
   }
 
   private void try_optionsSpec()
@@ -283,14 +299,14 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_option()
   {
-    eventHandler.startNonterminal("option", e0);
+    eventHandler.startNonterminal(6, e0);
     parse_id();
     lookahead1W(10);                // WHITESPACE | '='
     consume(34);                    // '='
     lookahead1W(45);                // CHAR_LITERAL | STRING_LITERAL | INT | TOKEN_REF | RULE_REF | WHITESPACE | '*'
     whitespace();
     parse_optionValue();
-    eventHandler.endNonterminal("option", e0);
+    eventHandler.endNonterminal(6, e0);
   }
 
   private void try_option()
@@ -304,7 +320,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_optionValue()
   {
-    eventHandler.startNonterminal("optionValue", e0);
+    eventHandler.startNonterminal(7, e0);
     switch (l1)
     {
     case 4:                         // STRING_LITERAL
@@ -322,7 +338,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     default:
       parse_id();
     }
-    eventHandler.endNonterminal("optionValue", e0);
+    eventHandler.endNonterminal(7, e0);
   }
 
   private void try_optionValue()
@@ -348,7 +364,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_delegateGrammars()
   {
-    eventHandler.startNonterminal("delegateGrammars", e0);
+    eventHandler.startNonterminal(8, e0);
     consume(45);                    // 'import'
     lookahead1W(14);                // TOKEN_REF | RULE_REF | WHITESPACE
     whitespace();
@@ -366,12 +382,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       parse_delegateGrammar();
     }
     consume(32);                    // ';'
-    eventHandler.endNonterminal("delegateGrammars", e0);
+    eventHandler.endNonterminal(8, e0);
   }
 
   private void parse_delegateGrammar()
   {
-    eventHandler.startNonterminal("delegateGrammar", e0);
+    eventHandler.startNonterminal(9, e0);
     parse_id();
     lookahead1W(29);                // WHITESPACE | ',' | ';' | '='
     if (l1 == 34)                   // '='
@@ -381,12 +397,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_id();
     }
-    eventHandler.endNonterminal("delegateGrammar", e0);
+    eventHandler.endNonterminal(9, e0);
   }
 
   private void parse_tokensSpec()
   {
-    eventHandler.startNonterminal("tokensSpec", e0);
+    eventHandler.startNonterminal(10, e0);
     consume(14);                    // TOKENS
     for (;;)
     {
@@ -399,12 +415,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       parse_tokenSpec();
     }
     consume(57);                    // '}'
-    eventHandler.endNonterminal("tokensSpec", e0);
+    eventHandler.endNonterminal(10, e0);
   }
 
   private void parse_tokenSpec()
   {
-    eventHandler.startNonterminal("tokenSpec", e0);
+    eventHandler.startNonterminal(11, e0);
     consume(13);                    // TOKEN_REF
     lookahead1W(22);                // WHITESPACE | ';' | '='
     if (l1 == 34)                   // '='
@@ -422,12 +438,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     }
     lookahead1W(9);                 // WHITESPACE | ';'
     consume(32);                    // ';'
-    eventHandler.endNonterminal("tokenSpec", e0);
+    eventHandler.endNonterminal(11, e0);
   }
 
   private void parse_attrScopes()
   {
-    eventHandler.startNonterminal("attrScopes", e0);
+    eventHandler.startNonterminal(12, e0);
     for (;;)
     {
       lookahead1W(55);              // DOC_COMMENT | TOKEN_REF | RULE_REF | WHITESPACE | '@' | 'fragment' | 'private' |
@@ -439,12 +455,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_attrScope();
     }
-    eventHandler.endNonterminal("attrScopes", e0);
+    eventHandler.endNonterminal(12, e0);
   }
 
   private void parse_attrScope()
   {
-    eventHandler.startNonterminal("attrScope", e0);
+    eventHandler.startNonterminal(13, e0);
     consume(52);                    // 'scope'
     lookahead1W(14);                // TOKEN_REF | RULE_REF | WHITESPACE
     whitespace();
@@ -457,12 +473,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     }
     whitespace();
     parse_ACTION();
-    eventHandler.endNonterminal("attrScope", e0);
+    eventHandler.endNonterminal(13, e0);
   }
 
   private void parse_rules()
   {
-    eventHandler.startNonterminal("rules", e0);
+    eventHandler.startNonterminal(14, e0);
     for (;;)
     {
       whitespace();
@@ -474,12 +490,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("rules", e0);
+    eventHandler.endNonterminal(14, e0);
   }
 
   private void parse_rule()
   {
-    eventHandler.startNonterminal("rule", e0);
+    eventHandler.startNonterminal(15, e0);
     if (l1 == 1)                    // DOC_COMMENT
     {
       consume(1);                   // DOC_COMMENT
@@ -558,12 +574,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_exceptionGroup();
     }
-    eventHandler.endNonterminal("rule", e0);
+    eventHandler.endNonterminal(15, e0);
   }
 
   private void parse_ruleActions()
   {
-    eventHandler.startNonterminal("ruleActions", e0);
+    eventHandler.startNonterminal(16, e0);
     for (;;)
     {
       whitespace();
@@ -574,7 +590,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("ruleActions", e0);
+    eventHandler.endNonterminal(16, e0);
   }
 
   private void try_ruleActions()
@@ -592,7 +608,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_ruleAction()
   {
-    eventHandler.startNonterminal("ruleAction", e0);
+    eventHandler.startNonterminal(17, e0);
     consume(38);                    // '@'
     lookahead1W(14);                // TOKEN_REF | RULE_REF | WHITESPACE
     whitespace();
@@ -600,7 +616,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     lookahead1W(12);                // WHITESPACE | '{'
     whitespace();
     parse_ACTION();
-    eventHandler.endNonterminal("ruleAction", e0);
+    eventHandler.endNonterminal(17, e0);
   }
 
   private void try_ruleAction()
@@ -614,7 +630,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_throwsSpec()
   {
-    eventHandler.startNonterminal("throwsSpec", e0);
+    eventHandler.startNonterminal(18, e0);
     consume(53);                    // 'throws'
     lookahead1W(14);                // TOKEN_REF | RULE_REF | WHITESPACE
     whitespace();
@@ -631,12 +647,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_id();
     }
-    eventHandler.endNonterminal("throwsSpec", e0);
+    eventHandler.endNonterminal(18, e0);
   }
 
   private void parse_ruleScopeSpec()
   {
-    eventHandler.startNonterminal("ruleScopeSpec", e0);
+    eventHandler.startNonterminal(19, e0);
     switch (l1)
     {
     case 52:                        // 'scope'
@@ -671,12 +687,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       parse_idList();
       consume(32);                  // ';'
     }
-    eventHandler.endNonterminal("ruleScopeSpec", e0);
+    eventHandler.endNonterminal(19, e0);
   }
 
   private void parse_ruleAltList()
   {
-    eventHandler.startNonterminal("ruleAltList", e0);
+    eventHandler.startNonterminal(20, e0);
     parse_alternative();
     whitespace();
     parse_rewrite();
@@ -695,12 +711,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_rewrite();
     }
-    eventHandler.endNonterminal("ruleAltList", e0);
+    eventHandler.endNonterminal(20, e0);
   }
 
   private void parse_block()
   {
-    eventHandler.startNonterminal("block", e0);
+    eventHandler.startNonterminal(21, e0);
     consume(21);                    // '('
     lookahead1W(75);                // CHAR_LITERAL | STRING_LITERAL | TOKEN_REF | OPTIONS | RULE_REF | WHITESPACE |
                                     // '(' | ')' | '->' | '.' | ':' | '@' | '^(' | '{' | '|' | '~'
@@ -848,12 +864,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       parse_rewrite();
     }
     consume(22);                    // ')'
-    eventHandler.endNonterminal("block", e0);
+    eventHandler.endNonterminal(21, e0);
   }
 
   private void parse_alternative()
   {
-    eventHandler.startNonterminal("alternative", e0);
+    eventHandler.startNonterminal(22, e0);
     for (;;)
     {
       lookahead1W(69);              // CHAR_LITERAL | STRING_LITERAL | TOKEN_REF | RULE_REF | WHITESPACE | '(' | ')' |
@@ -868,12 +884,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_element();
     }
-    eventHandler.endNonterminal("alternative", e0);
+    eventHandler.endNonterminal(22, e0);
   }
 
   private void parse_exceptionGroup()
   {
-    eventHandler.startNonterminal("exceptionGroup", e0);
+    eventHandler.startNonterminal(23, e0);
     switch (l1)
     {
     case 41:                        // 'catch'
@@ -897,41 +913,41 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     default:
       parse_finallyClause();
     }
-    eventHandler.endNonterminal("exceptionGroup", e0);
+    eventHandler.endNonterminal(23, e0);
   }
 
   private void parse_exceptionHandler()
   {
-    eventHandler.startNonterminal("exceptionHandler", e0);
+    eventHandler.startNonterminal(24, e0);
     consume(41);                    // 'catch'
     lookahead1W(2);                 // ARG_ACTION | WHITESPACE
     consume(8);                     // ARG_ACTION
     lookahead1W(12);                // WHITESPACE | '{'
     whitespace();
     parse_ACTION();
-    eventHandler.endNonterminal("exceptionHandler", e0);
+    eventHandler.endNonterminal(24, e0);
   }
 
   private void parse_finallyClause()
   {
-    eventHandler.startNonterminal("finallyClause", e0);
+    eventHandler.startNonterminal(25, e0);
     consume(42);                    // 'finally'
     lookahead1W(12);                // WHITESPACE | '{'
     whitespace();
     parse_ACTION();
-    eventHandler.endNonterminal("finallyClause", e0);
+    eventHandler.endNonterminal(25, e0);
   }
 
   private void parse_element()
   {
-    eventHandler.startNonterminal("element", e0);
+    eventHandler.startNonterminal(26, e0);
     parse_elementNoOptionSpec();
-    eventHandler.endNonterminal("element", e0);
+    eventHandler.endNonterminal(26, e0);
   }
 
   private void parse_elementNoOptionSpec()
   {
-    eventHandler.startNonterminal("elementNoOptionSpec", e0);
+    eventHandler.startNonterminal(27, e0);
     switch (l1)
     {
     case 55:                        // '{'
@@ -1093,12 +1109,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     default:
       parse_ACTION();
     }
-    eventHandler.endNonterminal("elementNoOptionSpec", e0);
+    eventHandler.endNonterminal(27, e0);
   }
 
   private void parse_atom()
   {
-    eventHandler.startNonterminal("atom", e0);
+    eventHandler.startNonterminal(28, e0);
     switch (l1)
     {
     case 3:                         // CHAR_LITERAL
@@ -1279,12 +1295,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
         parse_terminal();
       }
     }
-    eventHandler.endNonterminal("atom", e0);
+    eventHandler.endNonterminal(28, e0);
   }
 
   private void parse_ruleref()
   {
-    eventHandler.startNonterminal("ruleref", e0);
+    eventHandler.startNonterminal(29, e0);
     consume(16);                    // RULE_REF
     lookahead1W(82);                // CHAR_LITERAL | STRING_LITERAL | ARG_ACTION | TOKEN_REF | RULE_REF | WHITESPACE |
                                     // '!' | '(' | ')' | '*' | '+' | '->' | '.' | ';' | '?' | '^' | '^(' | '{' | '|' |
@@ -1307,7 +1323,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
         consume(19);                // '!'
       }
     }
-    eventHandler.endNonterminal("ruleref", e0);
+    eventHandler.endNonterminal(29, e0);
   }
 
   private void try_ruleref()
@@ -1338,7 +1354,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_notSet()
   {
-    eventHandler.startNonterminal("notSet", e0);
+    eventHandler.startNonterminal(30, e0);
     consume(58);                    // '~'
     lookahead1W(34);                // CHAR_LITERAL | STRING_LITERAL | TOKEN_REF | WHITESPACE | '('
     switch (l1)
@@ -1351,12 +1367,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_notTerminal();
     }
-    eventHandler.endNonterminal("notSet", e0);
+    eventHandler.endNonterminal(30, e0);
   }
 
   private void parse_treeRoot()
   {
-    eventHandler.startNonterminal("treeRoot", e0);
+    eventHandler.startNonterminal(31, e0);
     switch (l1)
     {
     case 13:                        // TOKEN_REF
@@ -1405,12 +1421,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     default:
       parse_atom();
     }
-    eventHandler.endNonterminal("treeRoot", e0);
+    eventHandler.endNonterminal(31, e0);
   }
 
   private void parse_tree_()
   {
-    eventHandler.startNonterminal("tree_", e0);
+    eventHandler.startNonterminal(32, e0);
     consume(40);                    // '^('
     lookahead1W(50);                // CHAR_LITERAL | STRING_LITERAL | TOKEN_REF | RULE_REF | WHITESPACE | '(' | '.' |
                                     // '~'
@@ -1430,12 +1446,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       }
     }
     consume(22);                    // ')'
-    eventHandler.endNonterminal("tree_", e0);
+    eventHandler.endNonterminal(32, e0);
   }
 
   private void parse_ebnf()
   {
-    eventHandler.startNonterminal("ebnf", e0);
+    eventHandler.startNonterminal(33, e0);
     parse_block();
     lookahead1W(84);                // CHAR_LITERAL | STRING_LITERAL | TOKEN_REF | RULE_REF | WHITESPACE | '!' | '(' |
                                     // ')' | '*' | '+' | '->' | '.' | ';' | '=>' | '?' | '^' | '^(' | '{' | '|' | '~'
@@ -1467,23 +1483,23 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
         consume(19);                // '!'
       }
     }
-    eventHandler.endNonterminal("ebnf", e0);
+    eventHandler.endNonterminal(33, e0);
   }
 
   private void parse_range()
   {
-    eventHandler.startNonterminal("range", e0);
+    eventHandler.startNonterminal(34, e0);
     consume(3);                     // CHAR_LITERAL
     lookahead1W(7);                 // WHITESPACE | '..'
     consume(29);                    // '..'
     lookahead1W(1);                 // CHAR_LITERAL | WHITESPACE
     consume(3);                     // CHAR_LITERAL
-    eventHandler.endNonterminal("range", e0);
+    eventHandler.endNonterminal(34, e0);
   }
 
   private void parse_terminal()
   {
-    eventHandler.startNonterminal("terminal", e0);
+    eventHandler.startNonterminal(35, e0);
     switch (l1)
     {
     case 13:                        // TOKEN_REF
@@ -1538,7 +1554,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
         consume(19);                // '!'
       }
     }
-    eventHandler.endNonterminal("terminal", e0);
+    eventHandler.endNonterminal(35, e0);
   }
 
   private void try_terminal()
@@ -1599,7 +1615,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_elementOptions()
   {
-    eventHandler.startNonterminal("elementOptions", e0);
+    eventHandler.startNonterminal(36, e0);
     consume(33);                    // '<'
     lookahead1W(14);                // TOKEN_REF | RULE_REF | WHITESPACE
     switch (l1)
@@ -1635,7 +1651,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       parse_defaultNodeOption();
     }
     consume(36);                    // '>'
-    eventHandler.endNonterminal("elementOptions", e0);
+    eventHandler.endNonterminal(36, e0);
   }
 
   private void try_elementOptions()
@@ -1676,9 +1692,9 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_defaultNodeOption()
   {
-    eventHandler.startNonterminal("defaultNodeOption", e0);
+    eventHandler.startNonterminal(37, e0);
     parse_elementOptionId();
-    eventHandler.endNonterminal("defaultNodeOption", e0);
+    eventHandler.endNonterminal(37, e0);
   }
 
   private void try_defaultNodeOption()
@@ -1688,7 +1704,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_elementOption()
   {
-    eventHandler.startNonterminal("elementOption", e0);
+    eventHandler.startNonterminal(38, e0);
     parse_id();
     lookahead1W(10);                // WHITESPACE | '='
     consume(34);                    // '='
@@ -1714,7 +1730,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
         consume(6);                 // DOUBLE_ANGLE_STRING_LITERAL
       }
     }
-    eventHandler.endNonterminal("elementOption", e0);
+    eventHandler.endNonterminal(38, e0);
   }
 
   private void try_elementOption()
@@ -1747,7 +1763,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_elementOptionId()
   {
-    eventHandler.startNonterminal("elementOptionId", e0);
+    eventHandler.startNonterminal(39, e0);
     parse_id();
     for (;;)
     {
@@ -1761,7 +1777,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_id();
     }
-    eventHandler.endNonterminal("elementOptionId", e0);
+    eventHandler.endNonterminal(39, e0);
   }
 
   private void try_elementOptionId()
@@ -1782,7 +1798,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_ebnfSuffix()
   {
-    eventHandler.startNonterminal("ebnfSuffix", e0);
+    eventHandler.startNonterminal(40, e0);
     switch (l1)
     {
     case 37:                        // '?'
@@ -1794,7 +1810,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     default:
       consume(24);                  // '+'
     }
-    eventHandler.endNonterminal("ebnfSuffix", e0);
+    eventHandler.endNonterminal(40, e0);
   }
 
   private void try_ebnfSuffix()
@@ -1814,7 +1830,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_notTerminal()
   {
-    eventHandler.startNonterminal("notTerminal", e0);
+    eventHandler.startNonterminal(41, e0);
     switch (l1)
     {
     case 3:                         // CHAR_LITERAL
@@ -1826,12 +1842,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     default:
       consume(4);                   // STRING_LITERAL
     }
-    eventHandler.endNonterminal("notTerminal", e0);
+    eventHandler.endNonterminal(41, e0);
   }
 
   private void parse_idList()
   {
-    eventHandler.startNonterminal("idList", e0);
+    eventHandler.startNonterminal(42, e0);
     parse_id();
     for (;;)
     {
@@ -1845,12 +1861,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_id();
     }
-    eventHandler.endNonterminal("idList", e0);
+    eventHandler.endNonterminal(42, e0);
   }
 
   private void parse_id()
   {
-    eventHandler.startNonterminal("id", e0);
+    eventHandler.startNonterminal(43, e0);
     switch (l1)
     {
     case 13:                        // TOKEN_REF
@@ -1859,7 +1875,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     default:
       consume(16);                  // RULE_REF
     }
-    eventHandler.endNonterminal("id", e0);
+    eventHandler.endNonterminal(43, e0);
   }
 
   private void try_id()
@@ -1876,7 +1892,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_rewrite()
   {
-    eventHandler.startNonterminal("rewrite", e0);
+    eventHandler.startNonterminal(44, e0);
     if (l1 == 27)                   // '->'
     {
       for (;;)
@@ -1942,12 +1958,12 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_rewrite_alternative();
     }
-    eventHandler.endNonterminal("rewrite", e0);
+    eventHandler.endNonterminal(44, e0);
   }
 
   private void parse_rewrite_with_sempred()
   {
-    eventHandler.startNonterminal("rewrite_with_sempred", e0);
+    eventHandler.startNonterminal(45, e0);
     consume(27);                    // '->'
     lookahead1W(12);                // WHITESPACE | '{'
     whitespace();
@@ -1956,7 +1972,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
                                     // '->' | '...' | '^(' | '{'
     whitespace();
     parse_rewrite_alternative();
-    eventHandler.endNonterminal("rewrite_with_sempred", e0);
+    eventHandler.endNonterminal(45, e0);
   }
 
   private void try_rewrite_with_sempred()
@@ -1971,7 +1987,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_rewrite_block()
   {
-    eventHandler.startNonterminal("rewrite_block", e0);
+    eventHandler.startNonterminal(46, e0);
     consume(21);                    // '('
     lookahead1W(60);                // CHAR_LITERAL | STRING_LITERAL | TOKEN_REF | RULE_REF | WHITESPACE | '$' | '(' |
                                     // ')' | '...' | '^(' | '{'
@@ -1979,7 +1995,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     parse_rewrite_alternative();
     lookahead1W(4);                 // WHITESPACE | ')'
     consume(22);                    // ')'
-    eventHandler.endNonterminal("rewrite_block", e0);
+    eventHandler.endNonterminal(46, e0);
   }
 
   private void try_rewrite_block()
@@ -1994,7 +2010,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_rewrite_alternative()
   {
-    eventHandler.startNonterminal("rewrite_alternative", e0);
+    eventHandler.startNonterminal(47, e0);
     if (l1 != 22                    // ')'
      && l1 != 27                    // '->'
      && l1 != 32                    // ';'
@@ -2179,7 +2195,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
         }
       }
     }
-    eventHandler.endNonterminal("rewrite_alternative", e0);
+    eventHandler.endNonterminal(47, e0);
   }
 
   private void try_rewrite_alternative()
@@ -2373,7 +2389,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_rewrite_element()
   {
-    eventHandler.startNonterminal("rewrite_element", e0);
+    eventHandler.startNonterminal(48, e0);
     switch (l1)
     {
     case 21:                        // '('
@@ -2398,7 +2414,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
         parse_ebnfSuffix();
       }
     }
-    eventHandler.endNonterminal("rewrite_element", e0);
+    eventHandler.endNonterminal(48, e0);
   }
 
   private void try_rewrite_element()
@@ -2430,7 +2446,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_rewrite_atom()
   {
-    eventHandler.startNonterminal("rewrite_atom", e0);
+    eventHandler.startNonterminal(49, e0);
     switch (l1)
     {
     case 13:                        // TOKEN_REF
@@ -2478,7 +2494,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
         parse_elementOptions();
       }
     }
-    eventHandler.endNonterminal("rewrite_atom", e0);
+    eventHandler.endNonterminal(49, e0);
   }
 
   private void try_rewrite_atom()
@@ -2531,7 +2547,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_label()
   {
-    eventHandler.startNonterminal("label", e0);
+    eventHandler.startNonterminal(50, e0);
     switch (l1)
     {
     case 13:                        // TOKEN_REF
@@ -2540,7 +2556,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     default:
       consume(16);                  // RULE_REF
     }
-    eventHandler.endNonterminal("label", e0);
+    eventHandler.endNonterminal(50, e0);
   }
 
   private void try_label()
@@ -2557,7 +2573,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_rewrite_ebnf()
   {
-    eventHandler.startNonterminal("rewrite_ebnf", e0);
+    eventHandler.startNonterminal(51, e0);
     parse_rewrite_block();
     lookahead1W(28);                // WHITESPACE | '*' | '+' | '?'
     switch (l1)
@@ -2571,7 +2587,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     default:
       consume(24);                  // '+'
     }
-    eventHandler.endNonterminal("rewrite_ebnf", e0);
+    eventHandler.endNonterminal(51, e0);
   }
 
   private void try_rewrite_ebnf()
@@ -2593,7 +2609,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_rewrite_tree()
   {
-    eventHandler.startNonterminal("rewrite_tree", e0);
+    eventHandler.startNonterminal(52, e0);
     consume(40);                    // '^('
     lookahead1W(46);                // CHAR_LITERAL | STRING_LITERAL | TOKEN_REF | RULE_REF | WHITESPACE | '$' | '{'
     whitespace();
@@ -2610,7 +2626,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       parse_rewrite_element();
     }
     consume(22);                    // ')'
-    eventHandler.endNonterminal("rewrite_tree", e0);
+    eventHandler.endNonterminal(52, e0);
   }
 
   private void try_rewrite_tree()
@@ -2633,7 +2649,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_rewrite_template()
   {
-    eventHandler.startNonterminal("rewrite_template", e0);
+    eventHandler.startNonterminal(53, e0);
     switch (l1)
     {
     case 21:                        // '('
@@ -2659,7 +2675,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
         }
       }
     }
-    eventHandler.endNonterminal("rewrite_template", e0);
+    eventHandler.endNonterminal(53, e0);
   }
 
   private void try_rewrite_template()
@@ -2693,7 +2709,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_rewrite_template_head()
   {
-    eventHandler.startNonterminal("rewrite_template_head", e0);
+    eventHandler.startNonterminal(54, e0);
     parse_id();
     lookahead1W(3);                 // WHITESPACE | '('
     consume(21);                    // '('
@@ -2701,7 +2717,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     whitespace();
     parse_rewrite_template_args();
     consume(22);                    // ')'
-    eventHandler.endNonterminal("rewrite_template_head", e0);
+    eventHandler.endNonterminal(54, e0);
   }
 
   private void try_rewrite_template_head()
@@ -2716,7 +2732,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_rewrite_indirect_template_head()
   {
-    eventHandler.startNonterminal("rewrite_indirect_template_head", e0);
+    eventHandler.startNonterminal(55, e0);
     consume(21);                    // '('
     lookahead1W(12);                // WHITESPACE | '{'
     whitespace();
@@ -2729,7 +2745,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     whitespace();
     parse_rewrite_template_args();
     consume(22);                    // ')'
-    eventHandler.endNonterminal("rewrite_indirect_template_head", e0);
+    eventHandler.endNonterminal(55, e0);
   }
 
   private void try_rewrite_indirect_template_head()
@@ -2748,7 +2764,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_rewrite_template_args()
   {
-    eventHandler.startNonterminal("rewrite_template_args", e0);
+    eventHandler.startNonterminal(56, e0);
     if (l1 != 22)                   // ')'
     {
       whitespace();
@@ -2766,7 +2782,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
         parse_rewrite_template_arg();
       }
     }
-    eventHandler.endNonterminal("rewrite_template_args", e0);
+    eventHandler.endNonterminal(56, e0);
   }
 
   private void try_rewrite_template_args()
@@ -2790,14 +2806,14 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_rewrite_template_arg()
   {
-    eventHandler.startNonterminal("rewrite_template_arg", e0);
+    eventHandler.startNonterminal(57, e0);
     parse_id();
     lookahead1W(10);                // WHITESPACE | '='
     consume(34);                    // '='
     lookahead1W(12);                // WHITESPACE | '{'
     whitespace();
     parse_ACTION();
-    eventHandler.endNonterminal("rewrite_template_arg", e0);
+    eventHandler.endNonterminal(57, e0);
   }
 
   private void try_rewrite_template_arg()
@@ -2811,11 +2827,11 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_SEMPRED()
   {
-    eventHandler.startNonterminal("SEMPRED", e0);
+    eventHandler.startNonterminal(59, e0);
     parse_NESTED_ACTION();
     lookahead1(0);                  // '?'
     consume(37);                    // '?'
-    eventHandler.endNonterminal("SEMPRED", e0);
+    eventHandler.endNonterminal(59, e0);
   }
 
   private void try_SEMPRED()
@@ -2827,9 +2843,9 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_ACTION()
   {
-    eventHandler.startNonterminal("ACTION", e0);
+    eventHandler.startNonterminal(60, e0);
     parse_NESTED_ACTION();
-    eventHandler.endNonterminal("ACTION", e0);
+    eventHandler.endNonterminal(60, e0);
   }
 
   private void try_ACTION()
@@ -2839,7 +2855,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
 
   private void parse_NESTED_ACTION()
   {
-    eventHandler.startNonterminal("NESTED_ACTION", e0);
+    eventHandler.startNonterminal(61, e0);
     consume(55);                    // '{'
     for (;;)
     {
@@ -2871,7 +2887,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       }
     }
     consume(57);                    // '}'
-    eventHandler.endNonterminal("NESTED_ACTION", e0);
+    eventHandler.endNonterminal(61, e0);
   }
 
   private void try_NESTED_ACTION()
@@ -2914,7 +2930,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     if (l1 == t)
     {
       whitespace();
-      eventHandler.terminal(TOKEN[l1], b1, e1);
+      eventHandler.terminal(l1, b1, e1);
       b0 = b1; e0 = e1; l1 = l2; if (l1 != 0) {
       b1 = b2; e1 = e2; l2 = l3; if (l2 != 0) {
       b2 = b3; e2 = e3; l3 = 0; }}
@@ -3154,6 +3170,35 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     return expected.toArray(new String[]{});
   }
 
+  private static void decode(String[] chunks, int[] target)
+  {
+    int n = 0;
+    for (String chunk : chunks)
+    {
+      int value = 0;
+      boolean negative = false;
+      for (int i = 0, length = chunk.length(); i < length; ++i)
+      {
+        char c = chunk.charAt(i);
+        if (c >= '0' && c <= '9')
+        {
+          value = value * 10 + (c - '0');
+        }
+        else if (c == '-')
+        {
+          negative = true;
+        }
+        else if (c == ',')
+        {
+          target[n++] = negative ? - value : value;
+          value = 0;
+          negative = false;
+        }
+      }
+      target[n++] = negative ? - value : value;
+    }
+  }
+
   private static final int[] MAP0 = new int[128];
   static
   {
@@ -3165,8 +3210,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       /*  86 */ "28, 28, 28, 28, 28, 33, 34, 35, 36, 37, 7, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52",
       /* 112 */ "53, 47, 54, 55, 56, 57, 58, 59, 60, 61, 47, 62, 63, 64, 65, 7"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 128; ++i) {MAP0[i] = Integer.parseInt(s2[i]);}
+    decode(s1, MAP0);
   }
 
   private static final int[] MAP1 = new int[249];
@@ -3185,8 +3229,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       /* 203 */ "47, 54, 55, 56, 57, 58, 59, 60, 61, 47, 62, 63, 64, 65, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7",
       /* 232 */ "7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 249; ++i) {MAP1[i] = Integer.parseInt(s2[i]);}
+    decode(s1, MAP1);
   }
 
   private static final int[] MAP2 = new int[6];
@@ -3196,8 +3239,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     {
       /* 0 */ "57344, 65536, 65533, 1114111, 7, 7"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 6; ++i) {MAP2[i] = Integer.parseInt(s2[i]);}
+    decode(s1, MAP2);
   }
 
   private static final int[] INITIAL = new int[89];
@@ -3210,8 +3252,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       /* 54 */ "55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80",
       /* 80 */ "81, 82, 83, 84, 85, 86, 87, 88, 89"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 89; ++i) {INITIAL[i] = Integer.parseInt(s2[i]);}
+    decode(s1, INITIAL);
   }
 
   private static final int[] TRANSITION = new int[8787];
@@ -3689,8 +3730,7 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       /* 8762 */ "30208, 30208, 0, 130, 0, 93, 0, 0, 0, 131, 0, 136, 0, 0, 0, 100, 0, 12800, 12800, 12800, 12800",
       /* 8783 */ "12800, 12800, 12800, 12900"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 8787; ++i) {TRANSITION[i] = Integer.parseInt(s2[i]);}
+    decode(s1, TRANSITION);
   }
 
   private static final int[] EXPECTED = new int[586];
@@ -3736,11 +3776,10 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
       /* 555 */ "131072, 262144, 524288, 0, 4096, 0, 32768, 0, 4, 65536, 131072, 524288, 0, 1024, 8192, 0, 0, 1024, 0",
       /* 574 */ "0, 0, 2048, 131072, 0, 2048, 458752, 524288, 1048576, 0, 512, 1024"
     };
-    String[] s2 = java.util.Arrays.toString(s1).replaceAll("[ \\[\\]]", "").split(",");
-    for (int i = 0; i < 586; ++i) {EXPECTED[i] = Integer.parseInt(s2[i]);}
+    decode(s1, EXPECTED);
   }
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "DOC_COMMENT",
@@ -3801,6 +3840,72 @@ public class Antlr_3 implements de.bottlecaps.convert.Parser
     "'|'",
     "'}'",
     "'~'"
+  };
+
+  public static final String[] NONTERMINAL =
+  {
+    "grammar_",
+    "grammarType",
+    "actions",
+    "action",
+    "actionScopeName",
+    "optionsSpec",
+    "option",
+    "optionValue",
+    "delegateGrammars",
+    "delegateGrammar",
+    "tokensSpec",
+    "tokenSpec",
+    "attrScopes",
+    "attrScope",
+    "rules",
+    "rule",
+    "ruleActions",
+    "ruleAction",
+    "throwsSpec",
+    "ruleScopeSpec",
+    "ruleAltList",
+    "block",
+    "alternative",
+    "exceptionGroup",
+    "exceptionHandler",
+    "finallyClause",
+    "element",
+    "elementNoOptionSpec",
+    "atom",
+    "ruleref",
+    "notSet",
+    "treeRoot",
+    "tree_",
+    "ebnf",
+    "range",
+    "terminal",
+    "elementOptions",
+    "defaultNodeOption",
+    "elementOption",
+    "elementOptionId",
+    "ebnfSuffix",
+    "notTerminal",
+    "idList",
+    "id",
+    "rewrite",
+    "rewrite_with_sempred",
+    "rewrite_block",
+    "rewrite_alternative",
+    "rewrite_element",
+    "rewrite_atom",
+    "label",
+    "rewrite_ebnf",
+    "rewrite_tree",
+    "rewrite_template",
+    "rewrite_template_head",
+    "rewrite_indirect_template_head",
+    "rewrite_template_args",
+    "rewrite_template_arg",
+    "_",
+    "SEMPRED",
+    "ACTION",
+    "NESTED_ACTION"
   };
 }
 

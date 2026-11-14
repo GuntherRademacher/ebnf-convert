@@ -1,4 +1,4 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:40 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -interface de.bottlecaps.convert.LRParser -glalr 1 -java -saxon -tree -main
 
 package de.bottlecaps.convert;
@@ -24,6 +24,8 @@ public interface LRParser
   public void parse();
   public void reset();
   public String getErrorMessage(ParseException e);
+  public String getTerminalName(int id);
+  public String getNonterminalName(int id);
 
   public static class ParseException extends RuntimeException
   {
@@ -75,9 +77,9 @@ public interface LRParser
   public interface EventHandler
   {
     public void reset(CharSequence string);
-    public void startNonterminal(String name, int begin);
-    public void endNonterminal(String name, int end);
-    public void terminal(String name, int begin, int end);
+    public void startNonterminal(int id, int begin);
+    public void endNonterminal(int id, int end);
+    public void terminal(int id, int begin, int end);
     public void whitespace(int begin, int end);
   }
 
@@ -95,25 +97,25 @@ public interface LRParser
     }
 
     @Override
-    public void startNonterminal(String name, int begin)
+    public void startNonterminal(int id, int begin)
     {
-      Nonterminal nonterminal = new Nonterminal(name, begin, begin, new Symbol[0]);
+      Nonterminal nonterminal = new Nonterminal(id, begin, begin, new Symbol[0]);
       if (top >= 0) addChild(nonterminal);
       if (++top >= stack.length) stack = Arrays.copyOf(stack, stack.length << 1);
       stack[top] = nonterminal;
     }
 
     @Override
-    public void endNonterminal(String name, int end)
+    public void endNonterminal(int id, int end)
     {
       stack[top].end = end;
       if (top > 0) --top;
     }
 
     @Override
-    public void terminal(String name, int begin, int end)
+    public void terminal(int id, int begin, int end)
     {
-      addChild(new Terminal(name, begin, end));
+      addChild(new Terminal(id, begin, end));
     }
 
     @Override
@@ -137,31 +139,39 @@ public interface LRParser
 
   public static abstract class Symbol
   {
-    public String name;
+    public int id;
     public int begin;
     public int end;
 
-    protected Symbol(String name, int begin, int end)
+    protected Symbol(int id, int begin, int end)
     {
-      this.name = name;
+      this.id = id;
       this.begin = begin;
       this.end = end;
     }
+
+    public abstract String getName(LRParser names);
 
     public abstract void send(EventHandler e);
   }
 
   public static class Terminal extends Symbol
   {
-    public Terminal(String name, int begin, int end)
+    public Terminal(int id, int begin, int end)
     {
-      super(name, begin, end);
+      super(id, begin, end);
+    }
+
+    @Override
+    public String getName(LRParser names)
+    {
+      return names.getTerminalName(id);
     }
 
     @Override
     public void send(EventHandler e)
     {
-      e.terminal(name, begin, end);
+      e.terminal(id, begin, end);
     }
   }
 
@@ -169,16 +179,22 @@ public interface LRParser
   {
     public Symbol[] children;
 
-    public Nonterminal(String name, int begin, int end, Symbol[] children)
+    public Nonterminal(int id, int begin, int end, Symbol[] children)
     {
-      super(name, begin, end);
+      super(id, begin, end);
       this.children = children;
+    }
+
+    @Override
+    public String getName(LRParser names)
+    {
+      return names.getNonterminalName(id);
     }
 
     @Override
     public void send(EventHandler e)
     {
-      e.startNonterminal(name, begin);
+      e.startNonterminal(id, begin);
       int pos = begin;
       for (Symbol c : children)
       {
@@ -187,15 +203,15 @@ public interface LRParser
         pos = c.end;
       }
       if (pos < end) e.whitespace(pos, end);
-      e.endNonterminal(name, end);
+      e.endNonterminal(id, end);
     }
   }
 
   public interface BottomUpEventHandler
   {
     public void reset(CharSequence string);
-    public void nonterminal(String name, int begin, int end, int count);
-    public void terminal(String name, int begin, int end);
+    public void nonterminal(int id, int begin, int end, int count);
+    public void terminal(int id, int begin, int end);
   }
 
   public static class XmlSerializer implements EventHandler
@@ -207,8 +223,11 @@ public interface LRParser
     private boolean hasChildElement;
     private int depth;
 
-    public XmlSerializer(Writer w, boolean indent)
+    private LRParser names;
+
+    public XmlSerializer(Writer w, boolean indent, LRParser names)
     {
+      this.names = names;
       input = null;
       delayedTag = null;
       out = w;
@@ -226,7 +245,12 @@ public interface LRParser
     }
 
     @Override
-    public void startNonterminal(String name, int begin)
+    public void startNonterminal(int id, int begin)
+    {
+      startElement(names.getNonterminalName(id));
+    }
+
+    private void startElement(String name)
     {
       if (delayedTag != null)
       {
@@ -248,7 +272,12 @@ public interface LRParser
     }
 
     @Override
-    public void endNonterminal(String name, int end)
+    public void endNonterminal(int id, int end)
+    {
+      endElement(names.getNonterminalName(id));
+    }
+
+    private void endElement(String name)
     {
       --depth;
       if (delayedTag != null)
@@ -279,15 +308,16 @@ public interface LRParser
     }
 
     @Override
-    public void terminal(String name, int begin, int end)
+    public void terminal(int id, int begin, int end)
     {
+      String name = names.getTerminalName(id);
       if (name.charAt(0) == '\'')
       {
         name = "TOKEN";
       }
-      startNonterminal(name, begin);
+      startElement(name);
       characters(begin, end);
-      endNonterminal(name, end);
+      endElement(name);
     }
 
     @Override
@@ -334,8 +364,11 @@ public interface LRParser
     private Builder builder;
     private AnyType anyType;
 
-    public SaxonTreeBuilder(Builder b)
+    private LRParser names;
+
+    public SaxonTreeBuilder(Builder b, LRParser names)
     {
+      this.names = names;
       input = null;
       builder = b;
       anyType = AnyType.getInstance();
@@ -348,7 +381,12 @@ public interface LRParser
     }
 
     @Override
-    public void startNonterminal(String name, int begin)
+    public void startNonterminal(int id, int begin)
+    {
+      startElement(names.getNonterminalName(id));
+    }
+
+    private void startElement(String name)
     {
       try
       {
@@ -361,7 +399,12 @@ public interface LRParser
     }
 
     @Override
-    public void endNonterminal(String name, int end)
+    public void endNonterminal(int id, int end)
+    {
+      endElement();
+    }
+
+    private void endElement()
     {
       try
       {
@@ -374,15 +417,16 @@ public interface LRParser
     }
 
     @Override
-    public void terminal(String name, int begin, int end)
+    public void terminal(int id, int begin, int end)
     {
+      String name = names.getTerminalName(id);
       if (name.charAt(0) == '\'')
       {
         name = "TOKEN";
       }
-      startNonterminal(name, begin);
+      startElement(name);
       characters(begin, end);
-      endNonterminal(name, end);
+      endElement();
     }
 
     @Override
@@ -421,25 +465,25 @@ public interface LRParser
     }
 
     @Override
-    public void nonterminal(String name, int begin, int end, int count)
+    public void nonterminal(int id, int begin, int end, int count)
     {
       if (count > top + 1)
       {
         Symbol[] content = pop(top + 1);
-        nonterminal("UNAMBIGUOUS", begin, content.length == 0 ? end : content[0].begin, 0);
+        nonterminal(-4, begin, content.length == 0 ? end : content[0].begin, 0);
         for (Symbol symbol : content)
         {
           push(symbol);
         }
         count = top + 1;
       }
-      push(new Nonterminal(name, begin, end, pop(count)));
+      push(new Nonterminal(id, begin, end, pop(count)));
     }
 
     @Override
-    public void terminal(String name, int begin, int end)
+    public void terminal(int id, int begin, int end)
     {
-      push(new Terminal(name, begin, end));
+      push(new Terminal(id, begin, end));
     }
 
     public void serialize(EventHandler e)

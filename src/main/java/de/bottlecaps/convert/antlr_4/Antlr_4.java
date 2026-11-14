@@ -1,9 +1,10 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:39 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -backtrack -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.antlr_4.Antlr_4 antlr_4.ebnf
 
 package de.bottlecaps.convert.antlr_4;
 
 
+@SuppressWarnings("all")
 public class Antlr_4 implements de.bottlecaps.convert.Parser
 {
   public Antlr_4(CharSequence string, EventHandler t)
@@ -53,6 +54,21 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
   }
 
+  private Antlr_4()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
+  }
+
   public static String[] getExpectedTokenSet(ParseException e)
   {
     String[] expected;
@@ -94,7 +110,7 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
 
   public void parse_grammarSpec()
   {
-    eventHandler.startNonterminal("grammarSpec", e0);
+    eventHandler.startNonterminal(0, e0);
     lookahead1W(35);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | LEXER | PARSER | GRAMMAR |
                                     // TREE_GRAMMAR | WS
     whitespace();
@@ -137,12 +153,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       parse_modeSpec();
     }
     consume(51);                    // EOF
-    eventHandler.endNonterminal("grammarSpec", e0);
+    eventHandler.endNonterminal(0, e0);
   }
 
   private void parse_grammarType()
   {
-    eventHandler.startNonterminal("grammarType", e0);
+    eventHandler.startNonterminal(1, e0);
     switch (l1)
     {
     case 16:                        // TREE_GRAMMAR
@@ -163,12 +179,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       lookahead1W(4);               // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | GRAMMAR | WS
       consume(15);                  // GRAMMAR
     }
-    eventHandler.endNonterminal("grammarType", e0);
+    eventHandler.endNonterminal(1, e0);
   }
 
   private void parse_prequelConstruct()
   {
-    eventHandler.startNonterminal("prequelConstruct", e0);
+    eventHandler.startNonterminal(2, e0);
     switch (l1)
     {
     case 8:                         // OPTIONS
@@ -186,12 +202,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     default:
       parse_action();
     }
-    eventHandler.endNonterminal("prequelConstruct", e0);
+    eventHandler.endNonterminal(2, e0);
   }
 
   private void parse_optionsSpec()
   {
-    eventHandler.startNonterminal("optionsSpec", e0);
+    eventHandler.startNonterminal(3, e0);
     consume(8);                     // OPTIONS
     for (;;)
     {
@@ -206,12 +222,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       consume(26);                  // SEMI
     }
     consume(43);                    // RBRACE
-    eventHandler.endNonterminal("optionsSpec", e0);
+    eventHandler.endNonterminal(3, e0);
   }
 
   private void parse_option()
   {
-    eventHandler.startNonterminal("option", e0);
+    eventHandler.startNonterminal(4, e0);
     parse_id();
     lookahead1W(9);                 // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | ASSIGN | WS
     consume(32);                    // ASSIGN
@@ -219,12 +235,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
                                     // TOKEN_REF | '{'
     whitespace();
     parse_optionValue();
-    eventHandler.endNonterminal("option", e0);
+    eventHandler.endNonterminal(4, e0);
   }
 
   private void parse_optionValue()
   {
-    eventHandler.startNonterminal("optionValue", e0);
+    eventHandler.startNonterminal(5, e0);
     switch (l1)
     {
     case 48:                        // STRING_LITERAL
@@ -239,12 +255,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     default:
       parse_qid();
     }
-    eventHandler.endNonterminal("optionValue", e0);
+    eventHandler.endNonterminal(5, e0);
   }
 
   private void parse_delegateGrammars()
   {
-    eventHandler.startNonterminal("delegateGrammars", e0);
+    eventHandler.startNonterminal(6, e0);
     consume(11);                    // IMPORT
     lookahead1W(25);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | WS | RULE_REF | TOKEN_REF
     whitespace();
@@ -262,12 +278,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       parse_delegateGrammar();
     }
     consume(26);                    // SEMI
-    eventHandler.endNonterminal("delegateGrammars", e0);
+    eventHandler.endNonterminal(6, e0);
   }
 
   private void parse_delegateGrammar()
   {
-    eventHandler.startNonterminal("delegateGrammar", e0);
+    eventHandler.startNonterminal(7, e0);
     parse_id();
     lookahead1W(28);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | COMMA | SEMI | ASSIGN | WS
     if (l1 == 32)                   // ASSIGN
@@ -277,12 +293,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_id();
     }
-    eventHandler.endNonterminal("delegateGrammar", e0);
+    eventHandler.endNonterminal(7, e0);
   }
 
   private void parse_tokensSpec()
   {
-    eventHandler.startNonterminal("tokensSpec", e0);
+    eventHandler.startNonterminal(8, e0);
     consume(9);                     // TOKENS_SPEC
     lookahead1W(30);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | RBRACE | WS | RULE_REF | TOKEN_REF
     switch (l1)
@@ -328,12 +344,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       }
     }
     consume(43);                    // RBRACE
-    eventHandler.endNonterminal("tokensSpec", e0);
+    eventHandler.endNonterminal(8, e0);
   }
 
   private void parse_v3tokenSpec()
   {
-    eventHandler.startNonterminal("v3tokenSpec", e0);
+    eventHandler.startNonterminal(9, e0);
     parse_id();
     lookahead1W(21);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | SEMI | ASSIGN | WS
     if (l1 == 32)                   // ASSIGN
@@ -344,12 +360,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     }
     lookahead1W(7);                 // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | SEMI | WS
     consume(26);                    // SEMI
-    eventHandler.endNonterminal("v3tokenSpec", e0);
+    eventHandler.endNonterminal(9, e0);
   }
 
   private void parse_channelsSpec()
   {
-    eventHandler.startNonterminal("channelsSpec", e0);
+    eventHandler.startNonterminal(10, e0);
     consume(10);                    // CHANNELS
     lookahead1W(25);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | WS | RULE_REF | TOKEN_REF
     whitespace();
@@ -367,12 +383,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       parse_id();
     }
     consume(43);                    // RBRACE
-    eventHandler.endNonterminal("channelsSpec", e0);
+    eventHandler.endNonterminal(10, e0);
   }
 
   private void parse_action()
   {
-    eventHandler.startNonterminal("action", e0);
+    eventHandler.startNonterminal(11, e0);
     consume(40);                    // AT
     lookahead1W(36);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | LEXER | PARSER | WS | RULE_REF |
                                     // TOKEN_REF
@@ -399,12 +415,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     lookahead1W(14);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | WS | '{'
     whitespace();
     parse_ACTION();
-    eventHandler.endNonterminal("action", e0);
+    eventHandler.endNonterminal(11, e0);
   }
 
   private void parse_actionScopeName()
   {
-    eventHandler.startNonterminal("actionScopeName", e0);
+    eventHandler.startNonterminal(12, e0);
     switch (l1)
     {
     case 13:                        // LEXER
@@ -416,12 +432,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     default:
       parse_id();
     }
-    eventHandler.endNonterminal("actionScopeName", e0);
+    eventHandler.endNonterminal(12, e0);
   }
 
   private void parse_modeSpec()
   {
-    eventHandler.startNonterminal("modeSpec", e0);
+    eventHandler.startNonterminal(13, e0);
     consume(22);                    // MODE
     lookahead1W(25);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | WS | RULE_REF | TOKEN_REF
     whitespace();
@@ -444,12 +460,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_sync();
     }
-    eventHandler.endNonterminal("modeSpec", e0);
+    eventHandler.endNonterminal(13, e0);
   }
 
   private void parse_rules()
   {
-    eventHandler.startNonterminal("rules", e0);
+    eventHandler.startNonterminal(14, e0);
     parse_sync();
     for (;;)
     {
@@ -465,18 +481,18 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_sync();
     }
-    eventHandler.endNonterminal("rules", e0);
+    eventHandler.endNonterminal(14, e0);
   }
 
   private void parse_sync()
   {
-    eventHandler.startNonterminal("sync", e0);
-    eventHandler.endNonterminal("sync", e0);
+    eventHandler.startNonterminal(15, e0);
+    eventHandler.endNonterminal(15, e0);
   }
 
   private void parse_rule()
   {
-    eventHandler.startNonterminal("rule", e0);
+    eventHandler.startNonterminal(16, e0);
     switch (l1)
     {
     case 52:                        // RULE_REF
@@ -485,12 +501,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     default:
       parse_lexerRule();
     }
-    eventHandler.endNonterminal("rule", e0);
+    eventHandler.endNonterminal(16, e0);
   }
 
   private void parse_parserRule()
   {
-    eventHandler.startNonterminal("parserRule", e0);
+    eventHandler.startNonterminal(17, e0);
     consume(52);                    // RULE_REF
     lookahead1W(47);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | OPTIONS | RETURNS | LOCALS | THROWS |
                                     // COLON | AT | WS | '['
@@ -531,12 +547,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
                                     // WS | EOF | RULE_REF | TOKEN_REF
     whitespace();
     parse_exceptionGroup();
-    eventHandler.endNonterminal("parserRule", e0);
+    eventHandler.endNonterminal(17, e0);
   }
 
   private void parse_exceptionGroup()
   {
-    eventHandler.startNonterminal("exceptionGroup", e0);
+    eventHandler.startNonterminal(18, e0);
     for (;;)
     {
       lookahead1W(48);              // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | FRAGMENT | CATCH | FINALLY | MODE |
@@ -553,12 +569,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_finallyClause();
     }
-    eventHandler.endNonterminal("exceptionGroup", e0);
+    eventHandler.endNonterminal(18, e0);
   }
 
   private void parse_exceptionHandler()
   {
-    eventHandler.startNonterminal("exceptionHandler", e0);
+    eventHandler.startNonterminal(19, e0);
     consume(20);                    // CATCH
     lookahead1W(13);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | WS | '['
     whitespace();
@@ -566,22 +582,22 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     lookahead1W(14);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | WS | '{'
     whitespace();
     parse_ACTION();
-    eventHandler.endNonterminal("exceptionHandler", e0);
+    eventHandler.endNonterminal(19, e0);
   }
 
   private void parse_finallyClause()
   {
-    eventHandler.startNonterminal("finallyClause", e0);
+    eventHandler.startNonterminal(20, e0);
     consume(21);                    // FINALLY
     lookahead1W(14);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | WS | '{'
     whitespace();
     parse_ACTION();
-    eventHandler.endNonterminal("finallyClause", e0);
+    eventHandler.endNonterminal(20, e0);
   }
 
   private void parse_rulePrequels()
   {
-    eventHandler.startNonterminal("rulePrequels", e0);
+    eventHandler.startNonterminal(21, e0);
     parse_sync();
     for (;;)
     {
@@ -595,12 +611,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_sync();
     }
-    eventHandler.endNonterminal("rulePrequels", e0);
+    eventHandler.endNonterminal(21, e0);
   }
 
   private void parse_rulePrequel()
   {
-    eventHandler.startNonterminal("rulePrequel", e0);
+    eventHandler.startNonterminal(22, e0);
     switch (l1)
     {
     case 8:                         // OPTIONS
@@ -609,22 +625,22 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     default:
       parse_ruleAction();
     }
-    eventHandler.endNonterminal("rulePrequel", e0);
+    eventHandler.endNonterminal(22, e0);
   }
 
   private void parse_ruleReturns()
   {
-    eventHandler.startNonterminal("ruleReturns", e0);
+    eventHandler.startNonterminal(23, e0);
     consume(17);                    // RETURNS
     lookahead1W(13);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | WS | '['
     whitespace();
     parse_ARG_ACTION();
-    eventHandler.endNonterminal("ruleReturns", e0);
+    eventHandler.endNonterminal(23, e0);
   }
 
   private void parse_throwsSpec()
   {
-    eventHandler.startNonterminal("throwsSpec", e0);
+    eventHandler.startNonterminal(24, e0);
     consume(19);                    // THROWS
     lookahead1W(25);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | WS | RULE_REF | TOKEN_REF
     whitespace();
@@ -640,22 +656,22 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_qid();
     }
-    eventHandler.endNonterminal("throwsSpec", e0);
+    eventHandler.endNonterminal(24, e0);
   }
 
   private void parse_localsSpec()
   {
-    eventHandler.startNonterminal("localsSpec", e0);
+    eventHandler.startNonterminal(25, e0);
     consume(18);                    // LOCALS
     lookahead1W(13);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | WS | '['
     whitespace();
     parse_ARG_ACTION();
-    eventHandler.endNonterminal("localsSpec", e0);
+    eventHandler.endNonterminal(25, e0);
   }
 
   private void parse_ruleAction()
   {
-    eventHandler.startNonterminal("ruleAction", e0);
+    eventHandler.startNonterminal(26, e0);
     consume(40);                    // AT
     lookahead1W(25);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | WS | RULE_REF | TOKEN_REF
     whitespace();
@@ -663,19 +679,19 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     lookahead1W(14);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | WS | '{'
     whitespace();
     parse_ACTION();
-    eventHandler.endNonterminal("ruleAction", e0);
+    eventHandler.endNonterminal(26, e0);
   }
 
   private void parse_ruleBlock()
   {
-    eventHandler.startNonterminal("ruleBlock", e0);
+    eventHandler.startNonterminal(27, e0);
     parse_ruleAltList();
-    eventHandler.endNonterminal("ruleBlock", e0);
+    eventHandler.endNonterminal(27, e0);
   }
 
   private void parse_ruleAltList()
   {
-    eventHandler.startNonterminal("ruleAltList", e0);
+    eventHandler.startNonterminal(28, e0);
     parse_labeledAlt();
     for (;;)
     {
@@ -690,12 +706,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_labeledAlt();
     }
-    eventHandler.endNonterminal("ruleAltList", e0);
+    eventHandler.endNonterminal(28, e0);
   }
 
   private void parse_labeledAlt()
   {
-    eventHandler.startNonterminal("labeledAlt", e0);
+    eventHandler.startNonterminal(29, e0);
     parse_alternative();
     if (l1 == 41)                   // POUND
     {
@@ -704,12 +720,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_id();
     }
-    eventHandler.endNonterminal("labeledAlt", e0);
+    eventHandler.endNonterminal(29, e0);
   }
 
   private void parse_lexerRule()
   {
-    eventHandler.startNonterminal("lexerRule", e0);
+    eventHandler.startNonterminal(30, e0);
     if (l1 == 12)                   // FRAGMENT
     {
       consume(12);                  // FRAGMENT
@@ -723,19 +739,19 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     whitespace();
     parse_lexerRuleBlock();
     consume(26);                    // SEMI
-    eventHandler.endNonterminal("lexerRule", e0);
+    eventHandler.endNonterminal(30, e0);
   }
 
   private void parse_lexerRuleBlock()
   {
-    eventHandler.startNonterminal("lexerRuleBlock", e0);
+    eventHandler.startNonterminal(31, e0);
     parse_lexerAltList();
-    eventHandler.endNonterminal("lexerRuleBlock", e0);
+    eventHandler.endNonterminal(31, e0);
   }
 
   private void parse_lexerAltList()
   {
-    eventHandler.startNonterminal("lexerAltList", e0);
+    eventHandler.startNonterminal(32, e0);
     parse_lexerAlt();
     for (;;)
     {
@@ -749,24 +765,24 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_lexerAlt();
     }
-    eventHandler.endNonterminal("lexerAltList", e0);
+    eventHandler.endNonterminal(32, e0);
   }
 
   private void parse_lexerAlt()
   {
-    eventHandler.startNonterminal("lexerAlt", e0);
+    eventHandler.startNonterminal(33, e0);
     parse_lexerElements();
     if (l1 == 29)                   // RARROW
     {
       whitespace();
       parse_lexerCommands();
     }
-    eventHandler.endNonterminal("lexerAlt", e0);
+    eventHandler.endNonterminal(33, e0);
   }
 
   private void parse_lexerElements()
   {
-    eventHandler.startNonterminal("lexerElements", e0);
+    eventHandler.startNonterminal(34, e0);
     for (;;)
     {
       lookahead1W(58);              // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | SEMI | LPAREN | RPAREN | RARROW | OR |
@@ -781,12 +797,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_lexerElement();
     }
-    eventHandler.endNonterminal("lexerElements", e0);
+    eventHandler.endNonterminal(34, e0);
   }
 
   private void parse_lexerElement()
   {
-    eventHandler.startNonterminal("lexerElement", e0);
+    eventHandler.startNonterminal(35, e0);
     switch (l1)
     {
     case 58:                        // '{'
@@ -833,12 +849,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
         parse_ebnfSuffix();
       }
     }
-    eventHandler.endNonterminal("lexerElement", e0);
+    eventHandler.endNonterminal(35, e0);
   }
 
   private void parse_labeledLexerElement()
   {
-    eventHandler.startNonterminal("labeledLexerElement", e0);
+    eventHandler.startNonterminal(36, e0);
     parse_id();
     lookahead1W(24);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | ASSIGN | PLUS_ASSIGN | WS
     switch (l1)
@@ -861,12 +877,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_lexerAtom();
     }
-    eventHandler.endNonterminal("labeledLexerElement", e0);
+    eventHandler.endNonterminal(36, e0);
   }
 
   private void parse_lexerBlock()
   {
-    eventHandler.startNonterminal("lexerBlock", e0);
+    eventHandler.startNonterminal(37, e0);
     consume(27);                    // LPAREN
     lookahead1W(57);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | OPTIONS | LPAREN | RPAREN | RARROW |
                                     // OR | DOT | NOT | STRING_LITERAL | WS | RULE_REF | TOKEN_REF | '[' | '{'
@@ -882,12 +898,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     whitespace();
     parse_lexerAltList();
     consume(28);                    // RPAREN
-    eventHandler.endNonterminal("lexerBlock", e0);
+    eventHandler.endNonterminal(37, e0);
   }
 
   private void parse_lexerCommands()
   {
-    eventHandler.startNonterminal("lexerCommands", e0);
+    eventHandler.startNonterminal(38, e0);
     consume(29);                    // RARROW
     lookahead1W(27);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | MODE | WS | RULE_REF | TOKEN_REF
     whitespace();
@@ -904,12 +920,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_lexerCommand();
     }
-    eventHandler.endNonterminal("lexerCommands", e0);
+    eventHandler.endNonterminal(38, e0);
   }
 
   private void parse_lexerCommand()
   {
-    eventHandler.startNonterminal("lexerCommand", e0);
+    eventHandler.startNonterminal(39, e0);
     parse_lexerCommandName();
     lookahead1W(43);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | COMMA | SEMI | LPAREN | RPAREN | OR |
                                     // WS
@@ -922,12 +938,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       lookahead1W(8);               // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | RPAREN | WS
       consume(28);                  // RPAREN
     }
-    eventHandler.endNonterminal("lexerCommand", e0);
+    eventHandler.endNonterminal(39, e0);
   }
 
   private void parse_lexerCommandExpr()
   {
-    eventHandler.startNonterminal("lexerCommandExpr", e0);
+    eventHandler.startNonterminal(40, e0);
     switch (l1)
     {
     case 47:                        // INT
@@ -936,12 +952,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     default:
       parse_id();
     }
-    eventHandler.endNonterminal("lexerCommandExpr", e0);
+    eventHandler.endNonterminal(40, e0);
   }
 
   private void parse_lexerCommandName()
   {
-    eventHandler.startNonterminal("lexerCommandName", e0);
+    eventHandler.startNonterminal(41, e0);
     switch (l1)
     {
     case 22:                        // MODE
@@ -950,12 +966,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     default:
       parse_id();
     }
-    eventHandler.endNonterminal("lexerCommandName", e0);
+    eventHandler.endNonterminal(41, e0);
   }
 
   private void parse_altList()
   {
-    eventHandler.startNonterminal("altList", e0);
+    eventHandler.startNonterminal(42, e0);
     parse_alternative();
     for (;;)
     {
@@ -969,12 +985,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_alternative();
     }
-    eventHandler.endNonterminal("altList", e0);
+    eventHandler.endNonterminal(42, e0);
   }
 
   private void parse_alternative()
   {
-    eventHandler.startNonterminal("alternative", e0);
+    eventHandler.startNonterminal(43, e0);
     if (l1 == 30)                   // LT
     {
       whitespace();
@@ -994,12 +1010,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_element();
     }
-    eventHandler.endNonterminal("alternative", e0);
+    eventHandler.endNonterminal(43, e0);
   }
 
   private void parse_element()
   {
-    eventHandler.startNonterminal("element", e0);
+    eventHandler.startNonterminal(44, e0);
     switch (l1)
     {
     case 27:                        // LPAREN
@@ -1046,12 +1062,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
         parse_ebnfSuffix();
       }
     }
-    eventHandler.endNonterminal("element", e0);
+    eventHandler.endNonterminal(44, e0);
   }
 
   private void parse_actionElement()
   {
-    eventHandler.startNonterminal("actionElement", e0);
+    eventHandler.startNonterminal(45, e0);
     parse_ACTION();
     lookahead1W(60);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | SEMI | LPAREN | RPAREN | RARROW | LT |
                                     // OR | DOT | POUND | NOT | STRING_LITERAL | WS | RULE_REF | TOKEN_REF | '[' | '{'
@@ -1060,12 +1076,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_elementOptions();
     }
-    eventHandler.endNonterminal("actionElement", e0);
+    eventHandler.endNonterminal(45, e0);
   }
 
   private void parse_labeledElement()
   {
-    eventHandler.startNonterminal("labeledElement", e0);
+    eventHandler.startNonterminal(46, e0);
     parse_id();
     lookahead1W(24);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | ASSIGN | PLUS_ASSIGN | WS
     switch (l1)
@@ -1088,12 +1104,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_atom();
     }
-    eventHandler.endNonterminal("labeledElement", e0);
+    eventHandler.endNonterminal(46, e0);
   }
 
   private void parse_ebnf()
   {
-    eventHandler.startNonterminal("ebnf", e0);
+    eventHandler.startNonterminal(47, e0);
     parse_block();
     lookahead1W(62);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | SEMI | LPAREN | RPAREN | QUESTION |
                                     // STAR | PLUS | OR | DOT | POUND | NOT | STRING_LITERAL | WS | RULE_REF |
@@ -1105,19 +1121,19 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_blockSuffix();
     }
-    eventHandler.endNonterminal("ebnf", e0);
+    eventHandler.endNonterminal(47, e0);
   }
 
   private void parse_blockSuffix()
   {
-    eventHandler.startNonterminal("blockSuffix", e0);
+    eventHandler.startNonterminal(48, e0);
     parse_ebnfSuffix();
-    eventHandler.endNonterminal("blockSuffix", e0);
+    eventHandler.endNonterminal(48, e0);
   }
 
   private void parse_ebnfSuffix()
   {
-    eventHandler.startNonterminal("ebnfSuffix", e0);
+    eventHandler.startNonterminal(49, e0);
     switch (l1)
     {
     case 33:                        // QUESTION
@@ -1136,12 +1152,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     {
       consume(33);                  // QUESTION
     }
-    eventHandler.endNonterminal("ebnfSuffix", e0);
+    eventHandler.endNonterminal(49, e0);
   }
 
   private void parse_lexerAtom()
   {
-    eventHandler.startNonterminal("lexerAtom", e0);
+    eventHandler.startNonterminal(50, e0);
     switch (l1)
     {
     case 48:                        // STRING_LITERAL
@@ -1172,12 +1188,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     default:
       parse_terminal();
     }
-    eventHandler.endNonterminal("lexerAtom", e0);
+    eventHandler.endNonterminal(50, e0);
   }
 
   private void parse_atom()
   {
-    eventHandler.startNonterminal("atom", e0);
+    eventHandler.startNonterminal(51, e0);
     switch (l1)
     {
     case 48:                        // STRING_LITERAL
@@ -1205,12 +1221,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     default:
       parse_terminal();
     }
-    eventHandler.endNonterminal("atom", e0);
+    eventHandler.endNonterminal(51, e0);
   }
 
   private void parse_wildcard()
   {
-    eventHandler.startNonterminal("wildcard", e0);
+    eventHandler.startNonterminal(52, e0);
     consume(38);                    // DOT
     lookahead1W(68);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | SEMI | LPAREN | RPAREN | RARROW | LT |
                                     // QUESTION | STAR | PLUS | OR | DOT | POUND | NOT | STRING_LITERAL | WS |
@@ -1220,12 +1236,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_elementOptions();
     }
-    eventHandler.endNonterminal("wildcard", e0);
+    eventHandler.endNonterminal(52, e0);
   }
 
   private void parse_notSet()
   {
-    eventHandler.startNonterminal("notSet", e0);
+    eventHandler.startNonterminal(53, e0);
     consume(42);                    // NOT
     lookahead1W(40);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | LPAREN | STRING_LITERAL | WS |
                                     // TOKEN_REF | '['
@@ -1239,12 +1255,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_setElement();
     }
-    eventHandler.endNonterminal("notSet", e0);
+    eventHandler.endNonterminal(53, e0);
   }
 
   private void parse_blockSet()
   {
-    eventHandler.startNonterminal("blockSet", e0);
+    eventHandler.startNonterminal(54, e0);
     consume(27);                    // LPAREN
     lookahead1W(32);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | STRING_LITERAL | WS | TOKEN_REF | '['
     whitespace();
@@ -1262,12 +1278,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       parse_setElement();
     }
     consume(28);                    // RPAREN
-    eventHandler.endNonterminal("blockSet", e0);
+    eventHandler.endNonterminal(54, e0);
   }
 
   private void parse_setElement()
   {
-    eventHandler.startNonterminal("setElement", e0);
+    eventHandler.startNonterminal(55, e0);
     switch (l1)
     {
     case 48:                        // STRING_LITERAL
@@ -1304,12 +1320,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
         parse_elementOptions();
       }
     }
-    eventHandler.endNonterminal("setElement", e0);
+    eventHandler.endNonterminal(55, e0);
   }
 
   private void parse_block()
   {
-    eventHandler.startNonterminal("block", e0);
+    eventHandler.startNonterminal(56, e0);
     consume(27);                    // LPAREN
     lookahead1W(59);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | OPTIONS | COLON | LPAREN | RPAREN |
                                     // LT | OR | DOT | AT | NOT | STRING_LITERAL | WS | RULE_REF | TOKEN_REF | '{'
@@ -1339,12 +1355,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     whitespace();
     parse_altList();
     consume(28);                    // RPAREN
-    eventHandler.endNonterminal("block", e0);
+    eventHandler.endNonterminal(56, e0);
   }
 
   private void parse_ruleref()
   {
-    eventHandler.startNonterminal("ruleref", e0);
+    eventHandler.startNonterminal(57, e0);
     consume(52);                    // RULE_REF
     lookahead1W(66);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | SEMI | LPAREN | RPAREN | LT |
                                     // QUESTION | STAR | PLUS | OR | DOT | POUND | NOT | STRING_LITERAL | WS |
@@ -1362,23 +1378,23 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_elementOptions();
     }
-    eventHandler.endNonterminal("ruleref", e0);
+    eventHandler.endNonterminal(57, e0);
   }
 
   private void parse_range()
   {
-    eventHandler.startNonterminal("range", e0);
+    eventHandler.startNonterminal(58, e0);
     consume(48);                    // STRING_LITERAL
     lookahead1W(10);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | RANGE | WS
     consume(39);                    // RANGE
     lookahead1W(11);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | STRING_LITERAL | WS
     consume(48);                    // STRING_LITERAL
-    eventHandler.endNonterminal("range", e0);
+    eventHandler.endNonterminal(58, e0);
   }
 
   private void parse_terminal()
   {
-    eventHandler.startNonterminal("terminal", e0);
+    eventHandler.startNonterminal(59, e0);
     switch (l1)
     {
     case 53:                        // TOKEN_REF
@@ -1395,12 +1411,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_elementOptions();
     }
-    eventHandler.endNonterminal("terminal", e0);
+    eventHandler.endNonterminal(59, e0);
   }
 
   private void parse_elementOptions()
   {
-    eventHandler.startNonterminal("elementOptions", e0);
+    eventHandler.startNonterminal(60, e0);
     consume(30);                    // LT
     lookahead1W(29);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | GT | WS | RULE_REF | TOKEN_REF
     if (l1 != 31)                   // GT
@@ -1421,12 +1437,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       }
     }
     consume(31);                    // GT
-    eventHandler.endNonterminal("elementOptions", e0);
+    eventHandler.endNonterminal(60, e0);
   }
 
   private void parse_elementOption()
   {
-    eventHandler.startNonterminal("elementOption", e0);
+    eventHandler.startNonterminal(61, e0);
     switch (l1)
     {
     case 52:                        // RULE_REF
@@ -1451,12 +1467,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     default:
       parse_qid();
     }
-    eventHandler.endNonterminal("elementOption", e0);
+    eventHandler.endNonterminal(61, e0);
   }
 
   private void parse_id()
   {
-    eventHandler.startNonterminal("id", e0);
+    eventHandler.startNonterminal(62, e0);
     switch (l1)
     {
     case 52:                        // RULE_REF
@@ -1465,12 +1481,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     default:
       consume(53);                  // TOKEN_REF
     }
-    eventHandler.endNonterminal("id", e0);
+    eventHandler.endNonterminal(62, e0);
   }
 
   private void parse_qid()
   {
-    eventHandler.startNonterminal("qid", e0);
+    eventHandler.startNonterminal(63, e0);
     parse_id();
     for (;;)
     {
@@ -1485,12 +1501,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       whitespace();
       parse_id();
     }
-    eventHandler.endNonterminal("qid", e0);
+    eventHandler.endNonterminal(63, e0);
   }
 
   private void parse_ARG_ACTION()
   {
-    eventHandler.startNonterminal("ARG_ACTION", e0);
+    eventHandler.startNonterminal(65, e0);
     consume(56);                    // '['
     for (;;)
     {
@@ -1515,12 +1531,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       }
     }
     consume(57);                    // ']'
-    eventHandler.endNonterminal("ARG_ACTION", e0);
+    eventHandler.endNonterminal(65, e0);
   }
 
   private void parse_ACTION()
   {
-    eventHandler.startNonterminal("ACTION", e0);
+    eventHandler.startNonterminal(66, e0);
     parse_NESTED_ACTION();
     lookahead1W(74);                // MULTI_LINE_COMMENT | SINGLE_LINE_COMMENT | OPTIONS | TOKENS_SPEC | CHANNELS |
                                     // IMPORT | FRAGMENT | CATCH | FINALLY | MODE | COLON | COMMA | SEMI | LPAREN |
@@ -1548,12 +1564,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
         consume(54);                // '=>'
       }
     }
-    eventHandler.endNonterminal("ACTION", e0);
+    eventHandler.endNonterminal(66, e0);
   }
 
   private void parse_NESTED_ACTION()
   {
-    eventHandler.startNonterminal("NESTED_ACTION", e0);
+    eventHandler.startNonterminal(67, e0);
     consume(58);                    // '{'
     for (;;)
     {
@@ -1585,12 +1601,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       }
     }
     consume(59);                    // '}'
-    eventHandler.endNonterminal("NESTED_ACTION", e0);
+    eventHandler.endNonterminal(67, e0);
   }
 
   private void parse_LEXER_CHAR_SET()
   {
-    eventHandler.startNonterminal("LEXER_CHAR_SET", e0);
+    eventHandler.startNonterminal(68, e0);
     consume(56);                    // '['
     for (;;)
     {
@@ -1602,12 +1618,12 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       parse_LEXER_CHAR_RANGE();
     }
     consume(57);                    // ']'
-    eventHandler.endNonterminal("LEXER_CHAR_SET", e0);
+    eventHandler.endNonterminal(68, e0);
   }
 
   private void parse_LEXER_CHAR_RANGE()
   {
-    eventHandler.startNonterminal("LEXER_CHAR_RANGE", e0);
+    eventHandler.startNonterminal(69, e0);
     consume(1);                     // LEXER_CHAR
     lookahead1(3);                  // LEXER_CHAR | LEXER_RANGE_OPERATOR | ']'
     if (l1 == 2)                    // LEXER_RANGE_OPERATOR
@@ -1616,7 +1632,7 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
       lookahead1(0);                // LEXER_CHAR
       consume(1);                   // LEXER_CHAR
     }
-    eventHandler.endNonterminal("LEXER_CHAR_RANGE", e0);
+    eventHandler.endNonterminal(69, e0);
   }
 
   private void consume(int t)
@@ -1624,7 +1640,7 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     if (l1 == t)
     {
       whitespace();
-      eventHandler.terminal(TOKEN[l1], b1, e1);
+      eventHandler.terminal(l1, b1, e1);
       b0 = b1; e0 = e1; l1 = l2; if (l1 != 0) {
       b1 = b2; e1 = e2; l2 = 0; }
     }
@@ -2215,7 +2231,7 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     /* 404 */ 0, 16384, 65536, 8192, 4096, 0, 1048576, 0, 1048576, 1048576, 0, 0, 0
   };
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "LEXER_CHAR",
@@ -2277,6 +2293,80 @@ public class Antlr_4 implements de.bottlecaps.convert.Parser
     "']'",
     "'{'",
     "'}'"
+  };
+
+  public static final String[] NONTERMINAL =
+  {
+    "grammarSpec",
+    "grammarType",
+    "prequelConstruct",
+    "optionsSpec",
+    "option",
+    "optionValue",
+    "delegateGrammars",
+    "delegateGrammar",
+    "tokensSpec",
+    "v3tokenSpec",
+    "channelsSpec",
+    "action",
+    "actionScopeName",
+    "modeSpec",
+    "rules",
+    "sync",
+    "rule",
+    "parserRule",
+    "exceptionGroup",
+    "exceptionHandler",
+    "finallyClause",
+    "rulePrequels",
+    "rulePrequel",
+    "ruleReturns",
+    "throwsSpec",
+    "localsSpec",
+    "ruleAction",
+    "ruleBlock",
+    "ruleAltList",
+    "labeledAlt",
+    "lexerRule",
+    "lexerRuleBlock",
+    "lexerAltList",
+    "lexerAlt",
+    "lexerElements",
+    "lexerElement",
+    "labeledLexerElement",
+    "lexerBlock",
+    "lexerCommands",
+    "lexerCommand",
+    "lexerCommandExpr",
+    "lexerCommandName",
+    "altList",
+    "alternative",
+    "element",
+    "actionElement",
+    "labeledElement",
+    "ebnf",
+    "blockSuffix",
+    "ebnfSuffix",
+    "lexerAtom",
+    "atom",
+    "wildcard",
+    "notSet",
+    "blockSet",
+    "setElement",
+    "block",
+    "ruleref",
+    "range",
+    "terminal",
+    "elementOptions",
+    "elementOption",
+    "id",
+    "qid",
+    "_",
+    "ARG_ACTION",
+    "ACTION",
+    "NESTED_ACTION",
+    "LEXER_CHAR_SET",
+    "LEXER_CHAR_RANGE"
   };
 }
 

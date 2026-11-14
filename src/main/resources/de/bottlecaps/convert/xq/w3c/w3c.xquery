@@ -1,6 +1,6 @@
 xquery version "1.0" encoding "UTF-8";
 
-(: This file was generated on Thu Oct 16, 2025 12:54 (UTC+02) by REx v6.2-SNAPSHOT which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net> :)
+(: This file was generated on Sat Nov 14, 2026 08:41 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net> :)
 (: REx command line: -q -tree -a none -xquery -name de/bottlecaps/convert/xq/w3c/w3c.xquery ../../../../../../../main/java/de/bottlecaps/convert/w3c/w3c.ebnf :)
 
 (:~

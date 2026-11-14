@@ -1,9 +1,10 @@
-// This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net>
+// This file was generated on Sat Nov 14, 2026 08:40 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net>
 // REx command line: -q -tree -a none -java -interface de.bottlecaps.convert.Parser -name de.bottlecaps.convert.jison.Jison jison.ebnf
 
 package de.bottlecaps.convert.jison;
 
 
+@SuppressWarnings("all")
 public class Jison implements de.bottlecaps.convert.Parser
 {
   public Jison(CharSequence string, EventHandler t)
@@ -53,6 +54,21 @@ public class Jison implements de.bottlecaps.convert.Parser
     return e.getOffending() < 0 ? null : TOKEN[e.getOffending()];
   }
 
+  private Jison()
+  {
+    // used for obtaining the names, when the parser is not instantiated yet
+  }
+
+  public String getTerminalName(int id)
+  {
+    return TOKEN[id];
+  }
+
+  public String getNonterminalName(int id)
+  {
+    return NONTERMINAL[id];
+  }
+
   public static String[] getExpectedTokenSet(ParseException e)
   {
     String[] expected;
@@ -94,7 +110,7 @@ public class Jison implements de.bottlecaps.convert.Parser
 
   public void parse_jison()
   {
-    eventHandler.startNonterminal("jison", e0);
+    eventHandler.startNonterminal(0, e0);
     lookahead1W(24);                // START | LEX_BLOCK | ACTION | LEFT | RIGHT | NONASSOC | TOKEN | whitespace |
                                     // comment | '%%' | '{'
     switch (l1)
@@ -105,12 +121,12 @@ public class Jison implements de.bottlecaps.convert.Parser
     default:
       parse_spec();
     }
-    eventHandler.endNonterminal("jison", e0);
+    eventHandler.endNonterminal(0, e0);
   }
 
   private void parse_spec()
   {
-    eventHandler.startNonterminal("spec", e0);
+    eventHandler.startNonterminal(1, e0);
     parse_declaration_list();
     consume(22);                    // '%%'
     lookahead1W(0);                 // ID | whitespace | comment
@@ -127,12 +143,12 @@ public class Jison implements de.bottlecaps.convert.Parser
     }
     lookahead1W(1);                 // EOF | whitespace | comment
     consume(14);                    // EOF
-    eventHandler.endNonterminal("spec", e0);
+    eventHandler.endNonterminal(1, e0);
   }
 
   private void parse_declaration_list()
   {
-    eventHandler.startNonterminal("declaration_list", e0);
+    eventHandler.startNonterminal(2, e0);
     for (;;)
     {
       lookahead1W(21);              // START | LEX_BLOCK | ACTION | LEFT | RIGHT | NONASSOC | TOKEN | whitespace |
@@ -144,12 +160,12 @@ public class Jison implements de.bottlecaps.convert.Parser
       whitespace();
       parse_declaration();
     }
-    eventHandler.endNonterminal("declaration_list", e0);
+    eventHandler.endNonterminal(2, e0);
   }
 
   private void parse_declaration()
   {
-    eventHandler.startNonterminal("declaration", e0);
+    eventHandler.startNonterminal(3, e0);
     switch (l1)
     {
     case 2:                         // START
@@ -167,22 +183,22 @@ public class Jison implements de.bottlecaps.convert.Parser
     default:
       parse_operator();
     }
-    eventHandler.endNonterminal("declaration", e0);
+    eventHandler.endNonterminal(3, e0);
   }
 
   private void parse_operator()
   {
-    eventHandler.startNonterminal("operator", e0);
+    eventHandler.startNonterminal(4, e0);
     parse_associativity();
     lookahead1W(10);                // STRING | ID | whitespace | comment
     whitespace();
     parse_token_list();
-    eventHandler.endNonterminal("operator", e0);
+    eventHandler.endNonterminal(4, e0);
   }
 
   private void parse_associativity()
   {
-    eventHandler.startNonterminal("associativity", e0);
+    eventHandler.startNonterminal(5, e0);
     switch (l1)
     {
     case 5:                         // LEFT
@@ -197,12 +213,12 @@ public class Jison implements de.bottlecaps.convert.Parser
     default:
       consume(8);                   // TOKEN
     }
-    eventHandler.endNonterminal("associativity", e0);
+    eventHandler.endNonterminal(5, e0);
   }
 
   private void parse_token_list()
   {
-    eventHandler.startNonterminal("token_list", e0);
+    eventHandler.startNonterminal(6, e0);
     for (;;)
     {
       whitespace();
@@ -215,19 +231,19 @@ public class Jison implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("token_list", e0);
+    eventHandler.endNonterminal(6, e0);
   }
 
   private void parse_grammar()
   {
-    eventHandler.startNonterminal("grammar", e0);
+    eventHandler.startNonterminal(7, e0);
     parse_production_list();
-    eventHandler.endNonterminal("grammar", e0);
+    eventHandler.endNonterminal(7, e0);
   }
 
   private void parse_production_list()
   {
-    eventHandler.startNonterminal("production_list", e0);
+    eventHandler.startNonterminal(8, e0);
     for (;;)
     {
       whitespace();
@@ -238,12 +254,12 @@ public class Jison implements de.bottlecaps.convert.Parser
         break;
       }
     }
-    eventHandler.endNonterminal("production_list", e0);
+    eventHandler.endNonterminal(8, e0);
   }
 
   private void parse_production()
   {
-    eventHandler.startNonterminal("production", e0);
+    eventHandler.startNonterminal(9, e0);
     parse_id();
     lookahead1W(6);                 // whitespace | comment | ':'
     consume(24);                    // ':'
@@ -252,12 +268,12 @@ public class Jison implements de.bottlecaps.convert.Parser
     whitespace();
     parse_handle_list();
     consume(25);                    // ';'
-    eventHandler.endNonterminal("production", e0);
+    eventHandler.endNonterminal(9, e0);
   }
 
   private void parse_handle_list()
   {
-    eventHandler.startNonterminal("handle_list", e0);
+    eventHandler.startNonterminal(10, e0);
     parse_handle_action();
     for (;;)
     {
@@ -272,24 +288,24 @@ public class Jison implements de.bottlecaps.convert.Parser
       whitespace();
       parse_handle_action();
     }
-    eventHandler.endNonterminal("handle_list", e0);
+    eventHandler.endNonterminal(10, e0);
   }
 
   private void parse_handle_action()
   {
-    eventHandler.startNonterminal("handle_action", e0);
+    eventHandler.startNonterminal(11, e0);
     parse_handle();
     whitespace();
     parse_prec();
     lookahead1W(19);                // ACTION | ARROW_ACTION | whitespace | comment | ';' | '{' | '|'
     whitespace();
     parse_action();
-    eventHandler.endNonterminal("handle_action", e0);
+    eventHandler.endNonterminal(11, e0);
   }
 
   private void parse_handle()
   {
-    eventHandler.startNonterminal("handle", e0);
+    eventHandler.startNonterminal(12, e0);
     for (;;)
     {
       lookahead1W(22);              // ACTION | PREC | STRING | ID | ARROW_ACTION | whitespace | comment | ';' | '{' |
@@ -302,12 +318,12 @@ public class Jison implements de.bottlecaps.convert.Parser
       whitespace();
       parse_symbol();
     }
-    eventHandler.endNonterminal("handle", e0);
+    eventHandler.endNonterminal(12, e0);
   }
 
   private void parse_prec()
   {
-    eventHandler.startNonterminal("prec", e0);
+    eventHandler.startNonterminal(13, e0);
     switch (l1)
     {
     case 9:                         // PREC
@@ -319,12 +335,12 @@ public class Jison implements de.bottlecaps.convert.Parser
     default:
       break;
     }
-    eventHandler.endNonterminal("prec", e0);
+    eventHandler.endNonterminal(13, e0);
   }
 
   private void parse_symbol()
   {
-    eventHandler.startNonterminal("symbol", e0);
+    eventHandler.startNonterminal(14, e0);
     switch (l1)
     {
     case 11:                        // ID
@@ -333,19 +349,19 @@ public class Jison implements de.bottlecaps.convert.Parser
     default:
       consume(10);                  // STRING
     }
-    eventHandler.endNonterminal("symbol", e0);
+    eventHandler.endNonterminal(14, e0);
   }
 
   private void parse_id()
   {
-    eventHandler.startNonterminal("id", e0);
+    eventHandler.startNonterminal(15, e0);
     consume(11);                    // ID
-    eventHandler.endNonterminal("id", e0);
+    eventHandler.endNonterminal(15, e0);
   }
 
   private void parse_action()
   {
-    eventHandler.startNonterminal("action", e0);
+    eventHandler.startNonterminal(16, e0);
     switch (l1)
     {
     case 31:                        // '{'
@@ -360,12 +376,12 @@ public class Jison implements de.bottlecaps.convert.Parser
     default:
       break;
     }
-    eventHandler.endNonterminal("action", e0);
+    eventHandler.endNonterminal(16, e0);
   }
 
   private void parse_action_body()
   {
-    eventHandler.startNonterminal("action_body", e0);
+    eventHandler.startNonterminal(17, e0);
     consume(31);                    // '{'
     for (;;)
     {
@@ -385,12 +401,12 @@ public class Jison implements de.bottlecaps.convert.Parser
       }
     }
     consume(33);                    // '}'
-    eventHandler.endNonterminal("action_body", e0);
+    eventHandler.endNonterminal(17, e0);
   }
 
   private void parse_json()
   {
-    eventHandler.startNonterminal("json", e0);
+    eventHandler.startNonterminal(18, e0);
     consume(31);                    // '{'
     lookahead1W(13);                // whitespace | comment | non-bnf-string | '"bnf"'
     whitespace();
@@ -404,24 +420,24 @@ public class Jison implements de.bottlecaps.convert.Parser
     consume(33);                    // '}'
     lookahead1W(4);                 // whitespace | comment | eof
     consume(20);                    // eof
-    eventHandler.endNonterminal("json", e0);
+    eventHandler.endNonterminal(18, e0);
   }
 
   private void parse_leading_non_bnf_pairs()
   {
-    eventHandler.startNonterminal("leading-non-bnf-pairs", e0);
+    eventHandler.startNonterminal(19, e0);
     if (l1 == 18)                   // non-bnf-string
     {
       whitespace();
       parse_non_bnf_pairs();
       consume(23);                  // ','
     }
-    eventHandler.endNonterminal("leading-non-bnf-pairs", e0);
+    eventHandler.endNonterminal(19, e0);
   }
 
   private void parse_non_bnf_pairs()
   {
-    eventHandler.startNonterminal("non-bnf-pairs", e0);
+    eventHandler.startNonterminal(20, e0);
     parse_non_bnf_pair();
     for (;;)
     {
@@ -443,24 +459,24 @@ public class Jison implements de.bottlecaps.convert.Parser
       whitespace();
       parse_non_bnf_pair();
     }
-    eventHandler.endNonterminal("non-bnf-pairs", e0);
+    eventHandler.endNonterminal(20, e0);
   }
 
   private void parse_non_bnf_pair()
   {
-    eventHandler.startNonterminal("non-bnf-pair", e0);
+    eventHandler.startNonterminal(21, e0);
     consume(18);                    // non-bnf-string
     lookahead1W(6);                 // whitespace | comment | ':'
     consume(24);                    // ':'
     lookahead1W(20);                // whitespace | comment | string | number | '[' | 'false' | 'null' | 'true' | '{'
     whitespace();
     parse_value();
-    eventHandler.endNonterminal("non-bnf-pair", e0);
+    eventHandler.endNonterminal(21, e0);
   }
 
   private void parse_value()
   {
-    eventHandler.startNonterminal("value", e0);
+    eventHandler.startNonterminal(22, e0);
     switch (l1)
     {
     case 17:                        // string
@@ -484,12 +500,12 @@ public class Jison implements de.bottlecaps.convert.Parser
     default:
       consume(29);                  // 'null'
     }
-    eventHandler.endNonterminal("value", e0);
+    eventHandler.endNonterminal(22, e0);
   }
 
   private void parse_object()
   {
-    eventHandler.startNonterminal("object", e0);
+    eventHandler.startNonterminal(23, e0);
     consume(31);                    // '{'
     lookahead1W(12);                // whitespace | comment | string | '}'
     if (l1 == 17)                   // string
@@ -510,24 +526,24 @@ public class Jison implements de.bottlecaps.convert.Parser
       }
     }
     consume(33);                    // '}'
-    eventHandler.endNonterminal("object", e0);
+    eventHandler.endNonterminal(23, e0);
   }
 
   private void parse_pair()
   {
-    eventHandler.startNonterminal("pair", e0);
+    eventHandler.startNonterminal(24, e0);
     consume(17);                    // string
     lookahead1W(6);                 // whitespace | comment | ':'
     consume(24);                    // ':'
     lookahead1W(20);                // whitespace | comment | string | number | '[' | 'false' | 'null' | 'true' | '{'
     whitespace();
     parse_value();
-    eventHandler.endNonterminal("pair", e0);
+    eventHandler.endNonterminal(24, e0);
   }
 
   private void parse_array()
   {
-    eventHandler.startNonterminal("array", e0);
+    eventHandler.startNonterminal(25, e0);
     consume(26);                    // '['
     lookahead1W(23);                // whitespace | comment | string | number | '[' | ']' | 'false' | 'null' | 'true' |
                                     // '{'
@@ -549,12 +565,12 @@ public class Jison implements de.bottlecaps.convert.Parser
       }
     }
     consume(27);                    // ']'
-    eventHandler.endNonterminal("array", e0);
+    eventHandler.endNonterminal(25, e0);
   }
 
   private void parse_bnf_pair()
   {
-    eventHandler.startNonterminal("bnf-pair", e0);
+    eventHandler.startNonterminal(26, e0);
     consume(21);                    // '"bnf"'
     lookahead1W(6);                 // whitespace | comment | ':'
     consume(24);                    // ':'
@@ -579,12 +595,12 @@ public class Jison implements de.bottlecaps.convert.Parser
       }
     }
     consume(33);                    // '}'
-    eventHandler.endNonterminal("bnf-pair", e0);
+    eventHandler.endNonterminal(26, e0);
   }
 
   private void parse_rule_pair()
   {
-    eventHandler.startNonterminal("rule-pair", e0);
+    eventHandler.startNonterminal(27, e0);
     consume(17);                    // string
     lookahead1W(6);                 // whitespace | comment | ':'
     consume(24);                    // ':'
@@ -606,12 +622,12 @@ public class Jison implements de.bottlecaps.convert.Parser
       parse_alternative();
     }
     consume(27);                    // ']'
-    eventHandler.endNonterminal("rule-pair", e0);
+    eventHandler.endNonterminal(27, e0);
   }
 
   private void parse_alternative()
   {
-    eventHandler.startNonterminal("alternative", e0);
+    eventHandler.startNonterminal(28, e0);
     switch (l1)
     {
     case 26:                        // '['
@@ -635,12 +651,12 @@ public class Jison implements de.bottlecaps.convert.Parser
     default:
       consume(17);                  // string
     }
-    eventHandler.endNonterminal("alternative", e0);
+    eventHandler.endNonterminal(28, e0);
   }
 
   private void parse_trailing_non_bnf_pairs()
   {
-    eventHandler.startNonterminal("trailing-non-bnf-pairs", e0);
+    eventHandler.startNonterminal(29, e0);
     if (l1 == 23)                   // ','
     {
       consume(23);                  // ','
@@ -648,7 +664,7 @@ public class Jison implements de.bottlecaps.convert.Parser
       whitespace();
       parse_non_bnf_pairs();
     }
-    eventHandler.endNonterminal("trailing-non-bnf-pairs", e0);
+    eventHandler.endNonterminal(29, e0);
   }
 
   private void consume(int t)
@@ -656,7 +672,7 @@ public class Jison implements de.bottlecaps.convert.Parser
     if (l1 == t)
     {
       whitespace();
-      eventHandler.terminal(TOKEN[l1], b1, e1);
+      eventHandler.terminal(l1, b1, e1);
       b0 = b1; e0 = e1; l1 = l2; if (l1 != 0) {
       b1 = b2; e1 = e2; l2 = 0; }
     }
@@ -944,7 +960,7 @@ public class Jison implements de.bottlecaps.convert.Parser
     /* 150 */ 2359296, 73728
   };
 
-  private static final String[] TOKEN =
+  public static final String[] TOKEN =
   {
     "%ERROR",
     "CODE",
@@ -980,6 +996,41 @@ public class Jison implements de.bottlecaps.convert.Parser
     "'{'",
     "'|'",
     "'}'"
+  };
+
+  public static final String[] NONTERMINAL =
+  {
+    "jison",
+    "spec",
+    "declaration_list",
+    "declaration",
+    "operator",
+    "associativity",
+    "token_list",
+    "grammar",
+    "production_list",
+    "production",
+    "handle_list",
+    "handle_action",
+    "handle",
+    "prec",
+    "symbol",
+    "id",
+    "action",
+    "action_body",
+    "json",
+    "leading-non-bnf-pairs",
+    "non-bnf-pairs",
+    "non-bnf-pair",
+    "value",
+    "object",
+    "pair",
+    "array",
+    "bnf-pair",
+    "rule-pair",
+    "alternative",
+    "trailing-non-bnf-pairs",
+    "_"
   };
 }
 

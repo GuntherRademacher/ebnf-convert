@@ -1,6 +1,6 @@
 xquery version "3.1" encoding "UTF-8";
 
-(: This file was generated on Thu Jan 30, 2025 13:23 (UTC+01) by REx v6.1 which is Copyright (c) 1979-2025 by Gunther Rademacher <grd@gmx.net> :)
+(: This file was generated on Sat Nov 14, 2026 08:41 (UTC+01) by REx v7.0 which is Copyright (c) 1979-2026 by Gunther Rademacher <grd@gmx.net> :)
 (: REx command line: -q -glr 1 -tree -a none -xquery -name de/bottlecaps/convert/xq/ixml/ixml.xquery ../../../../../../../main/java/de/bottlecaps/convert/ixml/ixml.ebnf :)
 
 (:~
@@ -1049,12 +1049,13 @@ declare function p:reject-ambiguity($thread as map(*), $other as map(*)) as item
       attribute b {$thread?stack[last() - 2]},
       attribute e {$lexer-state[$p:e0]},
       attribute ambiguous-input {true()},
-      let $first-tree := $lexer-state[last()]
-      let $second-tree := $other?lexer-state[last()]
+      let $first-tree := subsequence($lexer-state, $p:result)
+      let $second-tree := subsequence($other?lexer-state, $p:result)
+      let $shared := p:shared-elements($thread?fork, $other?fork)
       return
         <AMBIGUOUS>
-          <ALTERNATIVE>{p:rewrite-ambiguity($first-tree, $second-tree, true())}</ALTERNATIVE>
-          <ALTERNATIVE>{p:rewrite-ambiguity($second-tree, $first-tree, true())}</ALTERNATIVE>
+          <ALTERNATIVE>{p:rewrite-ambiguity($first-tree, $shared, true())}</ALTERNATIVE>
+          <ALTERNATIVE>{p:rewrite-ambiguity($second-tree, $shared, true())}</ALTERNATIVE>
         </AMBIGUOUS>
     },
     subsequence($lexer-state, $p:error + 1)
@@ -1062,30 +1063,82 @@ declare function p:reject-ambiguity($thread as map(*), $other as map(*)) as item
 };
 
 (:~
- : Rewrite a parse tree fragment $first, combining elements into an "UNAMBIGUOUS"
- : element as long as they match elements in $second, in node order.
+ : Determine the number of elements that two threads have in common, from their fork history. The
+ : elements created by a thread before the fork at which the two threads diverged are shared by both
+ : threads.
  :
- : @param $first the first node.
- : @param $second the second node.
- : @return $first rewritten, with initial element nodes possibly combined.
+ : @param $fork1 the fork history of the first thread.
+ : @param $fork2 the fork history of the second thread.
+ : @return the number of shared elements.
  :)
-declare function p:rewrite-ambiguity($first as node(), $second as node()?, $unambiguous as xs:boolean)
+declare function p:shared-elements($fork1 as xs:integer*, $fork2 as xs:integer*) as xs:integer
 {
-  typeswitch ($first)
-  case element() return
-    if ($unambiguous and deep-equal($first, $second)) then
-      <UNAMBIGUOUS>{string($first)}</UNAMBIGUOUS>
+  let $i := (for $k in 1 to min((count($fork1), count($fork2))) where $fork1[$k] ne $fork2[$k] return $k)[1]
+  return if (empty($i)) then 0 else $fork1[$i - 1 + $i mod 2]
+};
+
+(:~
+ : Rewrite a sequence of parse tree fragments, combining the leading elements that were created
+ : before the threads were forked into "UNAMBIGUOUS" elements. Leading nodes that are shared on the
+ : top level are omitted.
+ :
+ : @param $nodes the sequence of nodes.
+ : @param $shared the number of leading elements that are shared.
+ : @param $leading true(), if nothing has been output on the top level yet.
+ : @return $nodes rewritten.
+ :)
+declare function p:rewrite-ambiguity($nodes as node()*, $shared as xs:integer, $leading as xs:boolean) as node()*
+{
+  let $node := head($nodes)
+  return
+    if (empty($node)) then
+      ()
+    else if ($node instance of element()) then
+      let $size := count($node/descendant-or-self::*)
+      return
+        if ($size le $shared) then
+          let $run := p:shared-run($nodes, 2, 1, $shared - $size)
+          return
+          (
+            if ($leading) then () else <UNAMBIGUOUS>{string-join(subsequence($nodes, 1, $run[1]))}</UNAMBIGUOUS>,
+            p:rewrite-ambiguity(subsequence($nodes, $run[1] + 1), $run[2], $leading)
+          )
+        else
+        (
+          element {node-name($node)} {p:rewrite-ambiguity($node/node(), $shared, false())},
+          p:rewrite-ambiguity(tail($nodes), 0, false())
+        )
     else
-      element {node-name($first)}
-      {
-        for $node at $i in $first/node()
-        let $unambiguous :=
-          $unambiguous and
-          (every $j in 1 to $i - 1 satisfies deep-equal($first/node()[$j], $second/node()[$j]))
-        return p:rewrite-ambiguity($node, $second/node()[$i], $unambiguous)
-      }
-  default return
-    $first
+    (
+      if ($leading) then () else $node,
+      p:rewrite-ambiguity(tail($nodes), $shared, $leading)
+    )
+};
+
+(:~
+ : Find the run of shared nodes at the beginning of a sequence of nodes.
+ :
+ : @param $nodes the sequence of nodes.
+ : @param $i the index of the node to examine next.
+ : @param $last the index of the last shared element so far.
+ : @param $left the number of shared elements not yet consumed.
+ : @return the length of the run, and the number of shared elements left.
+ :)
+declare function p:shared-run($nodes as node()*, $i as xs:integer, $last as xs:integer, $left as xs:integer) as xs:integer+
+{
+  let $node := $nodes[$i]
+  return
+    if (empty($node)) then
+      ($last, $left)
+    else if ($node instance of element()) then
+      let $size := count($node/descendant-or-self::*)
+      return
+        if ($size le $left) then
+          p:shared-run($nodes, $i + 1, $i, $left - $size)
+        else
+          ($last, $left)
+    else
+      p:shared-run($nodes, $i + 1, $last, $left)
 };
 
 (:~
@@ -1093,6 +1146,8 @@ declare function p:rewrite-ambiguity($first as node(), $second as node()?, $unam
  :
  : @param $id the parsing thread id.
  : @param $accepted true(), if this thread has accepted.
+ : @param $fork the fork history: for each fork, the number of elements created so far and the branch taken.
+ : @param $created the number of elements created so far.
  : @param $state the LR parser state number.
  : @param $action the action code.
  : @param $nonterminal current nonterminal, -1 if processing a terminal.
@@ -1105,6 +1160,8 @@ declare function p:rewrite-ambiguity($first as node(), $second as node()?, $unam
  :)
 declare function p:thread($id as xs:integer,
                           $accepted as xs:boolean,
+                          $fork as xs:integer*,
+                          $created as xs:integer,
                           $state as xs:integer,
                           $action as xs:integer,
                           $nonterminal as xs:integer,
@@ -1118,6 +1175,8 @@ declare function p:thread($id as xs:integer,
   {
     "id": $id,
     "accepted": $accepted,
+    "fork": $fork,
+    "created": $created,
     "state": $state,
     "action": $action,
     "nonterminal": $nonterminal,
@@ -1162,10 +1221,10 @@ declare function p:parse($input as xs:string,
       let $action := $action mod 8
       return
         if ($action eq 6) then (: SHIFT+ACCEPT :)
-          p:thread($thread?id, true(), $state, $action, $nonterminal, $bw, $bs, $es, $stack, $lexer-state)
+          p:thread($thread?id, true(), $thread?fork, $thread?created, $state, $action, $nonterminal, $bw, $bs, $es, $stack, $lexer-state)
         else if ($action eq 7) then (: FORK :)
           for $i in (1, 2)
-          return p:thread(($max-id + 1, $thread?id)[$i], false(), $state, $p:APPENDIX[$argument + $i], -1, $bw, $bs, $es, $stack, $lexer-state)
+          return p:thread(($max-id + 1, $thread?id)[$i], false(), ($thread?fork, $thread?created, $i - 1), $thread?created, $state, $p:APPENDIX[$argument + $i], -1, $bw, $bs, $es, $stack, $lexer-state)
         else
           let $shift-reduce-symbols :=
             if ($action eq 1) then (: SHIFT :)
@@ -1194,6 +1253,7 @@ declare function p:parse($input as xs:string,
                 $input,
                 $lexer-state
               )
+          let $created := $thread?created + (if ($shift lt 0 or $nonterminal ge 0) then 0 else 1)
           let $stack :=
             if ($shift lt 0) then
               $stack
@@ -1206,7 +1266,7 @@ declare function p:parse($input as xs:string,
               (
                 p:thread
                 (
-                  $thread?id, false(), $state, 0, -1, $bw, $bs, $es, $stack,
+                  $thread?id, false(), $thread?fork, $created, $state, 0, -1, $bw, $bs, $es, $stack,
                   (
                     subsequence($lexer-state, 1, $p:error - 1),
                     element error
@@ -1222,7 +1282,7 @@ declare function p:parse($input as xs:string,
               )
               else
                 let $lexer-state := p:predict($input, $lexer-state, $state, $thread?id)
-                return p:thread($thread?id, false(), $state, $lexer-state[$p:lk], -1, $bw, $bs, $es, $stack, $lexer-state)
+                return p:thread($thread?id, false(), $thread?fork, $created, $state, $lexer-state[$p:lk], -1, $bw, $bs, $es, $stack, $lexer-state)
             else
               let $state := if ($symbols gt 0) then $stack[last() - 3 * $symbols + 2] else $state
               let $bs := if ($symbols gt 0) then $stack[last() - 3 * $symbols + 1] else $lexer-state[$p:b1]
@@ -1243,7 +1303,7 @@ declare function p:parse($input as xs:string,
                 }
               )
               let $nonterminal := $reduce
-              let $thread := p:thread($thread?id, false(), $state, p:goto($nonterminal, $state), $nonterminal, $bw, $bs, $es, $stack, $lexer-state)
+              let $thread := p:thread($thread?id, false(), $thread?fork, $created + 1, $state, p:goto($nonterminal, $state), $nonterminal, $bw, $bs, $es, $stack, $lexer-state)
               return p:parse($input, $target, $max-id, $thread)
 };
 
@@ -1412,7 +1472,7 @@ declare function p:parse-ixml($s as xs:string) as item()*
 {
   let $state := (0, 1, 1, 0, 0, 0, false())
   let $state := p:predict($s, $state, 0, 0)
-  let $state := p:parse-glr($s, 0, 0, p:thread(0, false(), 0, $state[$p:lk], -1, 1, 1, 1, (1, -1, 0), $state))
+  let $state := p:parse-glr($s, 0, 0, p:thread(0, false(), (), 0, 0, $state[$p:lk], -1, 1, 1, 1, (1, -1, 0), $state))
   let $error := $state[$p:error]
   return
     if ($error) then
