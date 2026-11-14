@@ -13,7 +13,7 @@ plugins {
 defaultTasks 'build'
 build.dependsOn 'distZip'
 
-version = '0.74'
+version = '0.75-SNAPSHOT'
 group = 'de.bottlecaps.ebnf-convert'
 
 def project_name = "$project.name"
