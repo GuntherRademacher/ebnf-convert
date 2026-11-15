@@ -434,7 +434,15 @@ public class Convert
       }
       else
       {
-        parseTree = defaultXQueryProcessor().parseXml(grammar);
+        try
+        {
+          parseTree = defaultXQueryProcessor().parseXml(grammar);
+        }
+        catch (RuntimeException e)
+        {
+          Throwable cause = e.getCause() != null ? e.getCause() : e;
+          throw new ConvertException("input starts with \"<\", but it is not well-formed XML:\n" + cause.getMessage(), e);
+        }
         successfullyParsedNotation = null;
       }
     }
