@@ -46,7 +46,7 @@ dependencies {
     rrLib "de.bottlecaps.rr:rr-lib:$rrVersion"
     rrWebapp "de.bottlecaps.rr:rr-webapp:$rrVersion"
 
-    compileOnly 'org.apache.tomcat:tomcat-servlet-api:11.0.27'
+    compileOnly 'org.apache.tomcat:tomcat-servlet-api:11.0.29'
     compileOnly "de.bottlecaps.rr:rr-lib:$rrVersion"
 
     implementation 'net.sf.saxon:Saxon-HE:13.1'
